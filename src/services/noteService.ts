@@ -14,9 +14,10 @@ export interface FetchNotesParams {
     page?: number;
     limit?: number;
     keyword?: string;
+    sourceType?: string;
 }
 
-export const fetchNotes = async ({ userId, page = 1, limit = 10, keyword = "" }: FetchNotesParams) => {
+export const fetchNotes = async ({ userId, page = 1, limit = 10, keyword = "", sourceType }: FetchNotesParams) => {
     try {
         const params = new URLSearchParams({
             userId,
@@ -26,6 +27,10 @@ export const fetchNotes = async ({ userId, page = 1, limit = 10, keyword = "" }:
 
         if (keyword) {
             params.append("keyword", keyword);
+        }
+
+        if (sourceType && sourceType !== "all") {
+            params.append("sourceType", sourceType);
         }
 
         const response = await api.get<NotesResponse>(`/notes?${params.toString()}`);

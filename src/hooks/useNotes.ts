@@ -52,7 +52,8 @@ export function useNotes({ userId, limit }: UseNotesParams) {
                     userId,
                     page,
                     limit,
-                    keyword: debouncedSearch
+                    keyword: debouncedSearch,
+                    sourceType: activeFilter
                 });
 
                 if (page === 1) {
@@ -72,11 +73,12 @@ export function useNotes({ userId, limit }: UseNotesParams) {
         };
 
         loadNotes();
-    }, [userId, page, debouncedSearch, refreshTrigger, limit]);
+    }, [userId, page, debouncedSearch, refreshTrigger, limit, activeFilter]);
 
-    const filteredNotes = notes.filter(note => {
-        return activeFilter === "all" || note.sourceType === activeFilter;
-    });
+    const handleFilterChange = (filter: string) => {
+        setActiveFilter(filter);
+        setPage(1);
+    };
 
     const handleClearFilters = () => {
         setSearchQuery("");
@@ -101,7 +103,8 @@ export function useNotes({ userId, limit }: UseNotesParams) {
                 userId,
                 page: 1,
                 limit,
-                keyword: debouncedSearch
+                keyword: debouncedSearch,
+                sourceType: activeFilter
             });
             setNotes(newNotes);
             setHasMore(newNotes.length >= limit);
@@ -111,14 +114,14 @@ export function useNotes({ userId, limit }: UseNotesParams) {
     };
 
     return {
-        notes: filteredNotes,
+        notes,
         loading,
         isLoadingMore,
         hasMore,
         searchQuery,
         setSearchQuery,
         activeFilter,
-        setActiveFilter,
+        setActiveFilter: handleFilterChange,
         handleClearFilters,
         loadMore,
         refreshNotes,
