@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Settings, LogOut, PanelLeft, Home } from "lucide-react";
+import { User, Settings, LogOut, PanelLeft, Home, Timer } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
@@ -18,6 +18,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
     const navItems = [
         { name: "Home", href: "/", icon: Home },
+        { name: "Focus Timer", href: "/pomodoro", icon: Timer },
         { name: "My Profile", href: "/profile", icon: User },
         { name: "Settings", href: "/settings", icon: Settings },
     ];

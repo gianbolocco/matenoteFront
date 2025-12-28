@@ -29,9 +29,9 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 // Mock User Data
 const MOCK_USER: User = {
-    id: "u-123456",
-    name: "Gianluca",
-    email: "gianluca@example.com",
+    id: "69509b8a8af4b913268882d3",
+    name: "Gianlucca",
+    email: "gianlucca@example.com",
     plan: "Pro",
     settings: {
         theme: "light",
