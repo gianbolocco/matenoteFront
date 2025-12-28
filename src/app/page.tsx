@@ -8,6 +8,7 @@ import { NotesList } from "@/components/home/NotesList";
 import { Loader2 } from "lucide-react";
 import { useNotes } from "@/hooks/useNotes";
 import { useYoutubeNote } from "@/hooks/useYoutubeNote";
+import { usePdfNote } from "@/hooks/usePdfNote";
 
 export default function Home() {
   const { user, login } = useUser();
@@ -30,10 +31,18 @@ export default function Home() {
     page
   } = useNotes({ userId: user?.id, limit: LIMIT });
 
-  const { isCreatingYoutube, creationError, createYoutubeNote } = useYoutubeNote({
+  const { isCreatingYoutube, creationError: youtubeError, createYoutubeNote } = useYoutubeNote({
     userId: user?.id,
     onSuccess: async () => {
       // Logic to silently update list
+      await refreshSilent();
+      if (page !== 1) setPage(1);
+    }
+  });
+
+  const { isCreatingPdf, creationError: pdfError, createPdfNote } = usePdfNote({
+    userId: user?.id,
+    onSuccess: async () => {
       await refreshSilent();
       if (page !== 1) setPage(1);
     }
@@ -49,6 +58,14 @@ export default function Home() {
     createYoutubeNote(url);
   };
 
+  const handleCreatePdfNote = (file: File) => {
+    if (page !== 1) setPage(1);
+    createPdfNote(file);
+  };
+
+  const creationError = youtubeError || pdfError;
+  const isCreating = isCreatingYoutube || isCreatingPdf;
+
   return (
     <div className="min-h-screen">
       {/* Header Section with subtle background gradient at top */}
@@ -58,7 +75,11 @@ export default function Home() {
           <HomeHeader user={user} onLogin={login} />
 
           {/* Create Options - Inserted here so it scrolls with header */}
-          <CreateNoteOptions onNoteCreated={handleNoteCreated} onYoutubeCreate={handleCreateYoutubeNote} />
+          <CreateNoteOptions
+            onNoteCreated={handleNoteCreated}
+            onYoutubeCreate={handleCreateYoutubeNote}
+            onPdfCreate={handleCreatePdfNote}
+          />
         </div>
       </div>
 
@@ -74,7 +95,7 @@ export default function Home() {
 
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-6 md:px-8 py-8 md:py-12">
-        {loading && !isCreatingYoutube ? (
+        {loading && !isCreating ? (
           <div className="flex flex-col items-center justify-center py-12">
             <Loader2 className="w-8 h-8 text-primary animate-spin mb-2" />
             <p className="text-gray-500 text-sm font-medium">Loading notes...</p>
@@ -87,7 +108,7 @@ export default function Home() {
             onSearchChange={setSearchQuery}
             activeFilter={activeFilter as FilterType}
             onFilterChange={(filter) => setActiveFilter(filter)}
-            showSkeleton={isCreatingYoutube}
+            showSkeleton={isCreating}
             hasMore={hasMore}
             onLoadMore={loadMore}
             isLoadingMore={isLoadingMore}

@@ -44,6 +44,7 @@ export const fetchNotes = async ({ userId, page = 1, limit = 10, keyword = "", s
     }
 };
 
+
 export const createNoteFromYoutube = async (userId: string, link: string): Promise<Note> => {
     try {
         const response = await api.post<{ status: string; data: { note: Note } }>("/notes/youtube", {
@@ -53,6 +54,24 @@ export const createNoteFromYoutube = async (userId: string, link: string): Promi
         return response.data.data.note;
     } catch (error) {
         console.error("Failed to create note from YouTube:", error);
+        throw error;
+    }
+};
+
+export const createNoteFromPdf = async (userId: string, file: File): Promise<Note> => {
+    try {
+        const formData = new FormData();
+        formData.append("userId", userId);
+        formData.append("pdf", file);
+
+        const response = await api.post<{ status: string; data: { note: Note } }>("/notes/pdf", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        return response.data.data.note;
+    } catch (error) {
+        console.error("Failed to create note from PDF:", error);
         throw error;
     }
 };
