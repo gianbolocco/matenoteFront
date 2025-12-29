@@ -75,3 +75,13 @@ export const createNoteFromPdf = async (userId: string, file: File): Promise<Not
         throw error;
     }
 };
+
+export const getNoteById = async (noteId: string): Promise<Note> => {
+    try {
+        const response = await api.get<{ status: string; data: { note: Note } }>(`/notes/${noteId}`);
+        return response.data.data.note;
+    } catch (error) {
+        console.error("Failed to fetch note:", error);
+        throw error;
+    }
+};
