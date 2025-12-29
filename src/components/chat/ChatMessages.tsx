@@ -1,13 +1,8 @@
 import { Bot, User } from "lucide-react";
-
-export interface Message {
-    id: string;
-    role: "user" | "assistant";
-    content: string;
-}
+import { ChatMessage } from "@/types";
 
 interface ChatMessagesProps {
-    messages: Message[];
+    messages: ChatMessage[];
     isLoading?: boolean;
 }
 
@@ -28,16 +23,16 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
                 </div>
             )}
 
-            {messages.map((message) => (
+            {messages.map((message, index) => (
                 <div
-                    key={message.id}
+                    key={message.timestamp || index}
                     className={`flex gap-3 ${message.role === "user" ? "flex-row-reverse" : ""
                         }`}
                 >
                     <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${message.role === "user"
-                                ? "bg-gray-900 text-white"
-                                : "bg-blue-100 text-blue-600"
+                            ? "bg-gray-900 text-white"
+                            : "bg-blue-100 text-blue-600"
                             }`}
                     >
                         {message.role === "user" ? (
@@ -49,8 +44,8 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
 
                     <div
                         className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${message.role === "user"
-                                ? "bg-gray-900 text-white rounded-tr-sm"
-                                : "bg-white border border-gray-100 shadow-sm text-gray-700 rounded-tl-sm"
+                            ? "bg-gray-900 text-white rounded-tr-sm"
+                            : "bg-white border border-gray-100 shadow-sm text-gray-700 rounded-tl-sm"
                             }`}
                     >
                         {message.content}

@@ -26,3 +26,9 @@ export interface Note {
     userId: string;
     createDate: string; // ISO Date string
 }
+
+export interface ChatMessage {
+    role: "user" | "assistant";
+    content: string;
+    timestamp: string;
+}

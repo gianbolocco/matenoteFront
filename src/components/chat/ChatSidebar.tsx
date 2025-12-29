@@ -1,44 +1,71 @@
-import { useState } from "react";
-import { MessageSquare, X, ChevronRight, ChevronLeft } from "lucide-react";
-import { ChatMessages, Message } from "./ChatMessages";
+import { useState, useEffect } from "react";
+import { MessageSquare, X } from "lucide-react";
+import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
 import { useUser } from "@/context/UserContext";
+import { ChatMessage } from "@/types";
+import { getChatHistory, sendMessage } from "@/services/chatService";
 
 interface ChatSidebarProps {
     noteId: string;
 }
 
 export function ChatSidebar({ noteId }: ChatSidebarProps) {
+    const { user } = useUser();
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const loadHistory = async () => {
+            if (isOpen && user && noteId) {
+                try {
+                    setError(null);
+                    const history = await getChatHistory(noteId, user.id);
+                    setMessages(history);
+                } catch (error) {
+                    console.error("Failed to load chat history:", error);
+                    setError("Failed to load chat history. Please try again later.");
+                }
+            }
+        };
+        loadHistory();
+    }, [isOpen, user, noteId]);
 
     const handleSendMessage = async (text: string) => {
-        const userMessage: Message = {
-            id: Date.now().toString(),
+        if (!user) return;
+
+        // Optimistically add user message
+        const userMessage: ChatMessage = {
             role: "user",
             content: text,
+            timestamp: new Date().toISOString()
         };
-
         setMessages((prev) => [...prev, userMessage]);
         setIsLoading(true);
+        setError(null);
 
         try {
-            // Placeholder for API call
-            // const response = await api.post(...)
+            const newMessages = await sendMessage(noteId, user.id, text);
+            // The API might return the whole history or just the new pair.
+            // To be safe and fix the "always first message" bug, we should take the *last* assistant message.
+            const assistantMessages = newMessages.filter(m => m.role === "assistant");
+            const lastAssistantMessage = assistantMessages[assistantMessages.length - 1];
 
-            // Simulating response for now
-            setTimeout(() => {
-                const aiMessage: Message = {
-                    id: (Date.now() + 1).toString(),
-                    role: "assistant",
-                    content: "This feature is coming soon! I'll be able to answer questions about your note.",
-                };
-                setMessages((prev) => [...prev, aiMessage]);
-                setIsLoading(false);
-            }, 1000);
-        } catch (error) {
+            if (lastAssistantMessage) {
+                setMessages((prev) => [...prev, lastAssistantMessage]);
+            }
+        } catch (error: any) {
             console.error(error);
+            const errorMessage = error.response?.status === 404
+                ? "Chat service unavailable or note not found."
+                : "Failed to send message. Please try again.";
+            setError(errorMessage);
+
+            // Remove the optimistic message on error to verify user knows it failed? 
+            // Or keep it and show error. Let's keep it but show error.
+        } finally {
             setIsLoading(false);
         }
     };
@@ -86,7 +113,14 @@ export function ChatSidebar({ noteId }: ChatSidebarProps) {
                 </div>
 
                 {/* Messages Area */}
-                <ChatMessages messages={messages} isLoading={isLoading} />
+                <div className="flex-1 overflow-hidden flex flex-col relative">
+                    {error && (
+                        <div className="absolute top-0 left-0 right-0 z-10 p-3 bg-red-50 border-b border-red-100 text-red-600 text-sm font-medium flex items-center justify-center text-center">
+                            {error}
+                        </div>
+                    )}
+                    <ChatMessages messages={messages} isLoading={isLoading} />
+                </div>
 
                 {/* Input Area */}
                 <ChatInput onSend={handleSendMessage} isLoading={isLoading} />
