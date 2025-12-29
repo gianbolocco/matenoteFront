@@ -68,21 +68,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Header Section with subtle background gradient at top */}
-      <div className="relative pb-12">
-        <div className="absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-gray-50/50 to-transparent -z-10 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <HomeHeader user={user} onLogin={login} />
+      <div className="absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-gray-50/50 to-transparent -z-10 pointer-events-none" />
+      <div className="max-w-7xl mx-auto px-6 md:px-8">
+        <HomeHeader user={user} onLogin={login} />
 
-          {/* Create Options - Inserted here so it scrolls with header */}
-          <CreateNoteOptions
-            onNoteCreated={handleNoteCreated}
-            onYoutubeCreate={handleCreateYoutubeNote}
-            onPdfCreate={handleCreatePdfNote}
-          />
-        </div>
+        {/* Create Options - Inserted here so it scrolls with header */}
+        <CreateNoteOptions
+          onNoteCreated={handleNoteCreated}
+          onYoutubeCreate={handleCreateYoutubeNote}
+          onPdfCreate={handleCreatePdfNote}
+        />
       </div>
-
       {/* Error Toast / Banner */}
       {creationError && (
         <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-4 fade-in duration-300">
