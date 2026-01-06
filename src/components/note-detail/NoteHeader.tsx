@@ -25,7 +25,7 @@ export function NoteHeader({ note }: NoteHeaderProps) {
         setIsDeleting(true);
         try {
             await deleteNote(note.id);
-            router.push("/");
+            router.push("/home");
         } catch (error) {
             console.error("Failed to delete note:", error);
             setIsDeleting(false);
@@ -60,7 +60,7 @@ export function NoteHeader({ note }: NoteHeaderProps) {
         <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
                 <Link
-                    href="/"
+                    href="/home"
                     className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors group"
                 >
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />

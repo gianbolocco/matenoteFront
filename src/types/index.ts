@@ -25,6 +25,7 @@ export interface Note {
     sourceType: "pdf" | "audio" | "youtube" | "text";
     userId: string;
     createDate: string; // ISO Date string
+    _id?: string;
 }
 
 export interface ChatMessage {

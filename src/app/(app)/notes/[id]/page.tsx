@@ -59,7 +59,7 @@ export default function NoteDetailPage() {
                     <h2 className="text-xl font-bold text-gray-900 mb-2">Error Loading Note</h2>
                     <p className="text-gray-500 mb-6 leading-relaxed">{error || "Note not found"}</p>
                     <a
-                        href="/"
+                        href="/home"
                         className="inline-flex h-10 items-center justify-center rounded-xl bg-gray-900 px-6 font-medium text-white shadow transition-colors hover:bg-gray-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
                     >
                         Return Home

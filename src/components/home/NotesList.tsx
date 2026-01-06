@@ -1,11 +1,11 @@
 import { Note } from "@/types";
-import { NoteCard } from "@/components/NoteCard";
+import { NoteCard } from "@/components/notes/NoteCard";
 import { Search, BookOpen, Grid } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { NotesToolbar, FilterType } from "./NotesToolbar";
 
-import { NoteCardSkeleton } from "../NoteCardSkeleton";
+import { NoteCardSkeleton } from "../notes/NoteCardSkeleton";
 import { Loader2 } from "lucide-react";
 
 interface NotesListProps {

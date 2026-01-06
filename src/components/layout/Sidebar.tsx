@@ -17,7 +17,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
     const toggleSidebar = () => setIsCollapsed(!isCollapsed);
 
     const navItems = [
-        { name: "Home", href: "/", icon: Home },
+        { name: "Home", href: "/home", icon: Home },
         { name: "Focus Timer", href: "/pomodoro", icon: Timer },
         { name: "My Profile", href: "/profile", icon: User },
         { name: "Settings", href: "/settings", icon: Settings },
@@ -34,7 +34,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
             {/* Header / Toggle */}
             <div className="flex items-center justify-between p-4 h-16 border-b border-sidebar-border shrink-0">
                 <div className="flex items-center gap-2">
-                    <img src="/logo.jpg" alt="Matenote Logo" className="w-8 h-8 rounded-full object-cover" />
+                    <img src="/logo.jpg" alt="Matenote Logo" className="w-8 h-8 rounded-lg object-cover" />
                     {!isCollapsed && (
                         <span className="font-semibold text-lg tracking-tight">Matenote</span>
                     )}
