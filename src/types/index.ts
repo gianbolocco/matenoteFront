@@ -2,9 +2,10 @@ export interface User {
     id: string;
     name: string;
     email: string;
-    plan: "Free" | "Pro" | "Enterprise";
+    plan?: "Free" | "Pro" | "Enterprise";
     avatarUrl?: string;
-    settings: {
+    provider?: string;
+    settings?: {
         theme: "light" | "dark";
         notifications: boolean;
     };

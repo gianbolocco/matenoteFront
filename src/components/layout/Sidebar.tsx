@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Settings, LogOut, PanelLeft, Home, Timer } from "lucide-react";
+import { User, Settings, LogOut, LogIn, PanelLeft, Home, Timer } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
@@ -101,13 +101,13 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
                 ) : (
                     <div className={`flex items-center justify-center ${isCollapsed ? "" : "px-2 py-1"}`}>
                         {!isCollapsed ? (
-                            <button onClick={login} className="text-sm font-medium text-primary hover:underline">
+                            <Link href="/login" className="text-sm font-medium text-primary hover:underline">
                                 Log In
-                            </button>
+                            </Link>
                         ) : (
-                            <button onClick={login} title="Log In" className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100">
-                                <LogOut className="w-4 h-4 rotate-180" />
-                            </button>
+                            <Link href="/login" title="Log In" className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100">
+                                <LogIn className="w-4 h-4 rotate-180" />
+                            </Link>
                         )}
                     </div>
                 )}

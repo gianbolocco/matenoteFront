@@ -42,16 +42,6 @@ export function HomeHeader({ user, onLogin }: HomeHeaderProps) {
                             : "Unlock your potential with AI-powered study tools."}
                     </p>
                 </div>
-
-                {!user && (
-                    <button
-                        onClick={onLogin}
-                        className="group relative inline-flex items-center gap-2 px-8 py-3.5 bg-gray-900 text-white rounded-2xl font-semibold shadow-xl shadow-gray-900/10 hover:shadow-2xl hover:shadow-gray-900/20 hover:-translate-y-0.5 transition-all duration-300 active:scale-95"
-                    >
-                        <span>Start Learning</span>
-                        <Sparkles className="w-4 h-4 text-yellow-300" />
-                    </button>
-                )}
             </div>
         </header>
     );

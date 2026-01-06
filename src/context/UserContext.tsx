@@ -1,6 +1,8 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import axios, { AxiosInstance } from "axios";
+import { useRouter } from "next/navigation";
 
 // Define the User interface
 export interface User {
@@ -8,61 +10,70 @@ export interface User {
     name: string;
     email: string;
     plan: "Free" | "Pro" | "Enterprise";
-    avatarUrl?: string;
-    settings: {
-        theme: "light" | "dark";
-        notifications: boolean;
-    };
+    //avatarUrl?: string;
 }
 
 // Define the Context State interface
 interface UserContextType {
     user: User | null;
     isLoading: boolean;
-    login: () => void;
-    logout: () => void;
+    login: (token?: string) => Promise<void>;
+    logout: () => Promise<void>;
     updateUser: (updates: Partial<User>) => void;
 }
 
 // Create the Context with undefined default
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-// Mock User Data
-const MOCK_USER: User = {
-    id: "69509b8a8af4b913268882d3",
-    name: "Gianlucca",
-    email: "gianlucca@example.com",
-    plan: "Pro",
-    settings: {
-        theme: "light",
-        notifications: true,
-    },
-};
-
 // Provider Component
 export function UserProvider({ children }: { children: ReactNode }) {
-    // Start with null to simulate "not logged in" initially, 
-    // or MOCK_USER to simulate "persisted session". 
-    // Let's use MOCK_USER by default for this demos.
-    const [user, setUser] = useState<User | null>(MOCK_USER);
-    const [isLoading, setIsLoading] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
 
-    const login = () => {
+    // Helper to get API URL
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
+
+    const fetchUser = async () => {
         setIsLoading(true);
-        // Simulate API call
-        setTimeout(() => {
-            setUser(MOCK_USER);
+        try {
+            const response = await axios.get(`${API_URL}/auth/session`, {
+                withCredentials: true
+            });
+            setUser(response.data.user);
+        } catch (error) {
+            console.error("Failed to fetch user session", error);
+            setUser(null);
+        } finally {
             setIsLoading(false);
-        }, 500);
+        }
     };
 
-    const logout = () => {
+    const login = async (token?: string) => {
+        // Token is legacy/optional now, we rely on cookies.
+        // If a token is passed, we might ignore it or use it if the backend strict require it for non-cookie flows (unlikely given instructions).
+        // For now, we just refresh the session.
+        await fetchUser();
+    };
+
+    const logout = async () => {
+        try {
+            await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
         setUser(null);
+        router.push("/login");
     };
 
     const updateUser = (updates: Partial<User>) => {
         if (!user) return;
         setUser({ ...user, ...updates });
+        // Optionally sync with backend here
     };
 
     return (
