@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Note App",
+  title: "Matenote",
   description: "AI-powered note taking application",
 };
 

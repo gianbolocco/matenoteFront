@@ -33,9 +33,12 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
         >
             {/* Header / Toggle */}
             <div className="flex items-center justify-between p-4 h-16 border-b border-sidebar-border shrink-0">
-                {!isCollapsed && (
-                    <span className="font-semibold text-lg tracking-tight">AI Note</span>
-                )}
+                <div className="flex items-center gap-2">
+                    <img src="/logo.jpg" alt="Matenote Logo" className="w-8 h-8 rounded-full object-cover" />
+                    {!isCollapsed && (
+                        <span className="font-semibold text-lg tracking-tight">Matenote</span>
+                    )}
+                </div>
                 <button
                     onClick={toggleSidebar}
                     className="p-1.5 rounded-md hover:bg-gray-100 text-muted-foreground hover:text-foreground transition-colors ml-auto"

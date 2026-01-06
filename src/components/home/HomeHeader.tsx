@@ -32,9 +32,7 @@ export function HomeHeader({ user, onLogin }: HomeHeaderProps) {
                     <div>
                         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 leading-[1.1]">
                             {getGreeting()}, <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-700 to-gray-500">
-                                {user ? user.name.split(' ')[0] : "Guest"}
-                            </span>
+                            {user ? user.name.split(' ')[0] : "Guest"}
                         </h1>
                     </div>
 

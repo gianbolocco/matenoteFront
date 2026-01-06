@@ -85,3 +85,13 @@ export const getNoteById = async (noteId: string): Promise<Note> => {
         throw error;
     }
 };
+
+export const deleteNote = async (noteId: string): Promise<void> => {
+    try {
+        await api.delete(`/notes/${noteId}`);
+    } catch (error) {
+        console.error("Failed to delete note:", error);
+        throw error;
+    }
+};
+

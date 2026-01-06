@@ -1,12 +1,39 @@
-import { ArrowLeft, Clock, FileText, Mic, Youtube, File } from "lucide-react";
+"use client";
+
+import { ArrowLeft, Clock, FileText, Mic, Youtube, File, Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { deleteNote } from "@/services/noteService";
 import Link from "next/link";
 import { Note } from "@/types";
+import { useState } from "react";
+import { ConfirmationModal } from "@/components/common/ConfirmationModal";
 
 interface NoteHeaderProps {
     note: Note;
 }
 
 export function NoteHeader({ note }: NoteHeaderProps) {
+    const router = useRouter();
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleDeleteClick = () => {
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        setIsDeleting(true);
+        try {
+            await deleteNote(note.id);
+            router.push("/");
+        } catch (error) {
+            console.error("Failed to delete note:", error);
+            setIsDeleting(false);
+            setIsDeleteModalOpen(false); // Optionally close on error or keep open to show error
+        }
+    };
+
+
     const getIcon = () => {
         switch (note.sourceType) {
             case "pdf":
@@ -31,13 +58,33 @@ export function NoteHeader({ note }: NoteHeaderProps) {
 
     return (
         <div className="mb-8">
-            <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors mb-6 group"
-            >
-                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                Back to Library
-            </Link>
+            <div className="flex items-center justify-between mb-6">
+                <Link
+                    href="/"
+                    className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors group"
+                >
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                    Back to Library
+                </Link>
+
+                <button
+                    onClick={handleDeleteClick}
+                    className="inline-flex items-center gap-2 text-sm text-red-500 hover:text-red-700 transition-colors group"
+                >
+                    <Trash className="w-4 h-4" />
+                    <span>Delete Note</span>
+                </button>
+            </div>
+
+            <ConfirmationModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={handleConfirmDelete}
+                title="Delete Note"
+                message="Are you sure you want to delete this note? This action cannot be undone."
+                confirmText="Delete"
+                isLoading={isDeleting}
+            />
 
             <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
