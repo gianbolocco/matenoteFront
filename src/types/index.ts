@@ -2,13 +2,9 @@ export interface User {
     id: string;
     name: string;
     email: string;
-    plan?: "Free" | "Pro" | "Enterprise";
-    avatarUrl?: string;
+    plan: string;
+    avatar?: string;
     provider?: string;
-    settings?: {
-        theme: "light" | "dark";
-        notifications: boolean;
-    };
 }
 
 export interface NoteSection {

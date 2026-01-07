@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import GoogleButton from "@/components/common/GoogleButton";
-import { ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
+import { Sparkles, ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
     return (
-        <div className="min-h-screen grid lg:grid-cols-2 bg-white">
-            {/* Left Column - Form */}
-            <div className="p-8 lg:p-12 xl:p-24 flex flex-col justify-center relative">
+        <div className="min-h-screen w-full flex">
+            {/* Left Panel - Login Form */}
+            <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-8 bg-background relative">
                 <Link
                     href="/"
                     className="absolute top-8 left-8 text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-2 group"
@@ -16,58 +17,80 @@ export default function LoginPage() {
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                     Back to Home
                 </Link>
-
-                <div className="w-full max-w-sm mx-auto space-y-8">
-                    <div className="space-y-2">
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Welcome back</h1>
-                        <p className="text-gray-500">
-                            Enter your details to access your notes.
+                <div className="w-full max-w-md space-y-8">
+                    {/* Header */}
+                    <div className="flex flex-col items-center justify-center space-y-5">
+                        <div className="flex justify-center mb-6">
+                            <img src="/logo.png" alt="Matenote Logo" className="w-20 h-20 object-cover" />
+                        </div>
+                        <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
+                        <p className="text-muted-foreground">
+                            Sign in to continue your AI-powered learning journey.
                         </p>
                     </div>
 
-                    <div className="space-y-4">
-                        <GoogleButton text="Sign in with Google" />
+                    {/* Auth Actions */}
+                    <div className="space-y-4 pt-4">
+                        <GoogleButton text="Continue with Google" />
 
-                        <div className="relative">
-                            <div className="absolute inset-0 flex items-center">
-                                <span className="w-full border-t border-gray-200" />
-                            </div>
-                            <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-white px-2 text-gray-500">Or continue with</span>
-                            </div>
-                        </div>
-
-                        {/* Placeholder for future email/password login */}
-                        <div className="text-center text-sm text-gray-400">
-                            Email login coming soon
-                        </div>
+                        <p className="text-xs text-center text-muted-foreground pt-4">
+                            By continuing, you agree to our{" "}
+                            <Link href="#" className="underline hover:text-primary">Terms of Service</Link>
+                            {" "}and{" "}
+                            <Link href="#" className="underline hover:text-primary">Privacy Policy</Link>.
+                        </p>
                     </div>
+                </div>
 
-                    <div className="text-center text-sm">
-                        <span className="text-gray-500">Don't have an account? </span>
-                        <Link href="/register" className="font-semibold text-primary hover:text-primary/80 hover:underline">
-                            Sign up
-                        </Link>
-                    </div>
+                {/* Footer */}
+                <div className="absolute bottom-8 text-center w-full text-sm text-muted-foreground opacity-60">
+                    © {new Date().getFullYear()} NoteAI. All rights reserved.
                 </div>
             </div>
 
-            {/* Right Column - Visual */}
-            <div className="hidden lg:block bg-gray-50 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-purple-500/5" />
-                <div className="absolute inset-0 flex items-center justify-center p-24">
-                    <div className="relative w-full aspect-square max-w-md">
-                        {/* Abstract shapes or App Preview could go here */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full blur-3xl opacity-50 animate-pulse" />
-                        <div className="relative z-10 bg-white/80 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl">
-                            <div className="space-y-4">
-                                <div className="h-8 w-2/3 bg-gray-200 rounded animate-pulse" />
-                                <div className="h-4 w-full bg-gray-100 rounded animate-pulse" />
-                                <div className="h-4 w-5/6 bg-gray-100 rounded animate-pulse" />
-                                <div className="h-32 w-full bg-gray-50 rounded-xl border border-gray-100 mt-6" />
-                            </div>
-                        </div>
-                    </div>
+            {/* Right Panel - Visual Branding (Hidden on mobile) */}
+            <div className="hidden lg:flex w-1/2 bg-black relative overflow-hidden items-center justify-center text-white p-12">
+                {/* Lava Background Effect */}
+                <div className="absolute inset-0 z-0">
+                    <motion.div
+                        animate={{
+                            scale: [1, 1.2, 0.9, 1.1, 1],
+                            rotate: [0, 60, -60, 30, 0],
+                            x: [0, 100, -80, 40, 0],
+                            y: [0, -60, 80, -40, 0],
+                        }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute top-[-15%] left-[-15%] w-[650px] h-[650px] bg-purple-600/25 rounded-full blur-[120px] mix-blend-screen"
+                    />
+                    <motion.div
+                        animate={{
+                            scale: [1, 1.3, 0.8, 1.2, 1],
+                            rotate: [0, -90, 45, -30, 0],
+                            x: [0, -100, 80, -60, 0],
+                            y: [0, 80, -100, 50, 0],
+                        }}
+                        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute bottom-[-15%] right-[-15%] w-[750px] h-[750px] bg-blue-600/25 rounded-full blur-[140px] mix-blend-screen"
+                    />
+                    <motion.div
+                        animate={{
+                            scale: [1, 1.4, 0.9, 1.3, 1],
+                            x: [0, 120, -100, 60, 0],
+                            y: [0, 60, -60, 30, 0],
+                        }}
+                        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute top-[25%] left-[25%] w-[550px] h-[550px] bg-pink-600/20 rounded-full blur-[100px] mix-blend-screen"
+                    />
+                </div>
+
+                {/* Content Overlay */}
+                <div className="relative z-10 max-w-lg text-center space-y-8">
+                    <h2 className="text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">
+                        Capture ideas.<br />Unlock potential.
+                    </h2>
+                    <p className="text-lg text-white/50 font-light">
+                    Your ultimate AI second brain for effortless learning.
+                    </p>
                 </div>
             </div>
         </div>

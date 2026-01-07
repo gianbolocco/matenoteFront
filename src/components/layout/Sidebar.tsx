@@ -34,7 +34,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
             {/* Header / Toggle */}
             <div className="flex items-center justify-between p-4 h-16 border-b border-sidebar-border shrink-0">
                 <div className="flex items-center gap-2">
-                    <img src="/logo.jpg" alt="Matenote Logo" className="w-8 h-8 rounded-lg object-cover" />
+                    <img src="/logo.png" alt="Matenote Logo" className="w-8 h-8 rounded-lg object-cover" />
                     {!isCollapsed && (
                         <span className="font-semibold text-lg tracking-tight">Matenote</span>
                     )}
@@ -76,8 +76,8 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
                 {user ? (
                     <div className={`flex items-center gap-3 ${isCollapsed ? "justify-center" : "px-2"}`}>
                         <div className="w-8 h-8 rounded-full bg-gray-100 border border-border flex items-center justify-center shrink-0 overflow-hidden">
-                            {user.avatarUrl ? (
-                                <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
+                            {user.avatar ? (
+                                <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
                             ) : (
                                 <User className="w-4 h-4 text-muted-foreground" />
                             )}

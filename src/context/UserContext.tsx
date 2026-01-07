@@ -1,17 +1,9 @@
 "use client";
-
+import { User } from "@/types";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import axios, { AxiosInstance } from "axios";
 import { useRouter } from "next/navigation";
 
-// Define the User interface
-export interface User {
-    id: string;
-    name: string;
-    email: string;
-    plan: "Free" | "Pro" | "Enterprise";
-    //avatarUrl?: string;
-}
 
 // Define the Context State interface
 interface UserContextType {
@@ -45,9 +37,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
                 withCredentials: true
             });
             setUser(response.data.user);
-        } catch (error) {
-            console.error("Failed to fetch user session", error);
-            setUser(null);
+        } catch (error: any) {
+            // If 401/403, it just means not logged in.
+            if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+                setUser(null);
+            } else {
+                console.error("Failed to fetch user session", error);
+                setUser(null);
+            }
         } finally {
             setIsLoading(false);
         }
