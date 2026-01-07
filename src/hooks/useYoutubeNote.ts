@@ -10,14 +10,14 @@ export function useYoutubeNote({ userId, onSuccess }: UseYoutubeNoteParams) {
     const [isCreatingYoutube, setIsCreatingYoutube] = useState(false);
     const [creationError, setCreationError] = useState("");
 
-    const createYoutubeNote = async (url: string) => {
+    const createYoutubeNote = async (url: string, folderId?: string) => {
         if (!userId) return;
 
         setIsCreatingYoutube(true);
         setCreationError("");
 
         try {
-            await createNoteFromYoutube(userId, url);
+            await createNoteFromYoutube(userId, url, folderId);
 
             if (onSuccess) {
                 await onSuccess();

@@ -45,20 +45,33 @@ export const fetchNotes = async ({ userId, page = 1, limit = 10, keyword = "", s
 };
 
 
-export const createNoteFromYoutube = async (userId: string, link: string): Promise<Note> => {
+import { addNotesToFolder } from "./folderService";
+
+export const createNoteFromYoutube = async (userId: string, link: string, folderId?: string): Promise<Note> => {
     try {
         const response = await api.post<{ status: string; data: { note: Note } }>("/notes/youtube", {
             userId,
             link
         });
-        return response.data.data.note;
+        const note = response.data.data.note;
+
+        if (folderId) {
+            try {
+                await addNotesToFolder(folderId, [note.id]);
+            } catch (folderError) {
+                console.error("Failed to add note to folder:", folderError);
+                // We don't throw here because the note was successfully created
+            }
+        }
+
+        return note;
     } catch (error) {
         console.error("Failed to create note from YouTube:", error);
         throw error;
     }
 };
 
-export const createNoteFromPdf = async (userId: string, file: File): Promise<Note> => {
+export const createNoteFromPdf = async (userId: string, file: File, folderId?: string): Promise<Note> => {
     try {
         const formData = new FormData();
         formData.append("userId", userId);
@@ -69,7 +82,18 @@ export const createNoteFromPdf = async (userId: string, file: File): Promise<Not
                 "Content-Type": "multipart/form-data",
             },
         });
-        return response.data.data.note;
+        const note = response.data.data.note;
+
+        if (folderId) {
+            try {
+                await addNotesToFolder(folderId, [note.id]);
+            } catch (folderError) {
+                console.error("Failed to add note to folder:", folderError);
+                // We don't throw here because the note was successfully created
+            }
+        }
+
+        return note;
     } catch (error) {
         console.error("Failed to create note from PDF:", error);
         throw error;

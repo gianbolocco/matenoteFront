@@ -6,25 +6,25 @@ import { PdfModal } from "./createOptions/PdfModal";
 
 interface CreateNoteOptionsProps {
     onNoteCreated?: () => void;
-    onYoutubeCreate?: (url: string) => void;
-    onPdfCreate?: (file: File) => void;
+    onYoutubeCreate?: (url: string, folderId?: string) => void;
+    onPdfCreate?: (file: File, folderId?: string) => void;
 }
 
 export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate }: CreateNoteOptionsProps) {
     const [showYoutubeModal, setShowYoutubeModal] = useState(false);
     const [showPdfModal, setShowPdfModal] = useState(false);
 
-    const handleYoutubeSubmit = (url: string) => {
+    const handleYoutubeSubmit = (url: string, folderId?: string) => {
         if (onYoutubeCreate) {
-            onYoutubeCreate(url);
+            onYoutubeCreate(url, folderId);
         } else {
             console.warn("onYoutubeCreate prop missing");
         }
     };
 
-    const handlePdfSubmit = (file: File) => {
+    const handlePdfSubmit = (file: File, folderId?: string) => {
         if (onPdfCreate) {
-            onPdfCreate(file);
+            onPdfCreate(file, folderId);
         } else {
             console.warn("onPdfCreate prop missing");
         }

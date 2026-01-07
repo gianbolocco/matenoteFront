@@ -10,14 +10,14 @@ export function usePdfNote({ userId, onSuccess }: UsePdfNoteParams) {
     const [isCreatingPdf, setIsCreatingPdf] = useState(false);
     const [creationError, setCreationError] = useState("");
 
-    const createPdfNote = async (file: File) => {
+    const createPdfNote = async (file: File, folderId?: string) => {
         if (!userId) return;
 
         setIsCreatingPdf(true);
         setCreationError("");
 
         try {
-            await createNoteFromPdf(userId, file);
+            await createNoteFromPdf(userId, file, folderId);
 
             if (onSuccess) {
                 await onSuccess();

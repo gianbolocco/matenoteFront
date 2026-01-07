@@ -52,15 +52,15 @@ export default function Home() {
     refreshNotes();
   };
 
-  const handleCreateYoutubeNote = (url: string) => {
+  const handleCreateYoutubeNote = (url: string, folderId?: string) => {
     // If not page 1, reset page immediately to show loading skeleton on top area roughly
     if (page !== 1) setPage(1);
-    createYoutubeNote(url);
+    createYoutubeNote(url, folderId);
   };
 
-  const handleCreatePdfNote = (file: File) => {
+  const handleCreatePdfNote = (file: File, folderId?: string) => {
     if (page !== 1) setPage(1);
-    createPdfNote(file);
+    createPdfNote(file, folderId);
   };
 
   const creationError = youtubeError || pdfError;
