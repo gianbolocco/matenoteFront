@@ -54,6 +54,7 @@ const TESTIMONIALS = [
 ];
 
 export default function LandingPage() {
+    console.log("ENV EN BUILD:", process.env.NEXT_PUBLIC_API_URL);
     return (
         <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-gray-900 selection:text-white overflow-x-hidden">
             {/* Navigation */}

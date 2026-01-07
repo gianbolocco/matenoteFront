@@ -24,7 +24,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const router = useRouter();
 
     // Helper to get API URL
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     useEffect(() => {
         fetchUser();

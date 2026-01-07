@@ -9,7 +9,7 @@ interface GoogleButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const GoogleButton: FC<GoogleButtonProps> = ({ text = "Continue with Google", className = "", ...props }) => {
 
     // Use environment variable or default to localhost for development
-    const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
     const handleLogin = () => {
         // Redirect the user to the backend's Google OAuth endpoint
