@@ -6,13 +6,14 @@ import { deleteNote } from "@/services/noteService";
 import Link from "next/link";
 import { Note } from "@/types";
 import { useState } from "react";
-import { ConfirmationModal } from "@/components/common/ConfirmationModal";
+import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 
 interface NoteHeaderProps {
     note: Note;
+    previousRoute: string;
 }
 
-export function NoteHeader({ note }: NoteHeaderProps) {
+export function NoteHeader({ note, previousRoute }: NoteHeaderProps) {
     const router = useRouter();
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -67,11 +68,11 @@ export function NoteHeader({ note }: NoteHeaderProps) {
         <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
                 <Link
-                    href="/home"
+                    href={`/${previousRoute}`}
                     className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors group"
                 >
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                    Back to Library
+                    {previousRoute === "search" ? "Back to Search" : "Back to Library"}
                 </Link>
 
                 <div className="flex items-center gap-4">

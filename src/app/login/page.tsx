@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import GoogleButton from "@/components/common/GoogleButton";
+import GoogleButton from "@/components/ui/GoogleButton";
 import { motion } from "framer-motion";
 import { Sparkles, ArrowLeft } from "lucide-react";
 

@@ -2,19 +2,13 @@ import { Note } from "@/types";
 import { NoteCard } from "@/components/noteCard/NoteCard";
 import { Search, BookOpen, Grid } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-import { NotesToolbar, FilterType } from "./NotesToolbar";
-
-import { NoteCardSkeleton } from "../noteCard/NoteCardSkeleton";
+import { NoteCardSkeleton } from "@/components/noteCard/NoteCardSkeleton";
 import { Loader2 } from "lucide-react";
 
 interface NotesListProps {
     notes: Note[];
     searchQuery: string;
     onClearFilters: () => void;
-    onSearchChange: (value: string) => void;
-    activeFilter: FilterType;
-    onFilterChange: (filter: FilterType) => void;
     showSkeleton?: boolean;
     hasMore?: boolean;
     onLoadMore?: () => void;
@@ -25,9 +19,6 @@ export function NotesList({
     notes,
     searchQuery,
     onClearFilters,
-    onSearchChange,
-    activeFilter,
-    onFilterChange,
     showSkeleton = false,
     hasMore = false,
     onLoadMore,
@@ -64,7 +55,7 @@ export function NotesList({
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase tracking-wider">
                         <Grid className="w-4 h-4" />
-                        <span>My Notes</span>
+                        <span>Notes</span>
                     </div>
 
                     <div className="flex items-center gap-2 text-gray-400">
@@ -72,13 +63,6 @@ export function NotesList({
                         <span className="text-sm font-medium">{notes.length} Notes</span>
                     </div>
                 </div>
-
-                <NotesToolbar
-                    searchQuery={searchQuery}
-                    onSearchChange={onSearchChange}
-                    activeFilter={activeFilter}
-                    onFilterChange={onFilterChange}
-                />
             </div>
 
             <motion.div

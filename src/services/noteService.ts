@@ -10,7 +10,7 @@ export interface NotesResponse {
 }
 
 export interface FetchNotesParams {
-    userId: string;
+    userId?: string;
     page?: number;
     limit?: number;
     keyword?: string;
@@ -20,10 +20,13 @@ export interface FetchNotesParams {
 export const fetchNotes = async ({ userId, page = 1, limit = 10, keyword = "", sourceType }: FetchNotesParams) => {
     try {
         const params = new URLSearchParams({
-            userId,
             page: page.toString(),
             limit: limit.toString(),
         });
+
+        if (userId) {
+            params.append("userId", userId);
+        }
 
         if (keyword) {
             params.append("keyword", keyword);

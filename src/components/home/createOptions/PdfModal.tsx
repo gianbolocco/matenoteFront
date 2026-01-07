@@ -1,9 +1,11 @@
-import { X, FileText, UploadCloud, File, Loader2, Folder as FolderIcon, ChevronDown } from "lucide-react";
-import { useState, useRef, DragEvent, useEffect } from "react";
+import { X, FileText, UploadCloud, File } from "lucide-react";
+import { useState, useRef, DragEvent } from "react";
 import { useUser } from "@/context/UserContext";
-import { Modal } from "@/components/common/Modal";
-import { Folder } from "@/types";
-import { getUserFolders } from "@/services/folderService";
+import { Modal } from "@/components/ui/Modal";
+import { useFolders } from "@/hooks/useFolders";
+import { Button } from "@/components/ui/Button";
+import { Select } from "@/components/ui/Select";
+import { validatePdfFile } from "@/utils/validation";
 
 interface PdfModalProps {
     isOpen: boolean;
@@ -18,29 +20,12 @@ export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState("");
     const fileInputRef = useRef<HTMLInputElement>(null);
-
-    const [folders, setFolders] = useState<Folder[]>([]);
     const [selectedFolderId, setSelectedFolderId] = useState<string>("");
-    const [isLoadingFolders, setIsLoadingFolders] = useState(false);
 
-    useEffect(() => {
-        if (isOpen && user) {
-            loadFolders();
-        }
-    }, [isOpen, user]);
-
-    const loadFolders = async () => {
-        if (!user) return;
-        setIsLoadingFolders(true);
-        try {
-            const userFolders = await getUserFolders(user.id);
-            setFolders(userFolders);
-        } catch (error) {
-            console.error("Failed to load folders:", error);
-        } finally {
-            setIsLoadingFolders(false);
-        }
-    };
+    const { folders, isLoading: isLoadingFolders } = useFolders({
+        userId: user?.id,
+        enabled: isOpen
+    });
 
     const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -56,7 +41,7 @@ export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
         e.preventDefault();
         setIsDragging(false);
         const files = e.dataTransfer.files;
-        if (files.length > 0 && files[0].type === "application/pdf") {
+        if (files.length > 0 && validatePdfFile(files[0])) {
             setPdfFile(files[0]);
             setError("");
         } else {
@@ -67,7 +52,7 @@ export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
     const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0];
-            if (file.type === "application/pdf") {
+            if (validatePdfFile(file)) {
                 setPdfFile(file);
                 setError("");
             } else {
@@ -101,6 +86,8 @@ export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
         }
     };
 
+    const folderOptions = folders.map(f => ({ value: f.id || f._id || "", label: f.title }));
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} className="max-w-md p-6 relative">
             <button
@@ -117,110 +104,87 @@ export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
                 <h3 className="text-xl font-bold text-gray-900">Import from PDF</h3>
             </div>
 
-            <form onSubmit={handleSubmit}>
-                <div className="space-y-6">
-                    {/* Folder Selection */}
-                    {folders.length > 0 && (
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Save to Folder (Optional)
-                            </label>
-                            <div className="relative">
-                                <select
-                                    value={selectedFolderId}
-                                    onChange={(e) => setSelectedFolderId(e.target.value)}
-                                    className="w-full appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 pr-10 hover:bg-gray-100 transition-colors cursor-pointer outline-none"
-                                    disabled={isLoadingFolders}
-                                >
-                                    <option value="">Library only</option>
-                                    {folders.map((folder) => (
-                                        <option key={folder.id} value={folder.id}>
-                                            {folder.title}
-                                        </option>
-                                    ))}
-                                </select>
-                                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
-                                    <ChevronDown className="w-4 h-4" />
+            <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Folder Selection */}
+                {folders.length > 0 && (
+                    <Select
+                        label="Save to Folder (Optional)"
+                        value={selectedFolderId}
+                        onChange={(e) => setSelectedFolderId(e.target.value)}
+                        options={folderOptions}
+                        placeholder="Library only"
+                        disabled={isLoadingFolders}
+                    />
+                )}
+
+                {/* PDF Upload */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Upload PDF
+                    </label>
+
+                    {!pdfFile ? (
+                        <div
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            onClick={() => fileInputRef.current?.click()}
+                            className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${isDragging
+                                ? "border-red-500 bg-red-50"
+                                : "border-gray-200 hover:border-red-300 hover:bg-gray-50"
+                                }`}
+                        >
+                            <UploadCloud className={`w-10 h-10 mb-3 ${isDragging ? "text-red-500" : "text-gray-400"}`} />
+                            <p className="text-sm font-medium text-gray-700 text-center">
+                                <span className="text-red-600">Click to upload</span> or drag and drop
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                                PDF up to 10MB
+                            </p>
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept=".pdf"
+                                className="hidden"
+                                onChange={handleFileSelect}
+                            />
+                        </div>
+                    ) : (
+                        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between group">
+                            <div className="flex items-center gap-3 overflow-hidden">
+                                <div className="p-2 bg-white border border-gray-100 rounded-lg shrink-0">
+                                    <File className="w-5 h-5 text-red-600" />
+                                </div>
+                                <div className="min-w-0">
+                                    <p className="text-sm font-medium text-gray-900 truncate">
+                                        {pdfFile.name}
+                                    </p>
+                                    <p className="text-xs text-gray-500">
+                                        {(pdfFile.size / 1024 / 1024).toFixed(2)} MB
+                                    </p>
                                 </div>
                             </div>
+                            <button
+                                type="button"
+                                onClick={removeFile}
+                                className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
                         </div>
                     )}
 
-                    {/* PDF Upload */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Upload PDF
-                        </label>
-
-                        {!pdfFile ? (
-                            <div
-                                onDragOver={handleDragOver}
-                                onDragLeave={handleDragLeave}
-                                onDrop={handleDrop}
-                                onClick={() => fileInputRef.current?.click()}
-                                className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${isDragging
-                                    ? "border-red-500 bg-red-50"
-                                    : "border-gray-200 hover:border-red-300 hover:bg-gray-50"
-                                    }`}
-                            >
-                                <UploadCloud className={`w-10 h-10 mb-3 ${isDragging ? "text-red-500" : "text-gray-400"}`} />
-                                <p className="text-sm font-medium text-gray-700 text-center">
-                                    <span className="text-red-600">Click to upload</span> or drag and drop
-                                </p>
-                                <p className="text-xs text-gray-500 mt-1">
-                                    PDF up to 10MB
-                                </p>
-                                <input
-                                    ref={fileInputRef}
-                                    type="file"
-                                    accept=".pdf"
-                                    className="hidden"
-                                    onChange={handleFileSelect}
-                                />
-                            </div>
-                        ) : (
-                            <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between group">
-                                <div className="flex items-center gap-3 overflow-hidden">
-                                    <div className="p-2 bg-white border border-gray-100 rounded-lg shrink-0">
-                                        <File className="w-5 h-5 text-red-600" />
-                                    </div>
-                                    <div className="min-w-0">
-                                        <p className="text-sm font-medium text-gray-900 truncate">
-                                            {pdfFile.name}
-                                        </p>
-                                        <p className="text-xs text-gray-500">
-                                            {(pdfFile.size / 1024 / 1024).toFixed(2)} MB
-                                        </p>
-                                    </div>
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={removeFile}
-                                    className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                >
-                                    <X className="w-4 h-4" />
-                                </button>
-                            </div>
-                        )}
-
-                        {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={isSubmitting || !pdfFile}
-                        className="w-full py-3 px-4 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 focus:ring-4 focus:ring-gray-900/20 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    >
-                        {isSubmitting ? (
-                            <>
-                                <Loader2 className="w-5 h-5 animate-spin" />
-                                <span>Processing...</span>
-                            </>
-                        ) : (
-                            "Generate Notes"
-                        )}
-                    </button>
+                    {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
                 </div>
+
+                <Button
+                    type="submit"
+                    isLoading={isSubmitting}
+                    disabled={!pdfFile}
+                    className="w-full"
+                >
+                    Generate Notes
+                </Button>
             </form>
         </Modal>
     );

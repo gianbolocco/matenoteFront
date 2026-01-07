@@ -3,8 +3,8 @@
 import { useUser } from "@/context/UserContext";
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { CreateNoteOptions } from "@/components/home/CreateNoteOptions";
-import { FilterType } from "@/components/home/NotesToolbar";
-import { NotesList } from "@/components/home/NotesList";
+import { NotesToolbar, FilterType } from "@/components/common/NotesToolbar";
+import { NotesList } from "@/components/common/NotesList";
 import { Loader2 } from "lucide-react";
 import { useNotes } from "@/hooks/useNotes";
 import { useYoutubeNote } from "@/hooks/useYoutubeNote";
@@ -97,18 +97,23 @@ export default function Home() {
             <p className="text-gray-500 text-sm font-medium">Loading notes...</p>
           </div>
         ) : (
-          <NotesList
-            notes={notes}
-            searchQuery={searchQuery}
-            onClearFilters={handleClearFilters}
-            onSearchChange={setSearchQuery}
-            activeFilter={activeFilter as FilterType}
-            onFilterChange={(filter) => setActiveFilter(filter)}
-            showSkeleton={isCreating}
-            hasMore={hasMore}
-            onLoadMore={loadMore}
-            isLoadingMore={isLoadingMore}
-          />
+          <div className="space-y-6">
+            <NotesToolbar
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              activeFilter={activeFilter as FilterType}
+              onFilterChange={(filter) => setActiveFilter(filter)}
+            />
+            <NotesList
+              notes={notes}
+              searchQuery={searchQuery}
+              onClearFilters={handleClearFilters}
+              showSkeleton={isCreating}
+              hasMore={hasMore}
+              onLoadMore={loadMore}
+              isLoadingMore={isLoadingMore}
+            />
+          </div>
         )}
       </main>
     </div>

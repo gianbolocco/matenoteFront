@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, Check } from "lucide-react";
-import { Modal } from "@/components/common/Modal";
+import { Modal } from "@/components/ui/Modal";
 import { Folder } from "@/types";
 
 interface EditFolderModalProps {

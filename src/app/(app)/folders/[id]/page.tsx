@@ -7,7 +7,7 @@ import { getFolderById, deleteFolder, addNotesToFolder, removeNoteFromFolder, up
 import { NoteCard } from "@/components/noteCard/NoteCard";
 import { AddNoteModal } from "@/components/folders/AddNoteModal";
 import { EditFolderModal } from "@/components/folders/EditFolderModal";
-import { ConfirmationModal } from "@/components/common/ConfirmationModal";
+import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { Loader2, Plus, Trash, ArrowLeft, Folder as FolderIcon, Pencil } from "lucide-react";
 import Link from "next/link";
 

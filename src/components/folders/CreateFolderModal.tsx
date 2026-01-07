@@ -5,7 +5,7 @@ import { X, Check, Search, FileText } from "lucide-react";
 import { fetchNotes } from "@/services/noteService";
 import { CreateFolderPayload } from "@/services/folderService";
 import { useUser } from "@/context/UserContext";
-import { Modal } from "@/components/common/Modal";
+import { Modal } from "@/components/ui/Modal";
 import { Note } from "@/types";
 
 interface CreateFolderModalProps {

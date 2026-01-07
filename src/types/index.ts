@@ -5,6 +5,7 @@ export interface User {
     plan: string;
     avatar?: string;
     provider?: string;
+    createDate?: string;
 }
 
 export interface NoteSection {

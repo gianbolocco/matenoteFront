@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { Loader2, AlertCircle } from "lucide-react";
 import { Note } from "@/types";
 import { getNoteById } from "@/services/noteService";
@@ -14,7 +14,9 @@ import { ChatSidebar } from "@/components/noteDetail/chat/ChatSidebar";
 
 export default function NoteDetailPage() {
     const params = useParams();
+    const searchParams = useSearchParams();
     const id = params?.id as string;
+    const previousRoute = searchParams?.get("from") || "home";
 
     const [note, setNote] = useState<Note | null>(null);
     const [loading, setLoading] = useState(true);
@@ -73,7 +75,7 @@ export default function NoteDetailPage() {
         <div className="min-h-screen bg-white">
             <div className="max-w-4xl mx-auto px-6 md:px-8 py-12">
 
-                <NoteHeader note={note} />
+                <NoteHeader note={note} previousRoute={previousRoute} />
 
                 {note.sourceType === "youtube" && (
                     <VideoPlayer url={note.source} />

@@ -1,6 +1,9 @@
+"use client";
+
 import { Note } from "@/types";
 import { FileText, Mic, MonitorPlay, File, Clock } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NoteCardProps {
     note: Note;
@@ -8,6 +11,9 @@ interface NoteCardProps {
 }
 
 export function NoteCard({ note, action }: NoteCardProps) {
+    const pathname = usePathname();
+    const from = pathname === "/" ? "home" : pathname?.replace(/^\//, "") || "home";
+
     const getIcon = () => {
         switch (note.sourceType) {
             case "pdf":
@@ -35,7 +41,7 @@ export function NoteCard({ note, action }: NoteCardProps) {
     };
 
     return (
-        <Link href={`/notes/${note.id}`} className="block h-full">
+        <Link href={`/notes/${note.id}?from=${from}`} className="block h-full">
             <div className="group relative flex flex-col p-5 bg-white border border-gray-200 rounded-xl hover:border-blue-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden h-full">
                 {/* Action Button (Injected) */}
                 {action && (

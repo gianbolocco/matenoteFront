@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Settings, LogOut, LogIn, PanelLeft, Home, Timer, Folder } from "lucide-react";
+import { User, Settings, LogOut, LogIn, PanelLeft, Home, Timer, Folder, X, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
@@ -8,9 +8,11 @@ import { useUser } from "@/context/UserContext";
 interface SidebarProps {
     isCollapsed: boolean;
     setIsCollapsed: (value: boolean) => void;
+    isMobileOpen: boolean;
+    setIsMobileOpen: (value: boolean) => void;
 }
 
-export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
+export function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen }: SidebarProps) {
     const pathname = usePathname();
     const { user, login, logout } = useUser();
 
@@ -18,6 +20,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
     const navItems = [
         { name: "Home", href: "/home", icon: Home },
+        { name: "Search", href: "/search", icon: Search },
         { name: "Focus Timer", href: "/pomodoro", icon: Timer },
         { name: "My Profile", href: "/profile", icon: User },
         { name: "Settings", href: "/settings", icon: Settings },
@@ -27,25 +30,40 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
     return (
         <aside
             className={`
-        relative z-10 h-full bg-sidebar border-r border-sidebar-border
-        transition-all duration-300 ease-out flex flex-col
-        ${isCollapsed ? "w-16" : "w-64"}
-      `}
+                fixed inset-y-0 left-0 z-50 h-full bg-sidebar border-r border-sidebar-border
+                transition-all duration-300 ease-in-out flex flex-col
+                md:relative md:translate-x-0
+                ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
+                ${isCollapsed ? "md:w-16" : "md:w-64 md:w-[16rem]"}
+                w-64
+            `}
         >
             {/* Header / Toggle */}
             <div className="flex items-center justify-between p-4 h-16 border-b border-sidebar-border shrink-0">
                 <div className="flex items-center gap-2">
                     <img src="/logo.png" alt="Matenote Logo" className="w-8 h-8 rounded-lg object-cover" />
-                    {!isCollapsed && (
-                        <span className="font-semibold text-lg tracking-tight">Matenote</span>
+                    {(!isCollapsed || (isMobileOpen && window.innerWidth < 768)) && (
+                        <span className="font-semibold text-lg tracking-tight md:block hidden">Matenote</span>
                     )}
+                    <span className="font-semibold text-lg tracking-tight md:hidden">Matenote</span>
                 </div>
+
+                {/* Desktop Collapse Button */}
                 <button
                     onClick={toggleSidebar}
-                    className="p-1.5 rounded-md hover:bg-gray-100 text-muted-foreground hover:text-foreground transition-colors ml-auto"
+                    className="hidden md:block p-1.5 rounded-md hover:bg-gray-100 text-muted-foreground hover:text-foreground transition-colors ml-auto"
                     aria-label="Toggle Sidebar"
                 >
                     <PanelLeft className="w-5 h-5" />
+                </button>
+
+                {/* Mobile Close Button */}
+                <button
+                    onClick={() => setIsMobileOpen(false)}
+                    className="md:hidden p-1.5 rounded-md hover:bg-gray-100 text-muted-foreground hover:text-foreground transition-colors ml-auto"
+                    aria-label="Close Sidebar"
+                >
+                    <X className="w-5 h-5" />
                 </button>
             </div>
 
@@ -57,16 +75,15 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
                         <Link
                             key={item.href}
                             href={item.href}
+                            onClick={() => setIsMobileOpen(false)}
                             className={`
-                flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors group
-                ${isActive ? "bg-gray-100 text-primary font-medium" : "text-muted-foreground hover:bg-gray-50 hover:text-primary"}
-                ${isCollapsed ? "justify-center px-2" : ""}
-              `}
+                                flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors group
+                                ${isActive ? "bg-gray-100 text-primary font-medium" : "text-muted-foreground hover:bg-gray-50 hover:text-primary"}
+                                ${isCollapsed ? "md:justify-center md:px-2" : ""}
+                            `}
                         >
-                            <item.icon className={`shrink-0 ${isCollapsed ? "w-5 h-5" : "w-5 h-5"}`} />
-                            {!isCollapsed && (
-                                <span className="text-sm">{item.name}</span>
-                            )}
+                            <item.icon className="shrink-0 w-5 h-5" />
+                            <span className={`text-sm ${isCollapsed ? "md:hidden" : "block"}`}>{item.name}</span>
                         </Link>
                     );
                 })}
@@ -75,7 +92,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
             {/* Footer / User Profile */}
             <div className="border-t border-sidebar-border p-3 shrink-0">
                 {user ? (
-                    <div className={`flex items-center gap-3 ${isCollapsed ? "justify-center" : "px-2"}`}>
+                    <div className={`flex items-center gap-3 ${isCollapsed ? "md:justify-center" : "px-2"}`}>
                         <div className="w-8 h-8 rounded-full bg-gray-100 border border-border flex items-center justify-center shrink-0 overflow-hidden">
                             {user.avatar ? (
                                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
@@ -83,33 +100,30 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
                                 <User className="w-4 h-4 text-muted-foreground" />
                             )}
                         </div>
-                        {!isCollapsed && (
-                            <div className="flex-1 overflow-hidden min-w-0">
-                                <p className="text-sm font-medium truncate text-foreground">{user.name}</p>
-                                <p className="text-xs text-muted-foreground truncate">{user.plan} Plan</p>
-                            </div>
-                        )}
-                        {!isCollapsed && (
-                            <button
-                                onClick={logout}
-                                className="text-muted-foreground hover:text-red-600 transition-colors ml-1"
-                                title="Logout"
-                            >
-                                <LogOut className="w-4 h-4" />
-                            </button>
-                        )}
+                        <div className={`flex-1 overflow-hidden min-w-0 ${isCollapsed ? "md:hidden" : "block"}`}>
+                            <p className="text-sm font-medium truncate text-foreground">{user.name}</p>
+                            <p className="text-xs text-muted-foreground truncate">{user.plan} Plan</p>
+                        </div>
+                        <button
+                            onClick={logout}
+                            className={`text-muted-foreground hover:text-red-600 transition-colors ml-1 ${isCollapsed ? "md:hidden" : "block"}`}
+                            title="Logout"
+                        >
+                            <LogOut className="w-4 h-4" />
+                        </button>
                     </div>
                 ) : (
                     <div className={`flex items-center justify-center ${isCollapsed ? "" : "px-2 py-1"}`}>
-                        {!isCollapsed ? (
-                            <Link href="/login" className="text-sm font-medium text-primary hover:underline">
+                        {(!isCollapsed || isMobileOpen) ? (
+                            <Link href="/login" className={`text-sm font-medium text-primary hover:underline ${isCollapsed ? "md:hidden" : "block"}`}>
                                 Log In
                             </Link>
                         ) : (
-                            <Link href="/login" title="Log In" className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100">
+                            <Link href="/login" title="Log In" className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 hidden md:flex">
                                 <LogIn className="w-4 h-4 rotate-180" />
                             </Link>
                         )}
+                        {/* Mobile Login Icon if needed, or just keep text */}
                     </div>
                 )}
             </div>

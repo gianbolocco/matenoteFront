@@ -35,11 +35,9 @@ export function useNotes({ userId, limit }: UseNotesParams) {
     // Fetch Notes
     useEffect(() => {
         const loadNotes = async () => {
-            if (!userId) {
-                setNotes([]);
-                setLoading(false);
-                return;
-            }
+            // If userId is undefined, we assume global/public search context if needed, 
+            // or the component should control whether to fetch or not. 
+            // Here we allow fetching without userId.
 
             try {
                 if (page === 1) {
@@ -97,7 +95,6 @@ export function useNotes({ userId, limit }: UseNotesParams) {
     };
 
     const refreshSilent = async () => {
-        if (!userId) return;
         try {
             const { notes: newNotes } = await fetchNotes({
                 userId,

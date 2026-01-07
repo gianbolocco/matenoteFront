@@ -6,7 +6,7 @@ import { fetchNotes } from "@/services/noteService";
 import { useUser } from "@/context/UserContext";
 import { Note } from "@/types";
 import { NoteSelectionList } from "./NoteSelectionList";
-import { Modal } from "@/components/common/Modal";
+import { Modal } from "@/components/ui/Modal";
 
 interface AddNoteModalProps {
     isOpen: boolean;
