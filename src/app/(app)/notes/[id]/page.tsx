@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { Loader2, AlertCircle } from "lucide-react";
-import { Note } from "@/types";
+import { Note, User } from "@/types";
 import { getNoteById } from "@/services/noteService";
+import { getUserById } from "@/services/userService";
 
 import { NoteHeader } from "@/components/noteDetail/NoteHeader";
 import { VideoPlayer } from "@/components/noteDetail/VideoPlayer";
@@ -19,11 +20,12 @@ export default function NoteDetailPage() {
     const previousRoute = searchParams?.get("from") || "home";
 
     const [note, setNote] = useState<Note | null>(null);
+    const [creator, setCreator] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
     useEffect(() => {
-        const fetchNote = async () => {
+        const fetchNoteAndCreator = async () => {
             if (!id) return;
 
             try {
@@ -31,6 +33,16 @@ export default function NoteDetailPage() {
                 const fetchedNote = await getNoteById(id);
                 setNote(fetchedNote);
                 setError("");
+
+                if (fetchedNote.userId) {
+                    try {
+                        const fetchedCreator = await getUserById(fetchedNote.userId);
+                        setCreator(fetchedCreator);
+                    } catch (userError) {
+                        console.error("Failed to fetch creator:", userError);
+                        // Don't fail the page if creator fails to load
+                    }
+                }
             } catch (err) {
                 console.error(err);
                 setError("Failed to load note. It might have been deleted or does not exist.");
@@ -39,7 +51,7 @@ export default function NoteDetailPage() {
             }
         };
 
-        fetchNote();
+        fetchNoteAndCreator();
     }, [id]);
 
     if (loading) {
@@ -75,7 +87,7 @@ export default function NoteDetailPage() {
         <div className="min-h-screen bg-white">
             <div className="max-w-4xl mx-auto px-6 md:px-8 py-12">
 
-                <NoteHeader note={note} previousRoute={previousRoute} />
+                <NoteHeader note={note} previousRoute={previousRoute} creator={creator} />
 
                 {note.sourceType === "youtube" && (
                     <VideoPlayer url={note.source} />

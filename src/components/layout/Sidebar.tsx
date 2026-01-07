@@ -20,11 +20,11 @@ export function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobile
 
     const navItems = [
         { name: "Home", href: "/home", icon: Home },
+        { name: "Folders", href: "/folders", icon: Folder },
         { name: "Search", href: "/search", icon: Search },
-        { name: "Focus Timer", href: "/pomodoro", icon: Timer },
         { name: "My Profile", href: "/profile", icon: User },
-        { name: "Settings", href: "/settings", icon: Settings },
-        { name: "Folders", href: "/folders", icon: Folder }
+        { name: "Focus Timer", href: "/pomodoro", icon: Timer },
+        { name: "Settings", href: "/settings", icon: Settings }
     ];
 
     return (
