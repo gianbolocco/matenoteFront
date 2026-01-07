@@ -86,9 +86,7 @@ export default function FoldersPage() {
             ) : filteredFolders.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {filteredFolders.map((folder) => (
-                        <Link key={folder.id} href={`/folders/${folder.id}`} className="block">
-                            <FolderCard folder={folder} />
-                        </Link>
+                        <FolderCard key={folder.id} folder={folder} />
                     ))}
                 </div>
             ) : (

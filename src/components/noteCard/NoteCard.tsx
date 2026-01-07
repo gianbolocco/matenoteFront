@@ -4,9 +4,10 @@ import Link from "next/link";
 
 interface NoteCardProps {
     note: Note;
+    action?: React.ReactNode;
 }
 
-export function NoteCard({ note }: NoteCardProps) {
+export function NoteCard({ note, action }: NoteCardProps) {
     const getIcon = () => {
         switch (note.sourceType) {
             case "pdf":
@@ -36,6 +37,12 @@ export function NoteCard({ note }: NoteCardProps) {
     return (
         <Link href={`/notes/${note.id}`} className="block h-full">
             <div className="group relative flex flex-col p-5 bg-white border border-gray-200 rounded-xl hover:border-blue-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden h-full">
+                {/* Action Button (Injected) */}
+                {action && (
+                    <div className="absolute top-3 right-3 z-10">
+                        {action}
+                    </div>
+                )}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 <div className="flex items-start justify-between mb-4">

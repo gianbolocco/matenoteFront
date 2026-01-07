@@ -7,7 +7,8 @@ import { getFolderById, deleteFolder, addNotesToFolder, removeNoteFromFolder, up
 import { NoteCard } from "@/components/noteCard/NoteCard";
 import { AddNoteModal } from "@/components/folders/AddNoteModal";
 import { EditFolderModal } from "@/components/folders/EditFolderModal";
-import { Loader2, Plus, Trash2, ArrowLeft, Folder as FolderIcon, Pencil } from "lucide-react";
+import { ConfirmationModal } from "@/components/common/ConfirmationModal";
+import { Loader2, Plus, Trash, ArrowLeft, Folder as FolderIcon, Pencil } from "lucide-react";
 import Link from "next/link";
 
 const colorMap: Record<string, string> = {
@@ -28,6 +29,9 @@ export default function FolderDetailsPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isRemoveNoteModalOpen, setIsRemoveNoteModalOpen] = useState(false);
+    const [noteToRemove, setNoteToRemove] = useState<string | null>(null);
     const [isActionLoading, setIsActionLoading] = useState(false);
 
     useEffect(() => {
@@ -49,7 +53,6 @@ export default function FolderDetailsPage() {
     };
 
     const handleDeleteFolder = async () => {
-        if (!window.confirm("Are you sure you want to delete this folder? All notes within it will remain in your library.")) return;
         setIsActionLoading(true);
         try {
             await deleteFolder(folderId);
@@ -89,26 +92,33 @@ export default function FolderDetailsPage() {
         }
     };
 
-    const handleRemoveNote = async (noteId: string, e: React.MouseEvent) => {
-        e.preventDefault(); // Prevent navigation if button is inside link
+    const handleRemoveNoteClick = (noteId: string, e: React.MouseEvent) => {
+        e.preventDefault();
         e.stopPropagation();
+        setNoteToRemove(noteId);
+        setIsRemoveNoteModalOpen(true);
+    };
 
-        if (!window.confirm("Remove this note from the folder?")) return;
+    const confirmRemoveNote = async () => {
+        if (!noteToRemove || !folder) return;
+        setIsActionLoading(true);
 
         // Optimistic update
         const previousFolder = folder;
-        if (folder) {
-            setFolder({
-                ...folder,
-                notes: folder.notes.filter(n => n.id !== noteId)
-            });
-        }
+        setFolder({
+            ...folder,
+            notes: folder.notes.filter(n => n.id !== noteToRemove)
+        });
 
         try {
-            await removeNoteFromFolder(folderId, noteId);
+            await removeNoteFromFolder(folderId, noteToRemove);
+            setIsRemoveNoteModalOpen(false);
+            setNoteToRemove(null);
         } catch (error) {
             console.error(error);
             setFolder(previousFolder); // Revert
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
@@ -149,18 +159,18 @@ export default function FolderDetailsPage() {
                             <button
                                 onClick={() => setIsEditModalOpen(true)}
                                 disabled={isActionLoading}
-                                className="p-3 text-gray-700 hover:bg-white/50 rounded-xl transition-colors disabled:opacity-50"
+                                className="p-3 cursor-pointer text-gray-700 hover:text-blue-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
                                 title="Edit Folder"
                             >
                                 <Pencil className="w-5 h-5" />
                             </button>
                             <button
-                                onClick={handleDeleteFolder}
+                                onClick={() => setIsDeleteModalOpen(true)}
                                 disabled={isActionLoading}
-                                className="p-3 text-red-600 hover:bg-red-50 rounded-xl transition-colors disabled:opacity-50"
+                                className="p-3 cursor-pointer text-gray-700 hover:text-red-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
                                 title="Delete Folder"
                             >
-                                <Trash2 className="w-5 h-5" />
+                                <Trash className="w-5 h-5" />
                             </button>
                             <button
                                 onClick={() => setIsAddModalOpen(true)}
@@ -180,16 +190,19 @@ export default function FolderDetailsPage() {
                 {folder.notes && folder.notes.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {folder.notes.map((note, index) => (
-                            <div key={note._id || note.id || index} className="relative group/card h-full">
-                                <NoteCard note={note} />
-                                {/* Remove Button Overlay */}
-                                <button
-                                    onClick={(e) => handleRemoveNote(note.id, e)}
-                                    className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg shadow-sm border border-gray-100 opacity-0 group-hover/card:opacity-100 transition-all z-10"
-                                    title="Remove from folder"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
+                            <div key={note._id || note.id || index} className="h-full">
+                                <NoteCard
+                                    note={note}
+                                    action={
+                                        <button
+                                            onClick={(e) => handleRemoveNoteClick(note.id, e)}
+                                            className="p-2 cursor-pointer text-gray-700 hover:text-red-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                                            title="Remove from folder"
+                                        >
+                                            <Trash className="w-5 h-5" />
+                                        </button>
+                                    }
+                                />
                             </div>
                         ))}
                     </div>
@@ -226,6 +239,26 @@ export default function FolderDetailsPage() {
                 onSubmit={handleUpdateFolder}
                 isLoading={isActionLoading}
                 folder={folder}
+            />
+
+            <ConfirmationModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={handleDeleteFolder}
+                title="Delete Folder"
+                message="Are you sure you want to delete this folder? All notes within it will remain in your library."
+                confirmText="Delete Folder"
+                isLoading={isActionLoading}
+            />
+
+            <ConfirmationModal
+                isOpen={isRemoveNoteModalOpen}
+                onClose={() => setIsRemoveNoteModalOpen(false)}
+                onConfirm={confirmRemoveNote}
+                title="Remove Note"
+                message="Are you sure you want to remove this note from the folder? The note will remain in your library."
+                confirmText="Remove Note"
+                isLoading={isActionLoading}
             />
         </div>
     );
