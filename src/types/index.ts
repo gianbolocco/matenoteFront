@@ -30,3 +30,13 @@ export interface ChatMessage {
     content: string;
     timestamp: string;
 }
+
+export interface Folder {
+    _id?: string;
+    id?: string; // Add optional id to be safe, or mandatory if we are sure
+    title: string;
+    color: string;
+    userId: string;
+    notes: Note[];
+    createDate?: string;
+}

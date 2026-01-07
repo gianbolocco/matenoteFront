@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Clock, FileText, Mic, Youtube, File, Trash } from "lucide-react";
+import { ArrowLeft, Clock, FileText, Mic, Youtube, File, Trash, Share2, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { deleteNote } from "@/services/noteService";
 import Link from "next/link";
@@ -16,6 +16,7 @@ export function NoteHeader({ note }: NoteHeaderProps) {
     const router = useRouter();
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isCopied, setIsCopied] = useState(false);
 
     const handleDeleteClick = () => {
         setIsDeleteModalOpen(true);
@@ -31,6 +32,12 @@ export function NoteHeader({ note }: NoteHeaderProps) {
             setIsDeleting(false);
             setIsDeleteModalOpen(false); // Optionally close on error or keep open to show error
         }
+    };
+
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText(window.location.href);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
     };
 
 
@@ -67,13 +74,25 @@ export function NoteHeader({ note }: NoteHeaderProps) {
                     Back to Library
                 </Link>
 
-                <button
-                    onClick={handleDeleteClick}
-                    className="inline-flex items-center gap-2 text-sm text-red-500 hover:text-red-700 transition-colors group"
-                >
-                    <Trash className="w-4 h-4" />
-                    <span>Delete Note</span>
-                </button>
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={handleCopyLink}
+                        className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                    >
+                        {isCopied ? <Check className="w-4 h-4 text-gray-500" /> : <Share2 className="w-4 h-4" />}
+                        <span className={isCopied ? "font-medium" : ""}>
+                            {isCopied ? "Copied Link" : "Share"}
+                        </span>
+                    </button>
+
+                    <button
+                        onClick={handleDeleteClick}
+                        className="inline-flex items-center gap-2 text-sm text-red-500 hover:text-red-700 transition-colors group"
+                    >
+                        <Trash className="w-4 h-4" />
+                        <span>Delete Note</span>
+                    </button>
+                </div>
             </div>
 
             <ConfirmationModal

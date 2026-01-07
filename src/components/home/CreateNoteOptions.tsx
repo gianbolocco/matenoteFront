@@ -1,8 +1,8 @@
 import { FileText, Youtube, Mic, Plus, AlignLeft } from "lucide-react";
 import { useState } from "react";
-import { OptionCard } from "./create-options/OptionCard";
-import { YoutubeModal } from "./create-options/YoutubeModal";
-import { PdfModal } from "./create-options/PdfModal";
+import { OptionCard } from "./createOptions/OptionCard";
+import { YoutubeModal } from "./createOptions/YoutubeModal";
+import { PdfModal } from "./createOptions/PdfModal";
 
 interface CreateNoteOptionsProps {
     onNoteCreated?: () => void;

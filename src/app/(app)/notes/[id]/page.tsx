@@ -6,11 +6,11 @@ import { Loader2, AlertCircle } from "lucide-react";
 import { Note } from "@/types";
 import { getNoteById } from "@/services/noteService";
 
-import { NoteHeader } from "@/components/note-detail/NoteHeader";
-import { VideoPlayer } from "@/components/note-detail/VideoPlayer";
-import { NoteSummary } from "@/components/note-detail/NoteSummary";
-import { NoteSections } from "@/components/note-detail/NoteSections";
-import { ChatSidebar } from "@/components/chat/ChatSidebar";
+import { NoteHeader } from "@/components/noteDetail/NoteHeader";
+import { VideoPlayer } from "@/components/noteDetail/VideoPlayer";
+import { NoteSummary } from "@/components/noteDetail/NoteSummary";
+import { NoteSections } from "@/components/noteDetail/NoteSections";
+import { ChatSidebar } from "@/components/noteDetail/chat/ChatSidebar";
 
 export default function NoteDetailPage() {
     const params = useParams();
