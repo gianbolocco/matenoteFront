@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Sparkles, ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
+
     return (
         <div className="min-h-screen w-full flex">
             {/* Left Panel - Login Form */}
@@ -15,7 +16,7 @@ export default function LoginPage() {
                     className="absolute top-8 left-8 text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-2 group"
                 >
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                    Back to Home
+                    Back
                 </Link>
                 <div className="w-full max-w-md space-y-8">
                     {/* Header */}
@@ -89,7 +90,7 @@ export default function LoginPage() {
                         Capture ideas.<br />Unlock potential.
                     </h2>
                     <p className="text-lg text-white/50 font-light">
-                    Your ultimate AI second brain for effortless learning.
+                        Your ultimate AI second brain for effortless learning.
                     </p>
                 </div>
             </div>

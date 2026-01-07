@@ -2,7 +2,8 @@
 import { User } from "@/types";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import axios, { AxiosInstance } from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import * as userService from "@/services/userService";
 
 
 // Define the Context State interface
@@ -11,7 +12,7 @@ interface UserContextType {
     isLoading: boolean;
     login: (token?: string) => Promise<void>;
     logout: () => Promise<void>;
-    updateUser: (updates: Partial<User>) => void;
+    updateUser: (updates: Partial<User>) => Promise<void>;
 }
 
 // Create the Context with undefined default
@@ -67,10 +68,37 @@ export function UserProvider({ children }: { children: ReactNode }) {
         router.push("/login");
     };
 
-    const updateUser = (updates: Partial<User>) => {
+    const pathname = usePathname();
+
+    useEffect(() => {
+        if (!isLoading && user) {
+            // Check if onboarding is needed
+            // Logic: If critical profile data is missing, redirect to onboarding.
+            // We check for 'country' and 'usagePurpose' as indicators of completion.
+            const needsOnboarding = !user.country || !user.usagePurpose || !user.age;
+
+            if (needsOnboarding && pathname !== "/onboarding") {
+                router.push("/onboarding");
+            }
+        }
+    }, [user, isLoading, pathname, router]);
+
+    const updateUser = async (updates: Partial<User>) => {
         if (!user) return;
-        setUser({ ...user, ...updates });
-        // Optionally sync with backend here
+        try {
+            // Optimistic update
+            setUser({ ...user, ...updates });
+
+            // Call API
+            const updatedUser = await userService.updateUser(user.id, updates);
+
+            // Merge response to ensure data consistency
+            setUser({ ...updatedUser, ...updates });
+        } catch (error) {
+            console.error("Failed to update user", error);
+            // Revert on failure (could refetch, but for now just log)
+            fetchUser();
+        }
     };
 
     return (

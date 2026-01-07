@@ -6,6 +6,11 @@ export interface User {
     avatar?: string;
     provider?: string;
     createDate?: string;
+    interests: string[];
+    country: string;
+    occupation: string;
+    usagePurpose: string;
+    age: number;
 }
 
 export interface NoteSection {

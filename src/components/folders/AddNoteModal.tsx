@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { X, Sparkles } from "lucide-react";
 import { fetchNotes } from "@/services/noteService";
 import { useUser } from "@/context/UserContext";
 import { Note } from "@/types";
@@ -18,6 +19,7 @@ interface AddNoteModalProps {
 
 export function AddNoteModal({ isOpen, onClose, onSubmit, isLoading, existingNoteIds }: AddNoteModalProps) {
     const { user } = useUser();
+    const router = useRouter();
     const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
     const [notes, setNotes] = useState<Note[]>([]);
     const [isFetchingNotes, setIsFetchingNotes] = useState(false);
@@ -71,6 +73,15 @@ export function AddNoteModal({ isOpen, onClose, onSubmit, isLoading, existingNot
                 </div>
 
                 <div className="p-6 border-t border-gray-100 bg-gray-50/50 flex justify-end gap-3 rounded-b-3xl">
+                    <div className="flex-1 flex justify-start">
+                        <button
+                            onClick={() => router.push('/home')}
+                            className="px-4 py-3 text-purple-600 font-medium hover:bg-purple-50 rounded-xl transition-colors flex items-center gap-2"
+                        >
+                            <Sparkles className="w-4 h-4" />
+                            Generate New Note
+                        </button>
+                    </div>
                     <button
                         onClick={onClose}
                         className="px-6 py-3 text-gray-700 font-medium hover:bg-gray-100 rounded-xl transition-colors"
