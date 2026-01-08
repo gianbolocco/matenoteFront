@@ -41,9 +41,20 @@ export function UserProvider({ children }: { children: ReactNode }) {
         } catch (error: any) {
             // If 401/403, it just means not logged in.
             if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+                // Expected behavior when not logged in
                 setUser(null);
             } else {
-                console.error("Failed to fetch user session", error);
+                console.error("Failed to fetch user session:", {
+                    message: error.message,
+                    status: error.response?.status,
+                    code: error.code
+                });
+
+                // If it's a generic Network Error, it might be the Mixed Content issue
+                if (error.message === "Network Error") {
+                    console.error("POSSIBLE CAUSE: Mixed Content Error. Check if you are calling HTTP endpoint from HTTPS site.");
+                }
+
                 setUser(null);
             }
         } finally {
