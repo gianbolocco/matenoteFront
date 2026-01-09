@@ -1,5 +1,5 @@
 
-import { NoteUnit } from "@/types";
+import { NoteUnit, NoteSectionContentText, NoteSectionContentList, NoteSectionContentTable, NoteSectionContentCode } from "@/types";
 import { SectionText } from "./sections/SectionText"
 import { SectionList } from "./sections/SectionList"
 import { SectionTable } from "./sections/SectionTable"
@@ -34,16 +34,16 @@ export function Unit({ unit, index }: UnitProps) {
 
                         <div className="pl-0">
                             {section.type === 'TEXT' && (
-                                <SectionText content={section.content as any} />
+                                <SectionText content={section.content as NoteSectionContentText} />
                             )}
                             {section.type === 'LIST' && (
-                                <SectionList content={section.content as any} />
+                                <SectionList content={section.content as NoteSectionContentList} />
                             )}
                             {section.type === 'TABLE' && (
-                                <SectionTable content={section.content as any} />
+                                <SectionTable content={section.content as NoteSectionContentTable} />
                             )}
                             {section.type === 'CODE' && (
-                                <SectionCode content={section.content as any} />
+                                <SectionCode content={section.content as NoteSectionContentCode} />
                             )}
                         </div>
                     </div>
