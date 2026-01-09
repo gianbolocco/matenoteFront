@@ -10,7 +10,7 @@ import { getUserById } from "@/services/userService";
 import { NoteHeader } from "@/components/noteDetail/NoteHeader";
 import { VideoPlayer } from "@/components/noteDetail/VideoPlayer";
 import { NoteSummary } from "@/components/noteDetail/NoteSummary";
-import { NoteSections } from "@/components/noteDetail/NoteSections";
+import { NoteUnits } from "@/components/noteDetail/NoteUnits";
 import { ChatSidebar } from "@/components/noteDetail/chat/ChatSidebar";
 
 export default function NoteDetailPage() {
@@ -95,8 +95,8 @@ export default function NoteDetailPage() {
 
                 <NoteSummary summary={note.summary} />
 
-                {note.sections && (
-                    <NoteSections sections={note.sections} />
+                {note.units && (
+                    <NoteUnits units={note.units} />
                 )}
             </div>
 
@@ -104,3 +104,5 @@ export default function NoteDetailPage() {
         </div>
     );
 }
+
+

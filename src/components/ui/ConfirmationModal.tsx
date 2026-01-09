@@ -43,7 +43,7 @@ export function ConfirmationModal({
                     <button
                         onClick={onConfirm}
                         disabled={isLoading}
-                        className="w-full inline-flex justify-center items-center px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full cursor-pointer inline-flex justify-center items-center px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isLoading ? "Deleting..." : confirmText}
                     </button>
@@ -51,7 +51,7 @@ export function ConfirmationModal({
                     <button
                         onClick={onClose}
                         disabled={isLoading}
-                        className="w-full inline-flex justify-center items-center px-4 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-xl transition-colors"
+                        className="w-full cursor-pointer inline-flex justify-center items-center px-4 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-xl transition-colors"
                     >
                         {cancelText}
                     </button>

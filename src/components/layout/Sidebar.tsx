@@ -40,18 +40,18 @@ export function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobile
         >
             {/* Header / Toggle */}
             <div className="flex items-center justify-between p-4 h-16 border-b border-sidebar-border shrink-0">
-                <div className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-2 cursor-pointer">
                     <img src="/logo.png" alt="Matenote Logo" className="w-8 h-8 rounded-lg object-cover" />
                     {(!isCollapsed || (isMobileOpen && window.innerWidth < 768)) && (
                         <span className="font-semibold text-lg tracking-tight md:block hidden">Matenote</span>
                     )}
                     <span className="font-semibold text-lg tracking-tight md:hidden">Matenote</span>
-                </div>
+                </Link>
 
                 {/* Desktop Collapse Button */}
                 <button
                     onClick={toggleSidebar}
-                    className="hidden md:block p-1.5 rounded-md hover:bg-gray-100 text-muted-foreground hover:text-foreground transition-colors ml-auto"
+                    className="hidden md:block cursor-pointer p-1.5 rounded-md hover:bg-gray-100 text-muted-foreground hover:text-foreground transition-colors ml-auto"
                     aria-label="Toggle Sidebar"
                 >
                     <PanelLeft className="w-5 h-5" />
@@ -106,7 +106,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobile
                         </div>
                         <button
                             onClick={logout}
-                            className={`text-muted-foreground hover:text-red-600 transition-colors ml-1 ${isCollapsed ? "md:hidden" : "block"}`}
+                            className={`text-muted-foreground hover:text-red-600 transition-colors ml-1 cursor-pointer ${isCollapsed ? "md:hidden" : "block"}`}
                             title="Logout"
                         >
                             <LogOut className="w-4 h-4" />

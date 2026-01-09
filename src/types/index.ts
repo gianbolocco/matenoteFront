@@ -13,17 +13,55 @@ export interface User {
     age: number;
 }
 
+export type SectionType = "TEXT" | "LIST" | "TABLE" | "CODE";
+
+export interface NoteSectionContentText {
+    text: string;
+    highlights?: string[];
+}
+
+export interface NoteSectionContentList {
+    style: "default" | "mantra";
+    items: string[];
+}
+
+export interface NoteSectionContentTable {
+    title?: string;
+    columns: string[];
+    rows: Array<Record<string, string>>;
+}
+
+export interface NoteSectionContentCode {
+    language?: string;
+    code: string;
+    explanation?: string;
+}
+
+export type NoteSectionContent =
+    | NoteSectionContentText
+    | NoteSectionContentList
+    | NoteSectionContentTable
+    | NoteSectionContentCode;
+
 export interface NoteSection {
-    subtitle: string;
-    content: string;
-    highlights: string[];
+    type: SectionType;
+    subtitle?: string;
+    content: NoteSectionContent;
+}
+
+export interface NoteUnit {
+    title: string;
+    sections: NoteSection[];
 }
 
 export interface Note {
     id: string;
     title: string;
     summary: string;
-    sections?: NoteSection[];
+    units?: NoteUnit[];
+    // Keeping this for backward compatibility if needed during migration, 
+    // but ultimately 'units' replaces 'sections'.
+    sections?: any[];
     source: string; // Filename or URL
     sourceType: "pdf" | "audio" | "youtube" | "text";
     userId: string;
