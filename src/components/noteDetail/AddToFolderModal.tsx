@@ -109,7 +109,7 @@ export function AddToFolderModal({ isOpen, onClose, noteId }: AddToFolderModalPr
                     <Button
                         variant="secondary"
                         onClick={onClose}
-                        className="flex-1"
+                        className="flex-1 cursor-pointer"
                     >
                         Cancel
                     </Button>
@@ -125,7 +125,7 @@ export function AddToFolderModal({ isOpen, onClose, noteId }: AddToFolderModalPr
                                 Saved
                             </span>
                         ) : (
-                            <span className="flex items-center gap-2">
+                            <span className="flex items-center gap-2 cursor-pointer">
                                 <Plus className="w-4 h-4" />
                                 Add to Folder
                             </span>

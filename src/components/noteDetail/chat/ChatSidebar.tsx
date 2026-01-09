@@ -73,17 +73,18 @@ export function ChatSidebar({ noteId }: ChatSidebarProps) {
     return (
         <>
             {/* Toggle Button (Fixed) */}
+            {/* Floating Action Button (Bottom Right) */}
             <button
-                onClick={() => setIsOpen(!isOpen)}
-                className={`fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-white border border-gray-200 shadow-lg p-3 rounded-l-xl transition-all duration-300 hover:bg-gray-50 group ${isOpen ? "translate-x-full opacity-0" : "translate-x-0 opacity-100"
+                onClick={() => setIsOpen(true)}
+                className={`fixed bottom-8 right-8 z-40 p-4 bg-black text-white rounded-full shadow-xl hover:bg-gray-800 hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 group ${isOpen ? "translate-y-20 opacity-0" : "translate-y-0 opacity-100"
                     }`}
-                title="Open Chat"
+                title="Open Assistant"
             >
                 <div className="relative">
-                    <MessageSquare className="w-6 h-6 text-gray-600 group-hover:text-blue-600 transition-colors" />
-                    <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                    <MessageSquare className="w-7 h-7" />
+                    <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-indigo-400 border-2 border-black"></span>
                     </span>
                 </div>
             </button>
@@ -96,7 +97,7 @@ export function ChatSidebar({ noteId }: ChatSidebarProps) {
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gray-50/50">
                     <div className="flex items-center gap-2">
-                        <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
+                        <div className="p-2 bg-indigo-100 text-indigo-600 rounded-lg">
                             <MessageSquare className="w-5 h-5" />
                         </div>
                         <div>

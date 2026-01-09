@@ -87,7 +87,7 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                 <div className="flex items-center gap-4">
                     <button
                         onClick={handleFolderClick}
-                        className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                        className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
                         title="Add to Folder"
                     >
                         <FolderPlus className="w-5 h-5 md:w-4 md:h-4" />
@@ -96,7 +96,7 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
 
                     <button
                         onClick={handleCopyLink}
-                        className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                        className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
                         title="Share"
                     >
                         {isCopied ? <Check className="w-5 h-5 md:w-4 md:h-4 text-gray-500" /> : <Share2 className="w-5 h-5 md:w-4 md:h-4" />}
@@ -108,7 +108,7 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                     {isOwner && (
                         <button
                             onClick={handleDeleteClick}
-                            className="inline-flex items-center gap-2 text-sm text-red-500 hover:text-red-700 transition-colors group"
+                            className="inline-flex cursor-pointer items-center gap-2 text-sm text-red-500 hover:text-red-700 transition-colors group"
                             title="Delete Note"
                         >
                             <Trash className="w-5 h-5 md:w-4 md:h-4" />

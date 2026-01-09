@@ -11,7 +11,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
             {messages.length === 0 && (
                 <div className="h-full flex flex-col items-center justify-center text-center p-4">
-                    <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mb-4">
+                    <div className="w-12 h-12 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center mb-4">
                         <Bot className="w-6 h-6" />
                     </div>
                     <h3 className="text-sm font-semibold text-gray-900 mb-1">
@@ -32,7 +32,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
                     <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${message.role === "user"
                             ? "bg-gray-900 text-white"
-                            : "bg-blue-100 text-blue-600"
+                            : "bg-indigo-100 text-indigo-600"
                             }`}
                     >
                         {message.role === "user" ? (
@@ -55,7 +55,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
 
             {isLoading && (
                 <div className="flex gap-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0">
                         <Bot className="w-4 h-4" />
                     </div>
                     <div className="bg-white border border-gray-100 shadow-sm px-4 py-3 rounded-2xl rounded-tl-sm">
