@@ -23,7 +23,7 @@ export function OptionCard({
 }: OptionCardProps) {
     if (disabled) {
         return (
-            <div className="relative flex flex-col items-start p-6 bg-gray-50 border border-gray-100 rounded-2xl opacity-80 cursor-not-allowed">
+            <div className="relative flex flex-col  items-start p-6 bg-gray-50 border border-gray-100 rounded-2xl opacity-80 cursor-not-allowed">
                 {badgeText && (
                     <div className="absolute top-4 right-4 px-2.5 py-1 bg-gray-200 text-gray-500 text-[10px] font-bold uppercase tracking-wider rounded-full">
                         {badgeText}
@@ -43,7 +43,7 @@ export function OptionCard({
     return (
         <button
             onClick={onClick}
-            className="group relative flex flex-col items-start p-6 bg-white border border-gray-100 rounded-2xl hover:border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 text-left"
+            className="group relative flex cursor-pointer flex-col items-start p-6 bg-white border border-gray-100 rounded-2xl hover:border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 text-left cursor-pointer"
         >
             <div className={`p-3 rounded-xl mb-4 transition-colors duration-200 ${bgColorClass} ${iconColorClass} group-hover:bg-red-600 group-hover:text-white`}>
                 <Icon className="w-6 h-6" />
