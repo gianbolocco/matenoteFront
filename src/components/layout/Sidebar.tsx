@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Settings, LogOut, LogIn, PanelLeft, Home, Timer, Folder, X, Search } from "lucide-react";
+import { User, LogOut, LogIn, PanelLeft, Home, Timer, Folder, X, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
@@ -24,7 +24,6 @@ export function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobile
         { name: "Search", href: "/search", icon: Search },
         { name: "My Profile", href: "/profile", icon: User },
         { name: "Focus Timer", href: "/pomodoro", icon: Timer },
-        { name: "Settings", href: "/settings", icon: Settings }
     ];
 
     return (

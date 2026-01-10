@@ -79,15 +79,6 @@ export default function PomodoroPage() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-full w-full max-w-2xl mx-auto p-6">
-            <div className="w-full bg-white border border-border rounded-2xl shadow-sm p-8 md:p-12 relative overflow-hidden">
-
-                {/* Settings Toggle */}
-                <button
-                    onClick={() => setShowSettings(!showSettings)}
-                    className="absolute top-6 right-6 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                    <SettingsIcon className="w-5 h-5" />
-                </button>
 
                 {/* Mode Switcher */}
                 <div className="flex justify-center gap-2 mb-12">
@@ -142,6 +133,13 @@ export default function PomodoroPage() {
                     >
                         <RotateCcw className="w-5 h-5" />
                     </button>
+                    <button
+                        onClick={() => setShowSettings(!showSettings)}
+                        className="h-12 w-12 flex items-center justify-center rounded-full bg-gray-100 text-foreground hover:bg-gray-200 transition-colors"
+                        title="Settings"
+                    >
+                        <SettingsIcon className="w-5 h-5" />
+                    </button>
                 </div>
 
                 {/* Settings Panel (Conditional) */}
@@ -180,7 +178,6 @@ export default function PomodoroPage() {
                     </div>
                 )}
 
-            </div>
         </div>
     );
 }
