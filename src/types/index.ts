@@ -54,6 +54,19 @@ export interface NoteUnit {
     sections: NoteSection[];
 }
 
+// New Flat Format for MindMap
+export interface MindMapNode {
+    id: string;
+    label: string;
+    type: "root" | "concept" | "detail" | "formula" | "example" | string;
+    parentId?: string;
+}
+
+export interface MindMapData {
+    rootId: string;
+    nodes: MindMapNode[];
+}
+
 export interface Note {
     id: string;
     title: string;
@@ -67,6 +80,7 @@ export interface Note {
     userId: string;
     createDate: string; // ISO Date string
     _id?: string;
+    mindmap?: MindMapData;
 }
 
 export interface ChatMessage {
