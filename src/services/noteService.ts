@@ -122,3 +122,13 @@ export const deleteNote = async (noteId: string): Promise<void> => {
     }
 };
 
+export const generateMindMap = async (noteId: string) => {
+    try {
+        const response = await api.post(`/notes/${noteId}/mindmap`);
+        return response.data.data.mindmap;
+    } catch (error) {
+        console.error("Failed to generate mindmap:", error);
+        throw error;
+    }
+};
+

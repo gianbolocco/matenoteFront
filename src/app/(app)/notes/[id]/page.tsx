@@ -12,6 +12,7 @@ import { VideoPlayer } from "@/components/noteDetail/VideoPlayer";
 import { NoteSummary } from "@/components/noteDetail/NoteSummary";
 import { NoteUnits } from "@/components/noteDetail/NoteUnits";
 import { ChatSidebar } from "@/components/noteDetail/chat/ChatSidebar";
+import { NoteActivities } from "@/components/noteDetail/NoteActivities";
 
 export default function NoteDetailPage() {
     const params = useParams();
@@ -88,6 +89,8 @@ export default function NoteDetailPage() {
             <div className="max-w-4xl mx-auto px-6 md:px-8 py-12">
 
                 <NoteHeader note={note} previousRoute={previousRoute} creator={creator} />
+
+                <NoteActivities note={note} />
 
                 {note.sourceType === "youtube" && (
                     <VideoPlayer url={note.source} />
