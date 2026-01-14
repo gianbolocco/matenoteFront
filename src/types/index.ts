@@ -81,6 +81,20 @@ export interface Note {
     createDate: string; // ISO Date string
     _id?: string;
     mindmap?: MindMapData;
+    flashcardsId?: string | null;
+}
+
+export interface Flashcard {
+    question: string;
+    answer: string;
+    _id?: string;
+}
+
+export interface FlashcardSet {
+    //_id?: string; // mongoose custom
+    noteId: string;
+    flashcards: Flashcard[];
+    createdAt?: string;
 }
 
 export interface ChatMessage {
