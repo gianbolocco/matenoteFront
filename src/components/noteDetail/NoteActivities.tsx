@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Note } from "@/types";
 import { MindMapModal } from "./MindMapModal";
 import { generateMindMap } from "@/services/noteService";
+import { createFlashcards } from "@/services/flashcardService";
 import { useRouter } from "next/navigation";
 import { ActivityCard } from "./ActivityCard";
 
@@ -38,6 +39,40 @@ export function NoteActivities({ note: initialNote }: NoteActivitiesProps) {
         }
     };
 
+    const [isGeneratingFlashcards, setIsGeneratingFlashcards] = useState(false);
+
+    const handleFlashcardsClick = async () => {
+        // If flashcards already exist (we have an ID), navigate to them
+        if (note.flashcardsId) {
+            router.push(`/flashcards/${note.flashcardsId}`);
+            return;
+        }
+
+        // Otherwise generate them
+        try {
+            setIsGeneratingFlashcards(true);
+            const flashcards = await createFlashcards(note.id);
+
+            const targetId = flashcards._id || flashcards._id;
+            if (!targetId) {
+                console.error("Created flashcards but no ID returned:", flashcards);
+                return;
+            }
+
+            // Navigate directly to the new flashcards
+            router.push(`/flashcards/${targetId}`);
+
+            // Optionally update local state if we were to stay on this page
+            // const updatedNote = { ...note, flashcardsId: flashcards.id };
+            // setNote(updatedNote);
+
+        } catch (error) {
+            console.error("Failed to generate flashcards", error);
+        } finally {
+            setIsGeneratingFlashcards(false);
+        }
+    };
+
     return (
         <section className="mb-12">
             <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
@@ -70,13 +105,17 @@ export function NoteActivities({ note: initialNote }: NoteActivitiesProps) {
                 />
 
                 <ActivityCard
-                    title="Flashcards"
-                    description="Memorize key terms and definitions."
-                    icon={Layers}
+                    title={note.flashcardsId ? "Flashcards" : "Generate Flashcards"}
+                    description={note.flashcardsId
+                        ? "Review your flashcards deck."
+                        : "Memorize key terms and definitions."}
+                    icon={isGeneratingFlashcards ? Loader2 : Layers}
+                    iconClass={isGeneratingFlashcards ? 'animate-spin' : ''}
                     color="bg-amber-50 text-amber-600"
-                    onClick={() => { }}
-                    disabled={true}
-                    badge="Coming Soon"
+                    onClick={handleFlashcardsClick}
+                    disabled={isGeneratingFlashcards}
+                    badge={isGeneratingFlashcards ? "Generating..." : null}
+                    isLoading={isGeneratingFlashcards}
                 />
 
                 <ActivityCard
