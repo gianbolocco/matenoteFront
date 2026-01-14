@@ -53,7 +53,7 @@ export function NoteActivities({ note: initialNote }: NoteActivitiesProps) {
             setIsGeneratingFlashcards(true);
             const flashcards = await createFlashcards(note.id);
 
-            const targetId = flashcards.id || flashcards._id;
+            const targetId = flashcards._id || flashcards._id;
             if (!targetId) {
                 console.error("Created flashcards but no ID returned:", flashcards);
                 return;
