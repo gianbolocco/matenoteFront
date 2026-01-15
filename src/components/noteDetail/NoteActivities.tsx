@@ -53,18 +53,16 @@ export function NoteActivities({ note: initialNote }: NoteActivitiesProps) {
             setIsGeneratingFlashcards(true);
             const flashcards = await createFlashcards(note.id);
 
-            const targetId = flashcards._id || flashcards._id;
+            const targetId = flashcards.id || flashcards._id;
             if (!targetId) {
                 console.error("Created flashcards but no ID returned:", flashcards);
                 return;
             }
 
-            // Navigate directly to the new flashcards
-            router.push(`/flashcards/${targetId}`);
-
-            // Optionally update local state if we were to stay on this page
-            // const updatedNote = { ...note, flashcardsId: flashcards.id };
-            // setNote(updatedNote);
+            // Update local state to show "Flashcards" button instead of redirecting
+            const updatedNote = { ...note, flashcardsId: targetId };
+            setNote(updatedNote);
+            router.refresh();
 
         } catch (error) {
             console.error("Failed to generate flashcards", error);
