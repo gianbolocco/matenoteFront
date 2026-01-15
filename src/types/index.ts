@@ -92,6 +92,7 @@ export interface Flashcard {
 
 export interface FlashcardSet {
     _id?: string; // mongoose custom
+    id?: string;
     noteId: string;
     flashcards: Flashcard[];
     createdAt?: string;

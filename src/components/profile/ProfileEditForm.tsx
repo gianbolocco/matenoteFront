@@ -114,6 +114,7 @@ export function ProfileEditForm({ user, onCancel, onSuccess }: ProfileEditFormPr
                         value={interestInput}
                         onChange={(e) => setInterestInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addInterest())}
+                        maxLength={32}
                         className="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-gray-400 transition-all"
                         placeholder="Add an interest (e.g. History, Math) and press Enter"
                     />
