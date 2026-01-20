@@ -82,6 +82,26 @@ export interface Note {
     _id?: string;
     mindmap?: MindMapData;
     flashcardsId?: string | null;
+    quizzId?: string | null;
+}
+
+export interface QuizzOption {
+    text: string;
+    correct: boolean;
+    _id: string;
+}
+
+export interface QuizzQuestion {
+    question: string;
+    hint: string;
+    options: QuizzOption[];
+    _id: string;
+}
+
+export interface Quizz {
+    id: string;
+    noteId: string;
+    questions: QuizzQuestion[];
 }
 
 export interface Flashcard {

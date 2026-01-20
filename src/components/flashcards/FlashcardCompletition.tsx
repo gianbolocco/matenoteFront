@@ -8,6 +8,7 @@ interface FlashcardCompletionProps {
     onRestartAll: () => void;
     onReviewMissed: () => void;
     onBack: () => void;
+    timeTaken: string;
 }
 
 export function FlashcardCompletion({
@@ -15,16 +16,17 @@ export function FlashcardCompletion({
     unknownCards,
     onRestartAll,
     onReviewMissed,
-    onBack
+    onBack,
+    timeTaken
 }: FlashcardCompletionProps) {
     return (
-        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6 bg-white rounded-3xl shadow-sm border border-gray-100 max-w-2xl mx-auto mt-10">
+        <div className="flex flex-col items-center justify-center min-h-[80vh] text-center">
             <div className="w-20 h-20 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mb-6">
                 <Trophy className="w-10 h-10" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Congratulations!</h2>
             <p className="text-gray-500 mb-8 max-w-md">
-                You completed the set of {deckLength} flashcards.
+                You completed the set of {deckLength} flashcards in <span className="font-semibold text-gray-900">{timeTaken}</span>.
                 {unknownCards.length > 0
                     ? ` You have ${unknownCards.length} cards to review.`
                     : " You answered all correctly!"}

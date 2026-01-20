@@ -1,36 +1,35 @@
 'use client';
 
-// src/app/flashcards/[id]/page.tsx
 import { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
-import { getFlashcardsById } from '@/services/flashcardService';
-import { FlashcardSet } from '@/types';
-import FlashcardGame from '@/components/flashcards/FlashcardGame';
+import { getQuizzById } from '@/services/quizzService';
+import { Quizz } from '@/types';
+import { QuizzGame } from '@/components/quizz/QuizzGame';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { GameActivityLayout } from '@/components/layout/GameActivityLayout';
 
-export default function FlashcardsPage({ params }: { params: Promise<{ id: string }> }) {
+export default function QuizzPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
     const router = useRouter();
-    const [flashcardSet, setFlashcardSet] = useState<FlashcardSet | null>(null);
+    const [quizz, setQuizz] = useState<Quizz | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchCards = async () => {
+        const fetchQuizz = async () => {
             try {
-                const data = await getFlashcardsById(id);
-                setFlashcardSet(data);
+                const data = await getQuizzById(id);
+                setQuizz(data);
             } catch (err) {
-                setError("Failed to load flashcards.");
+                setError("Failed to load quiz.");
             } finally {
                 setLoading(false);
             }
         };
 
         if (id) {
-            fetchCards();
+            fetchQuizz();
         }
     }, [id]);
 
@@ -42,12 +41,11 @@ export default function FlashcardsPage({ params }: { params: Promise<{ id: strin
         );
     }
 
-    if (error || !flashcardSet) {
+    if (error || !quizz) {
         return (
             <div className="flex flex-col h-screen w-full items-center justify-center bg-gray-50 p-4">
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">Error</h2>
-                <p className="text-gray-500 mb-6">{error || "Flashcard set not found (invalid ID or empty response)"}</p>
-                <div className="text-xs text-gray-400 mb-4">ID: {id}</div>
+                <p className="text-gray-500 mb-6">{error || "Quiz not found (invalid ID or empty response)"}</p>
                 <button
                     onClick={() => router.back()}
                     className="text-violet-600 hover:text-violet-700 font-medium"
@@ -60,11 +58,11 @@ export default function FlashcardsPage({ params }: { params: Promise<{ id: strin
 
     return (
         <GameActivityLayout
-            title="Flashcards"
-            description="Master your knowledge with spaced repetition."
-            noteId={flashcardSet.noteId}
+            title="Practice Quiz"
+            description="Test your understanding of the material."
+            noteId={quizz.noteId}
         >
-            <FlashcardGame flashcardSet={flashcardSet} />
+            <QuizzGame quizz={quizz} />
         </GameActivityLayout>
     );
 }

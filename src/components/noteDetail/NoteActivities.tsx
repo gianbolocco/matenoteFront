@@ -40,6 +40,7 @@ export function NoteActivities({ note: initialNote }: NoteActivitiesProps) {
     };
 
     const [isGeneratingFlashcards, setIsGeneratingFlashcards] = useState(false);
+    const [isGeneratingQuizz, setIsGeneratingQuizz] = useState(false);
 
     const handleFlashcardsClick = async () => {
         // If flashcards already exist (we have an ID), navigate to them
@@ -71,6 +72,35 @@ export function NoteActivities({ note: initialNote }: NoteActivitiesProps) {
         }
     };
 
+    const handleQuizzClick = async () => {
+        if (note.quizzId) {
+            router.push(`/quizzes/${note.quizzId}`);
+            return;
+        }
+
+        try {
+            setIsGeneratingQuizz(true);
+            // Dynamic import to avoid circular dependency if any (or just standard import)
+            // Assuming createQuizz is exported from quizzService
+            const { createQuizz } = await import("@/services/quizzService");
+            const quizz = await createQuizz(note.id);
+
+            const targetId = quizz.id || (quizz as any)._id; // Handle both just in case
+            if (!targetId) {
+                console.error("Created quizz but no ID returned:", quizz);
+                return;
+            }
+
+            const updatedNote = { ...note, quizzId: targetId };
+            setNote(updatedNote);
+            router.refresh();
+        } catch (error) {
+            console.error("Failed to generate quizz", error);
+        } finally {
+            setIsGeneratingQuizz(false);
+        }
+    };
+
     return (
         <section className="mb-12">
             <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
@@ -93,13 +123,17 @@ export function NoteActivities({ note: initialNote }: NoteActivitiesProps) {
                 />
 
                 <ActivityCard
-                    title="Practice Quiz"
-                    description="Test your knowledge with AI-generated questions."
-                    icon={FileQuestion}
+                    title={note.quizzId ? "Practice Quiz" : "Generate Quiz"}
+                    description={note.quizzId
+                        ? "Test your knowledge."
+                        : "Create an AI-generated quiz."}
+                    icon={isGeneratingQuizz ? Loader2 : FileQuestion}
+                    iconClass={isGeneratingQuizz ? 'animate-spin' : ''}
                     color="bg-blue-50 text-blue-600"
-                    onClick={() => { }}
-                    disabled={true}
-                    badge="Coming Soon"
+                    onClick={handleQuizzClick}
+                    disabled={isGeneratingQuizz}
+                    badge={isGeneratingQuizz ? "Generating..." : null}
+                    isLoading={isGeneratingQuizz}
                 />
 
                 <ActivityCard

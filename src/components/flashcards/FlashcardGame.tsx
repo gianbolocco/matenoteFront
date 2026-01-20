@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { FlashcardSet, Flashcard as FlashcardType } from '@/types';
 import { Flashcard } from './Flashcard';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FlashcardCompletion } from './FlashcardCompletion';
+import { FlashcardCompletion } from './FlashcardCompletition';
 import { FlashcardControls } from './FlashcardControls';
-import { FlashcardProgress } from './FlashcardProgress';
+import { ProgressBar } from '../ui/ProgressBar';
+import { GameTimer } from '../ui/GameTimer';
+import { useGameTimer } from '@/hooks/useGameTimer';
 
 interface FlashcardGameProps {
     flashcardSet: FlashcardSet;
@@ -21,6 +23,7 @@ export default function FlashcardGame({ flashcardSet }: FlashcardGameProps) {
     const [results, setResults] = useState<Record<number, boolean>>({}); // index -> isCorrect
     const [completed, setCompleted] = useState(false);
     const [direction, setDirection] = useState(0);
+    const { formattedTime, reset } = useGameTimer(!completed);
 
     const currentCard = deck[currentIndex];
 
@@ -58,6 +61,7 @@ export default function FlashcardGame({ flashcardSet }: FlashcardGameProps) {
         setCompleted(false);
         setResults({});
         setDirection(0);
+        reset();
     };
 
     const handleNext = (known: boolean) => {
@@ -94,6 +98,7 @@ export default function FlashcardGame({ flashcardSet }: FlashcardGameProps) {
                 onRestartAll={() => restartGame(flashcardSet.flashcards)}
                 onReviewMissed={() => restartGame(unknownCards)}
                 onBack={() => router.back()}
+                timeTaken={formattedTime}
             />
         );
     }
@@ -101,9 +106,10 @@ export default function FlashcardGame({ flashcardSet }: FlashcardGameProps) {
     if (!currentCard) return null;
 
     return (
-        <div className="max-w-3xl mx-auto p-4 flex flex-col items-center pt-10 overflow-hidden">
-            <FlashcardProgress
-                currentIndex={currentIndex}
+        <div className="max-w-3xl mx-auto px-4 flex flex-col items-center overflow-hidden">
+            <GameTimer time={formattedTime} />
+            <ProgressBar
+                current={currentIndex + 1}
                 total={deck.length}
             />
 
