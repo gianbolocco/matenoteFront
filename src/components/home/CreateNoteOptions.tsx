@@ -3,16 +3,19 @@ import { useState } from "react";
 import { OptionCard } from "./createOptions/OptionCard";
 import { YoutubeModal } from "./createOptions/YoutubeModal";
 import { PdfModal } from "./createOptions/PdfModal";
+import { AudioModal } from "./createOptions/AudioModal";
 
 interface CreateNoteOptionsProps {
     onNoteCreated?: () => void;
     onYoutubeCreate?: (url: string, folderId?: string) => void;
     onPdfCreate?: (file: File, folderId?: string) => void;
+    onAudioCreate?: (file: File, folderId?: string) => void;
 }
 
-export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate }: CreateNoteOptionsProps) {
+export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate, onAudioCreate }: CreateNoteOptionsProps) {
     const [showYoutubeModal, setShowYoutubeModal] = useState(false);
     const [showPdfModal, setShowPdfModal] = useState(false);
+    const [showAudioModal, setShowAudioModal] = useState(false);
 
     const handleYoutubeSubmit = (url: string, folderId?: string) => {
         if (onYoutubeCreate) {
@@ -27,6 +30,14 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate 
             onPdfCreate(file, folderId);
         } else {
             console.warn("onPdfCreate prop missing");
+        }
+    };
+
+    const handleAudioSubmit = (file: File, folderId?: string) => {
+        if (onAudioCreate) {
+            onAudioCreate(file, folderId);
+        } else {
+            console.warn("onAudioCreate prop missing");
         }
     };
 
@@ -55,9 +66,8 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate 
                 <OptionCard
                     icon={Mic}
                     title="Audio Recording"
-                    description="Record lectures directly to convert speech to text."
-                    disabled={true}
-                    badgeText="Coming Soon"
+                    description="Record lectures directly or upload audio files to convert speech to text."
+                    onClick={() => setShowAudioModal(true)}
                 />
 
                 <OptionCard
@@ -79,6 +89,12 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate 
                 isOpen={showPdfModal}
                 onClose={() => setShowPdfModal(false)}
                 onSubmit={handlePdfSubmit}
+            />
+
+            <AudioModal
+                isOpen={showAudioModal}
+                onClose={() => setShowAudioModal(false)}
+                onSubmit={handleAudioSubmit}
             />
         </section>
     );
