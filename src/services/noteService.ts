@@ -103,6 +103,35 @@ export const createNoteFromPdf = async (userId: string, file: File, folderId?: s
     }
 };
 
+export const createNoteFromAudio = async (userId: string, file: File, folderId?: string): Promise<Note> => {
+    try {
+        const formData = new FormData();
+        formData.append("userId", userId);
+        formData.append("file", file);
+
+        const response = await api.post<{ status: string; data: { note: Note } }>("/notes/audio", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        const note = response.data.data.note;
+
+        if (folderId) {
+            try {
+                await addNotesToFolder(folderId, [note.id]);
+            } catch (folderError) {
+                console.error("Failed to add note to folder:", folderError);
+                // We don't throw here because the note was successfully created
+            }
+        }
+
+        return note;
+    } catch (error) {
+        console.error("Failed to create note from audio:", error);
+        throw error;
+    }
+};
+
 export const getNoteById = async (noteId: string): Promise<Note> => {
     try {
         const response = await api.get<{ status: string; data: { note: Note } }>(`/notes/${noteId}`);

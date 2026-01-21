@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import { useNotes } from "@/hooks/useNotes";
 import { useYoutubeNote } from "@/hooks/useYoutubeNote";
 import { usePdfNote } from "@/hooks/usePdfNote";
+import { useAudioNote } from "@/hooks/useAudioNote";
 
 export default function Home() {
   const { user, login } = useUser();
@@ -48,6 +49,14 @@ export default function Home() {
     }
   });
 
+  const { isCreatingAudio, creationError: audioError, createAudioNote } = useAudioNote({
+    userId: user?.id,
+    onSuccess: async () => {
+      await refreshSilent();
+      if (page !== 1) setPage(1);
+    }
+  });
+
   const handleNoteCreated = () => {
     refreshNotes();
   };
@@ -63,8 +72,13 @@ export default function Home() {
     createPdfNote(file, folderId);
   };
 
-  const creationError = youtubeError || pdfError;
-  const isCreating = isCreatingYoutube || isCreatingPdf;
+  const handleCreateAudioNote = (file: File, folderId?: string) => {
+    if (page !== 1) setPage(1);
+    createAudioNote(file, folderId);
+  };
+
+  const creationError = youtubeError || pdfError || audioError;
+  const isCreating = isCreatingYoutube || isCreatingPdf || isCreatingAudio;
 
   return (
     <div className="min-h-screen">
@@ -77,6 +91,7 @@ export default function Home() {
           onNoteCreated={handleNoteCreated}
           onYoutubeCreate={handleCreateYoutubeNote}
           onPdfCreate={handleCreatePdfNote}
+          onAudioCreate={handleCreateAudioNote}
         />
       </div>
       {/* Error Toast / Banner */}
