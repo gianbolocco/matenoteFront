@@ -28,21 +28,59 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     useEffect(() => {
+        // Load from local storage for instant UI state
+        const storedUser = localStorage.getItem('matenote_user');
+        if (storedUser) {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (e) {
+                console.error("Failed to parse user from local storage");
+                localStorage.removeItem('matenote_user');
+            }
+        }
         fetchUser();
     }, []);
 
     const fetchUser = async () => {
-        setIsLoading(true);
+        // Only set loading if we don't have a user (optimistic)
+        // If we have a stored user, we leave isLoading false mostly or handle it? 
+        // Actually, existing code sets isLoading(true). 
+        // If we found a user in LS, we probably want to skip generic loading spinner if possible, 
+        // but for safety let's keep it simple or maybe set it to false initially if found?
+        // Let's follow the standard pattern: background revalidation.
+        // If we set user from LS, we might not want to set isLoading(true) to avoid flicker if we want "instant" feel.
+        // However, the original code sets isLoading(true) at start of fetchUser.
+        // Let's modify fetchUser to not reset isLoading if we have a user, or handle it gracefully.
+        // But for now, let's just save to LS.
+
+        // Actually, to fully support "persistence" request:
+        // We want to avoid the "not logged in" flash. 
+        // If we set user from LS, the `isLoading` state in provider should probably reflect that we "have" a user?
+        // But `isLoading` determines if we render children in some layouts.
+
+        // Let's just hook into the existing flow.
+
+        // We'll let the initial useEffect handle the LS load.
+        // We won't block UI with isLoading if we have LS data? 
+        // The AppLayout checks `if (isLoading) return <Spinner>`
+        // So if we set User from LS, we should also set isLoading false?
+        // But then we fire fetchUser which sets isLoading(true).
+
+        // Let's just modify fetchUser to not force isLoading=true if we already have a user?
+        // OR better:
+
         try {
             const response = await axios.get(`${API_URL}/auth/session`, {
                 withCredentials: true
             });
             setUser(response.data.user);
+            localStorage.setItem('matenote_user', JSON.stringify(response.data.user));
         } catch (error: any) {
             // If 401/403, it just means not logged in.
             if (error.response && (error.response.status === 401 || error.response.status === 403)) {
                 // Expected behavior when not logged in
                 setUser(null);
+                localStorage.removeItem('matenote_user');
             } else {
                 console.error("Failed to fetch user session:", {
                     message: error.message,
@@ -56,6 +94,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
                 }
 
                 setUser(null);
+                localStorage.removeItem('matenote_user');
             }
         } finally {
             setIsLoading(false);
@@ -76,6 +115,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
             console.error("Logout failed", error);
         }
         setUser(null);
+        localStorage.removeItem('matenote_user');
         router.push("/login");
     };
 
@@ -98,13 +138,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
         if (!user) return;
         try {
             // Optimistic update
-            setUser({ ...user, ...updates });
+            const newOptimisticUser = { ...user, ...updates };
+            setUser(newOptimisticUser);
+            localStorage.setItem('matenote_user', JSON.stringify(newOptimisticUser));
 
             // Call API
             const updatedUser = await userService.updateUser(user.id, updates);
 
             // Merge response to ensure data consistency
-            setUser({ ...updatedUser, ...updates });
+            const finalUser = { ...updatedUser, ...updates };
+            setUser(finalUser);
+            localStorage.setItem('matenote_user', JSON.stringify(finalUser));
         } catch (error) {
             console.error("Failed to update user", error);
             // Revert on failure (could refetch, but for now just log)

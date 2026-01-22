@@ -14,7 +14,7 @@ export function Unit({ unit, index }: UnitProps) {
     return (
         <div className="py-8 border-b border-gray-200 last:border-0 md:px-2">
             <div className="flex items-center gap-4 mb-6">
-                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-indigo-50 rounded-full text-lg font-bold text-indigo-600 border border-indigo-100">
+                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-violet-50 rounded-full text-lg font-bold text-violet-600 border border-violet-100">
                     {index + 1}
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 leading-tight">
@@ -27,7 +27,7 @@ export function Unit({ unit, index }: UnitProps) {
                     <div key={sIdx} className="space-y-3">
                         {section.subtitle && (
                             <h4 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
                                 {section.subtitle}
                             </h4>
                         )}

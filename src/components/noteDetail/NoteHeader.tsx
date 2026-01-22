@@ -138,7 +138,7 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
 
             <div className="flex flex-col gap-4">
                 <div className="flex flex-wrap items-center gap-3">
-                    <div className="p-2 bg-white border border-gray-200 rounded-lg shadow-sm">
+                    <div className="p-2 bg-white border border-gray-200 rounded-lg">
                         {getIcon()}
                     </div>
                     <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">

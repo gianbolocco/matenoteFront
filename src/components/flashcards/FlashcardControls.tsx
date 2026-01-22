@@ -17,7 +17,7 @@ export function FlashcardControls({ onNext, onPrevious, canGoBack }: FlashcardCo
                     flex items-center justify-center p-4 rounded-xl border transition-all
                     ${!canGoBack
                         ? 'border-gray-100 text-gray-300 cursor-not-allowed'
-                        : 'border-gray-200 text-gray-500 hover:bg-gray-50 hover:border-gray-300'
+                        : 'border-gray-200 text-gray-500 hover:bg-gray-50 hover:border-gray-200'
                     }
                 `}
                 title="Previous Card"

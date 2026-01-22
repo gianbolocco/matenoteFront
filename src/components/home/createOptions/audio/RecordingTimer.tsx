@@ -13,7 +13,7 @@ export function RecordingTimer({ time, isRecording, isPaused }: RecordingTimerPr
 
     return (
         <div className={`text-3xl font-mono font-semibold mb-6 ${isRecording && !isPaused ? "text-red-600" :
-                isPaused ? "text-purple-500" : "text-gray-900"
+            isPaused ? "text-violet-500" : "text-gray-900"
             }`}>
             {formatTime(time)}
         </div>

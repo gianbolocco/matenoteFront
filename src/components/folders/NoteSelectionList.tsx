@@ -43,7 +43,7 @@ export function NoteSelectionList({ notes, selectedNotes, onSelectionChange, isL
                             placeholder="Search notes..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full h-10 pl-9 pr-4 text-sm bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gray-300 transition-colors"
+                            className="w-full h-10 pl-9 pr-4 text-sm bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gray-200 transition-colors"
                         />
                     </div>
                 </div>
@@ -61,7 +61,7 @@ export function NoteSelectionList({ notes, selectedNotes, onSelectionChange, isL
                                     : 'hover:bg-gray-100 border border-transparent'
                                     }`}
                             >
-                                <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${selectedNotes.includes(note.id) ? 'bg-gray-900 border-gray-900' : 'border-gray-300 bg-white'
+                                <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${selectedNotes.includes(note.id) ? 'bg-gray-900 border-gray-900' : 'border-gray-200 bg-white'
                                     }`}>
                                     {selectedNotes.includes(note.id) && <Check className="w-3.5 h-3.5 text-white" />}
                                 </div>

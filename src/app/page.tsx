@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Sparkles, ArrowRight, Brain, Zap, Layout, Star, GraduationCap, Quote } from "lucide-react";
 import { motion } from "framer-motion";
+import { useUser } from "@/context/UserContext";
 
 // University Logos Data
 const UNIVERSITIES = [
@@ -54,6 +55,7 @@ const TESTIMONIALS = [
 ];
 
 export default function LandingPage() {
+    const { user } = useUser();
     console.log("ENV EN BUILD:", process.env.NEXT_PUBLIC_API_URL);
     return (
         <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-gray-900 selection:text-white overflow-x-hidden">
@@ -67,7 +69,7 @@ export default function LandingPage() {
 
                     <div className="flex items-center gap-6">
                         <Link
-                            href="/login"
+                            href={user ? "/home" : "/login"}
                             className="px-6 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-full hover:bg-gray-800 hover:-translate-y-0.5 transition-all shadow-lg shadow-gray-900/10 flex items-center gap-2"
                         >
                             Get Started
@@ -90,7 +92,7 @@ export default function LandingPage() {
 
                     <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.1] max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100">
                         Master your classes with <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-pink-600">
                             artificial intelligence
                         </span>
                     </h1>
@@ -101,7 +103,7 @@ export default function LandingPage() {
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
                         <Link
-                            href="/login"
+                            href={user ? "/home" : "/login"}
                             className="px-8 py-4 bg-gray-900 text-white rounded-2xl font-semibold text-lg hover:bg-black hover:-translate-y-1 transition-all shadow-xl shadow-gray-900/20 flex items-center gap-2"
                         >
                             Start Learning Free
@@ -145,7 +147,7 @@ export default function LandingPage() {
                     </div>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <FeatureCard
-                            icon={<Brain className="w-6 h-6 text-purple-600" />}
+                            icon={<Brain className="w-6 h-6 text-violet-600" />}
                             title="Smart Synthesis"
                             description="Our AI reads your documents and videos to extract key concepts, creating concise summaries automatically."
                         />

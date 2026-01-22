@@ -25,7 +25,7 @@ const GoogleButton: FC<GoogleButtonProps> = ({ text = "Continue with Google", cl
                 relative flex items-center justify-center gap-3 w-full px-8 py-4 
                 bg-white text-gray-700 font-semibold text-base 
                 border border-gray-200 rounded-2xl 
-                hover:bg-gray-50 hover:border-gray-300 hover:shadow-sm hover:-translate-y-0.5
+                hover:bg-gray-50 hover:border-gray-200 hover:shadow-sm hover:-translate-y-0.5
                 active:bg-gray-100 active:scale-[0.98]
                 transition-all duration-200 cursor-pointer
                 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2

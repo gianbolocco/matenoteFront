@@ -114,7 +114,7 @@ export function AudioModal({ isOpen, onClose, onSubmit }: AudioModalProps) {
             </button>
 
             <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-purple-100 text-purple-600 rounded-lg">
+                <div className="p-2 bg-violet-100 text-violet-600 rounded-lg">
                     <Mic className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900">Create from Audio</h3>

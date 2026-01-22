@@ -83,8 +83,8 @@ export function ChatSidebar({ noteId }: ChatSidebarProps) {
                 <div className="relative">
                     <MessageSquare className="w-7 h-7" />
                     <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-indigo-400 border-2 border-black"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-violet-400 border-2 border-black"></span>
                     </span>
                 </div>
             </button>
@@ -97,7 +97,7 @@ export function ChatSidebar({ noteId }: ChatSidebarProps) {
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gray-50/50">
                     <div className="flex items-center gap-2">
-                        <div className="p-2 bg-indigo-100 text-indigo-600 rounded-lg">
+                        <div className="p-2 bg-violet-100 text-violet-600 rounded-lg">
                             <MessageSquare className="w-5 h-5" />
                         </div>
                         <div>

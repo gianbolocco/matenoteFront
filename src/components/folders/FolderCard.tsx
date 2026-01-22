@@ -12,7 +12,7 @@ const colorMap: Record<string, { bg: string, tabBg: string, border: string, text
     blue: { bg: "bg-blue-50", tabBg: "bg-blue-100", border: "border-blue-200", text: "text-blue-500", darkText: "text-blue-900" },
     green: { bg: "bg-green-50", tabBg: "bg-green-100", border: "border-green-200", text: "text-green-500", darkText: "text-green-900" },
     yellow: { bg: "bg-amber-50", tabBg: "bg-amber-100", border: "border-amber-200", text: "text-amber-600", darkText: "text-amber-900" }, // Switched to Amber for better yellow visibility
-    purple: { bg: "bg-purple-50", tabBg: "bg-purple-100", border: "border-purple-200", text: "text-purple-500", darkText: "text-purple-900" },
+    violet: { bg: "bg-violet-50", tabBg: "bg-violet-100", border: "border-violet-200", text: "text-violet-500", darkText: "text-violet-900" },
 };
 
 export function FolderCard({ folder }: FolderCardProps) {

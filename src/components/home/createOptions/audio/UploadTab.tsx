@@ -58,13 +58,13 @@ export function UploadTab({ audioFile, onFileSelect, onError }: UploadTabProps) 
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
                 className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${isDragging
-                        ? "border-purple-500 bg-purple-50"
-                        : "border-gray-200 hover:border-purple-300 hover:bg-gray-50"
+                    ? "border-violet-500 bg-violet-50"
+                    : "border-gray-200 hover:border-violet-300 hover:bg-gray-50"
                     }`}
             >
-                <UploadCloud className={`w-10 h-10 mb-3 ${isDragging ? "text-purple-500" : "text-gray-400"}`} />
+                <UploadCloud className={`w-10 h-10 mb-3 ${isDragging ? "text-violet-500" : "text-gray-400"}`} />
                 <p className="text-sm font-medium text-gray-700 text-center">
-                    <span className="text-purple-600">Click to upload</span> or drag and drop
+                    <span className="text-violet-600">Click to upload</span> or drag and drop
                 </p>
                 <p className="text-xs text-gray-500 mt-1">
                     MP3, WAV, WebM, OGG
@@ -84,7 +84,7 @@ export function UploadTab({ audioFile, onFileSelect, onError }: UploadTabProps) 
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between group">
             <div className="flex items-center gap-3 overflow-hidden">
                 <div className="p-2 bg-white border border-gray-100 rounded-lg shrink-0">
-                    <FileAudio className="w-5 h-5 text-purple-600" />
+                    <FileAudio className="w-5 h-5 text-violet-600" />
                 </div>
                 <div className="min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate">

@@ -1,5 +1,5 @@
 import { Quizz } from "@/types";
-import {RotateCcw, ArrowLeft } from "lucide-react";
+import { RotateCcw, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -33,7 +33,7 @@ export function QuizzResult({ score, totalQuestions, quizz, onRetry, timeTaken }
             <div className="flex gap-4 w-full justify-center">
                 <Link
                     href={`/notes/${quizz.noteId}`}
-                    className="flex items-center px-6 py-3 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 transition-all font-medium"
+                    className="flex items-center px-6 py-3 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-200 transition-all font-medium"
                 >
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Note

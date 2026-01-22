@@ -94,8 +94,8 @@ export default function SearchPage() {
                                     key={type}
                                     onClick={() => setActiveFilter(value as FilterType)}
                                     className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${isActive
-                                            ? "bg-gray-900 text-white border-gray-900 shadow-lg shadow-gray-900/10 scale-105"
-                                            : "bg-gray-50 text-gray-500 border-transparent hover:bg-gray-100 hover:text-gray-900"
+                                        ? "bg-gray-900 text-white border-gray-900 shadow-lg shadow-gray-900/10 scale-105"
+                                        : "bg-gray-50 text-gray-500 border-transparent hover:bg-gray-100 hover:text-gray-900"
                                         }`}
                                 >
                                     {label}

@@ -17,7 +17,7 @@ const colorMap: Record<string, string> = {
     blue: "bg-blue-50 text-blue-900 border-blue-200",
     green: "bg-green-50 text-green-900 border-green-200",
     yellow: "bg-yellow-50 text-yellow-900 border-yellow-200",
-    purple: "bg-purple-50 text-purple-900 border-purple-200",
+    violet: "bg-violet-50 text-violet-900 border-violet-200",
 };
 
 export default function FolderDetailsPage() {
@@ -146,7 +146,7 @@ export default function FolderDetailsPage() {
 
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-4">
-                            <div className={`w-16 h-16 rounded-2xl bg-white/50 backdrop-blur-sm border border-white/50 flex items-center justify-center shadow-sm`}>
+                            <div className={`w-16 h-16 rounded-2xl bg-white/50 backdrop-blur-sm border border-gray-200 flex items-center justify-center`}>
                                 <FolderIcon className="w-8 h-8 opacity-80" />
                             </div>
                             <div>
