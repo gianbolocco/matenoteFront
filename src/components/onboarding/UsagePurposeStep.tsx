@@ -13,16 +13,16 @@ export function UsagePurposeStep({ value, onChange }: UsagePurposeStepProps) {
                     key={p.id}
                     onClick={() => onChange(p.id)}
                     className={`
-                        flex flex-col items-center text-center p-6 rounded-2xl border transition-all
+                        flex flex-col items-center text-center p-6 rounded-2xl border transition-all duration-300
                         ${value === p.id
-                            ? "border-black ring-1 ring-black bg-gray-50"
-                            : "border-gray-200 hover:border-gray-200 hover:bg-gray-50"}
+                            ? "border-violet-500 ring-1 ring-violet-500 bg-violet-50"
+                            : "border-gray-200 hover:border-violet-200 hover:bg-gray-50"}
                     `}
                 >
-                    <div className={`p-3 rounded-full mb-3 ${value === p.id ? "bg-black text-white" : "bg-gray-100 text-gray-600"}`}>
-                        <p.icon className="w-5 h-5" />
+                    <div className={`p-3 rounded-xl mb-3 ${value === p.id ? "bg-violet-600 text-white shadow-lg shadow-violet-200" : "bg-gray-100 text-gray-500"}`}>
+                        <p.icon className="w-6 h-6" />
                     </div>
-                    <span className="font-semibold text-gray-900">{p.label}</span>
+                    <span className={`font-bold ${value === p.id ? "text-violet-900" : "text-gray-900"}`}>{p.label}</span>
                     <span className="text-xs text-gray-500 mt-1">{p.description}</span>
                 </button>
             ))}

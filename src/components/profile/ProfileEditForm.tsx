@@ -4,7 +4,8 @@ import { User } from "@/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useUser } from "@/context/UserContext";
-import { Loader2, Save } from "lucide-react";
+import { Loader2, Save, X, Plus } from "lucide-react";
+import { COUNTRIES, OCCUPATIONS, PURPOSES } from "@/app/onboarding/constants";
 
 interface ProfileEditFormProps {
     user: User;
@@ -18,14 +19,12 @@ interface FormData {
     country: string;
     occupation: string;
     usagePurpose: string;
-    // interests handled separately usually or via array field
 }
 
 export function ProfileEditForm({ user, onCancel, onSuccess }: ProfileEditFormProps) {
     const [isLoading, setIsLoading] = useState(false);
     const { updateUser } = useUser();
 
-    // Simple controlled state for interests for now to save time vs useFieldArray
     const [interests, setInterests] = useState<string[]>(user.interests || []);
     const [interestInput, setInterestInput] = useState("");
 
@@ -50,6 +49,13 @@ export function ProfileEditForm({ user, onCancel, onSuccess }: ProfileEditFormPr
         setInterests(interests.filter(i => i !== interest));
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            addInterest();
+        }
+    };
+
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         try {
@@ -60,97 +66,131 @@ export function ProfileEditForm({ user, onCancel, onSuccess }: ProfileEditFormPr
             onSuccess();
         } catch (error) {
             console.error("Failed to update profile", error);
-            // Add toast notification here
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 animate-in fade-in zoom-in-95 duration-300">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 animate-in fade-in zoom-in-95 duration-300 bg-white rounded-2xl p-1">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                {/* Nombre */}
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">Username</label>
+                    <label className="text-sm font-bold text-gray-700">Nombre</label>
                     <input
-                        {...register("name", { required: "Name is required" })}
+                        {...register("name", { required: "El nombre es requerido" })}
                         maxLength={50}
-                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-gray-400 transition-all"
-                        placeholder="Your username"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all text-gray-900"
+                        placeholder="Tu nombre"
                     />
                     {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
                 </div>
 
-
+                {/* Edad */}
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">Occupation</label>
+                    <label className="text-sm font-bold text-gray-700">Edad</label>
                     <input
-                        {...register("occupation")}
-                        maxLength={50}
-                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-gray-400 transition-all"
-                        placeholder="What passes your time?"
+                        type="number"
+                        {...register("age", { required: "La edad es requerida", min: { value: 5, message: "Edad no válida" }, max: { value: 100, message: "Edad no válida" } })}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all text-gray-900"
+                        placeholder="24"
                     />
-                    {errors.occupation && <p className="text-red-500 text-xs">{errors.occupation.message}</p>}
+                    {errors.age && <p className="text-red-500 text-xs">{errors.age.message}</p>}
+                </div>
+
+                {/* País */}
+                <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-700">País</label>
+                    <select
+                        {...register("country")}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all bg-white text-gray-900"
+                    >
+                        {COUNTRIES.map((c) => (
+                            <option key={c.value} value={c.value}>{c.label}</option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Ocupación */}
+                <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-700">Ocupación</label>
+                    <select
+                        {...register("occupation")}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all bg-white text-gray-900"
+                    >
+                        {OCCUPATIONS.map((o) => (
+                            <option key={o.value} value={o.value}>{o.label}</option>
+                        ))}
+                    </select>
                 </div>
             </div>
 
+            {/* Propósito */}
             <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700">Usage Purpose</label>
+                <label className="text-sm font-bold text-gray-700">Propósito de uso</label>
                 <select
                     {...register("usagePurpose")}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-gray-400 transition-all bg-white"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all bg-white text-gray-900"
                 >
-                    <option value="">Select a purpose...</option>
-                    <option value="Education">Education</option>
-                    <option value="Work">Work</option>
-                    <option value="Personal">Personal Research</option>
-                    <option value="Content Creation">Content Creation</option>
+                    {PURPOSES.map((p) => (
+                        <option key={p.id} value={p.id}>{p.label}</option>
+                    ))}
                 </select>
             </div>
 
+            {/* Intereses */}
             <div className="space-y-3">
-                <label className="text-sm font-bold text-gray-700">Interests</label>
+                <label className="text-sm font-bold text-gray-700">Intereses</label>
                 <div className="flex gap-2">
                     <input
                         value={interestInput}
                         onChange={(e) => setInterestInput(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addInterest())}
+                        onKeyDown={handleKeyDown}
                         maxLength={32}
-                        className="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-gray-400 transition-all"
-                        placeholder="Add an interest (e.g. History, Math) and press Enter"
+                        className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all text-gray-900"
+                        placeholder="Ej. Historia, Matemáticas..."
                     />
                     <button
                         type="button"
                         onClick={addInterest}
-                        className="px-6 py-2.5 bg-gray-50 border border-gray-200 font-bold text-gray-700 rounded-lg hover:bg-gray-100"
+                        disabled={!interestInput.trim()}
+                        className="px-4 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        Add
+                        <Plus className="w-5 h-5" />
                     </button>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 pt-2">
                     {interests.map(i => (
-                        <span key={i} className="px-3 py-1 bg-gray-50 border border-gray-200 text-gray-600 rounded-md text-sm font-bold flex items-center gap-2">
+                        <span key={i} className="px-3 py-1.5 bg-gray-100 border border-gray-200 text-gray-700 rounded-lg text-sm font-bold flex items-center gap-2">
                             {i}
-                            <button type="button" onClick={() => removeInterest(i)} className="hover:text-red-500">×</button>
+                            <button type="button" onClick={() => removeInterest(i)} className="hover:text-black transition-colors">
+                                <X className="w-3 h-3" />
+                            </button>
                         </span>
                     ))}
+                    {interests.length === 0 && (
+                        <span className="text-sm text-gray-400 italic">No tienes intereses seleccionados.</span>
+                    )}
                 </div>
             </div>
 
-            <div className="flex justify-end gap-4 pt-4 border-t border-gray-100">
+            {/* Footer Actions */}
+            <div className="flex justify-end gap-4 pt-6 border-t border-gray-100">
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="px-6 py-2.5 font-semibold text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                    className="px-6 py-2.5 font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
                 >
-                    Cancel
+                    Cancelar
                 </button>
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="flex items-center gap-2 px-8 py-2.5 bg-gray-900 text-white font-bold rounded-lg hover:bg-gray-800 transition-all disabled:opacity-70"
+                    className="flex items-center gap-2 px-8 py-2.5 bg-black text-white font-bold rounded-xl hover:bg-gray-800 transition-all disabled:opacity-70 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                 >
                     {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    <span>Save Changes</span>
+                    <span>Guardar Cambios</span>
                 </button>
             </div>
         </form>
