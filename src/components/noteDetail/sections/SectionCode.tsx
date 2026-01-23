@@ -71,7 +71,7 @@ export function SectionCode({ content }: CodeSectionProps) {
             </div>
             {content.explanation && (
                 <div className="mt-3 p-4 bg-gray-50 border border-gray-200 rounded-lg text-gray-600 text-sm leading-relaxed italic flex items-start gap-3">
-                    <div className="w-1 h-full min-h-[1.2em] w-[3px] bg-blue-400 rounded-full mt-0.5 shrink-0" />
+                    <div className="w-1 h-full min-h-[1.2em] w-[3px] bg-violet-400 rounded-full mt-0.5 shrink-0" />
                     <p>{content.explanation}</p>
                 </div>
             )}
