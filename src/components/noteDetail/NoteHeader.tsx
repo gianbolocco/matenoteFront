@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { AddToFolderModal } from "./AddToFolderModal";
 import { useUser } from "@/context/UserContext";
+import { span } from "framer-motion/client";
 
 interface NoteHeaderProps {
     note: Note;
@@ -81,7 +82,7 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                     className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors group"
                 >
                     <ArrowLeft className="w-5 h-5 md:w-4 md:h-4 group-hover:-translate-x-1 transition-transform" />
-                    <span className="hidden md:inline">{previousRoute === "search" ? "Back to Search" : "Back to Library"}</span>
+                    <span className="hidden md:inline">Back to Library</span>
                 </Link>
 
                 <div className="flex items-center gap-4">

@@ -75,9 +75,9 @@ export function NoteCard({ note, action }: NoteCardProps) {
                     </p>
 
                     <div className="mt-auto flex items-center justify-between pt-4 border-t border-gray-50 group-hover:border-gray-100 transition-colors">
-                        <div className="flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 text-gray-400 group-hover:text-violet-400 transition-colors" />
-                            <span className="text-xs font-medium text-gray-400 group-hover:text-violet-500 transition-colors">
+                        <div className="flex items-center gap-1.5 text-gray-400">
+                            <Clock className="w-3.5 h-3.5" />
+                            <span className="text-xs font-medium">
                                 {formatDate(note.createDate)}
                             </span>
                         </div>

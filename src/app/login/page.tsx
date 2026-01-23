@@ -3,7 +3,7 @@
 import Link from "next/link";
 import GoogleButton from "@/components/ui/GoogleButton";
 import { motion } from "framer-motion";
-import { Sparkles, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
 
