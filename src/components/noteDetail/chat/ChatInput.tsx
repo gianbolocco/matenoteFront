@@ -25,7 +25,7 @@ export function ChatInput({ onSend, isLoading }: ChatInputProps) {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     maxLength={300}
-                    placeholder="Ask something about this note..."
+                    placeholder="Escribí un mensaje..."
                     className="w-full pl-4 pr-24 py-3 bg-gray-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-violet-100 focus:bg-white transition-all outline-none"
                     disabled={isLoading}
                 />

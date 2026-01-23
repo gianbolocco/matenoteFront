@@ -78,7 +78,7 @@ export function ChatSidebar({ noteId }: ChatSidebarProps) {
                 onClick={() => setIsOpen(true)}
                 className={`fixed bottom-8 right-8 z-40 p-4 bg-black text-white rounded-full shadow-xl hover:bg-gray-800 hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 group ${isOpen ? "translate-y-20 opacity-0" : "translate-y-0 opacity-100"
                     }`}
-                title="Open Assistant"
+                title="Abrir MatiBot"
             >
                 <div className="relative">
                     <MessageSquare className="w-7 h-7" />
@@ -101,8 +101,8 @@ export function ChatSidebar({ noteId }: ChatSidebarProps) {
                             <MessageSquare className="w-5 h-5" />
                         </div>
                         <div>
-                            <h3 className="font-bold text-gray-900">Note Assistant</h3>
-                            <p className="text-xs text-gray-500 font-medium">Ask questions about this note</p>
+                            <h3 className="font-bold text-gray-900">MatiBot</h3>
+                            <p className="text-xs text-gray-500 font-medium">Preguntale algo a Mati</p>
                         </div>
                     </div>
                     <button
