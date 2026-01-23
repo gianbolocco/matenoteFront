@@ -26,7 +26,7 @@ export function ChatInput({ onSend, isLoading }: ChatInputProps) {
                     onChange={(e) => setMessage(e.target.value)}
                     maxLength={300}
                     placeholder="Ask something about this note..."
-                    className="w-full pl-4 pr-24 py-3 bg-gray-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-indigo-100 focus:bg-white transition-all outline-none"
+                    className="w-full pl-4 pr-24 py-3 bg-gray-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-violet-100 focus:bg-white transition-all outline-none"
                     disabled={isLoading}
                 />
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
@@ -36,7 +36,7 @@ export function ChatInput({ onSend, isLoading }: ChatInputProps) {
                     <button
                         type="submit"
                         disabled={!message.trim() || isLoading}
-                        className="p-1.5 bg-white text-indigo-600 rounded-lg shadow-sm hover:shadow-md hover:bg-indigo-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                        className="p-1.5 bg-white text-violet-600 rounded-lg shadow-sm hover:shadow-md hover:bg-violet-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     >
                         {isLoading ? (
                             <Loader2 className="w-4 h-4 animate-spin" />

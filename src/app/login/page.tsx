@@ -3,7 +3,7 @@
 import Link from "next/link";
 import GoogleButton from "@/components/ui/GoogleButton";
 import { motion } from "framer-motion";
-import { Sparkles, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
 
@@ -61,7 +61,7 @@ export default function LoginPage() {
                             y: [0, -60, 80, -40, 0],
                         }}
                         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute top-[-15%] left-[-15%] w-[650px] h-[650px] bg-purple-600/25 rounded-full blur-[120px] mix-blend-screen"
+                        className="absolute top-[-15%] left-[-15%] w-[650px] h-[650px] bg-violet-600/25 rounded-full blur-[120px] mix-blend-screen"
                     />
                     <motion.div
                         animate={{

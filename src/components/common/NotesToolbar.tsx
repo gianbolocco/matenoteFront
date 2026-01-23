@@ -37,8 +37,8 @@ export function NotesToolbar({ searchQuery, onSearchChange, activeFilter, onFilt
                             key={type}
                             onClick={() => onFilterChange(value as FilterType)}
                             className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 whitespace-nowrap border ${activeFilter === value
-                                ? "bg-gray-900 text-white border-gray-900 shadow-md shadow-gray-900/10"
-                                : "bg-transparent text-gray-500 border-transparent hover:bg-gray-50 hover:text-gray-900"
+                                ? "bg-gray-900 text-white"
+                                : "bg-transparent border border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                                 }`}
                         >
                             {label}

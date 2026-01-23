@@ -112,7 +112,7 @@ export function NoteActivities({ note: initialNote }: NoteActivitiesProps) {
                     title={note.mindmap ? 'Mind Map' : 'Generate Mind Map'}
                     description={note.mindmap
                         ? 'Visualize concepts with an interactive map.'
-                        : 'Create an AI-powered mind map from this note.'}
+                        : 'Create an AI-powered mind map.'}
                     icon={isGenerating ? Loader2 : Brain}
                     iconClass={isGenerating ? 'animate-spin' : ''}
                     color="bg-violet-50 text-violet-600"

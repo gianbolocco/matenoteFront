@@ -48,7 +48,7 @@ export function ProfileHeader({ user, isEditing, onEditToggle }: ProfileHeaderPr
                     flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold transition-all border
                     ${isEditing
                         ? "bg-white border-red-200 text-red-600 hover:bg-red-50"
-                        : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300"
+                        : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-200"
                     }
                 `}
             >

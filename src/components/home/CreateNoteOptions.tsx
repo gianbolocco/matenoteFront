@@ -53,6 +53,9 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
                     icon={FileText}
                     title="PDF Document"
                     description="Upload a PDF to extract summaries and flashcards."
+                    bgColorClass="bg-violet-50"
+                    iconColorClass="text-violet-500"
+                    hoverBgClass="group-hover:bg-violet-500"
                     onClick={() => setShowPdfModal(true)}
                 />
 
@@ -60,6 +63,9 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
                     icon={Youtube}
                     title="YouTube Video"
                     description="Paste a URL to generate notes from a video transcript."
+                    bgColorClass="bg-red-50"
+                    iconColorClass="text-red-600"
+                    hoverBgClass="group-hover:bg-red-600"
                     onClick={() => setShowYoutubeModal(true)}
                 />
 
@@ -67,6 +73,9 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
                     icon={Mic}
                     title="Audio Recording"
                     description="Record lectures directly or upload audio files to convert speech to text."
+                    bgColorClass="bg-blue-50"
+                    iconColorClass="text-blue-500"
+                    hoverBgClass="group-hover:bg-blue-500"
                     onClick={() => setShowAudioModal(true)}
                 />
 

@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 import { Folder } from "@/types";
 import { getFolderById, deleteFolder, addNotesToFolder, removeNoteFromFolder, updateFolder } from "@/services/folderService";
 import { NoteCard } from "@/components/noteCard/NoteCard";
 import { AddNoteModal } from "@/components/folders/AddNoteModal";
 import { EditFolderModal } from "@/components/folders/EditFolderModal";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
-import { Loader2, Plus, Trash, ArrowLeft, Folder as FolderIcon, Pencil } from "lucide-react";
+import { Loader2, Plus, Trash, ArrowLeft, Folder as FolderIcon, Pencil, Share2, Check } from "lucide-react";
 import Link from "next/link";
 
 const colorMap: Record<string, string> = {
@@ -17,12 +18,13 @@ const colorMap: Record<string, string> = {
     blue: "bg-blue-50 text-blue-900 border-blue-200",
     green: "bg-green-50 text-green-900 border-green-200",
     yellow: "bg-yellow-50 text-yellow-900 border-yellow-200",
-    purple: "bg-purple-50 text-purple-900 border-purple-200",
+    violet: "bg-violet-50 text-violet-900 border-violet-200",
 };
 
 export default function FolderDetailsPage() {
     const params = useParams();
     const router = useRouter();
+    const { user } = useUser();
     const folderId = params.id as string;
 
     const [folder, setFolder] = useState<Folder | null>(null);
@@ -33,6 +35,7 @@ export default function FolderDetailsPage() {
     const [isRemoveNoteModalOpen, setIsRemoveNoteModalOpen] = useState(false);
     const [noteToRemove, setNoteToRemove] = useState<string | null>(null);
     const [isActionLoading, setIsActionLoading] = useState(false);
+    const [isCopied, setIsCopied] = useState(false);
 
     useEffect(() => {
         if (folderId) {
@@ -122,6 +125,12 @@ export default function FolderDetailsPage() {
         }
     };
 
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText(window.location.href);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+    };
+
     if (isLoading) {
         return (
             <div className="flex h-screen items-center justify-center">
@@ -133,6 +142,7 @@ export default function FolderDetailsPage() {
     if (!folder) return null;
 
     const theme = colorMap[folder.color] || colorMap.gray;
+    const isCreator = user?.id === folder.userId;
 
     return (
         <div className="min-h-screen pb-20 bg-white">
@@ -146,7 +156,7 @@ export default function FolderDetailsPage() {
 
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-4">
-                            <div className={`w-16 h-16 rounded-2xl bg-white/50 backdrop-blur-sm border border-white/50 flex items-center justify-center shadow-sm`}>
+                            <div className={`w-16 h-16 rounded-2xl bg-white/50 backdrop-blur-sm border border-gray-200 flex items-center justify-center`}>
                                 <FolderIcon className="w-8 h-8 opacity-80" />
                             </div>
                             <div>
@@ -157,29 +167,44 @@ export default function FolderDetailsPage() {
 
                         <div className="flex items-center gap-3">
                             <button
-                                onClick={() => setIsEditModalOpen(true)}
-                                disabled={isActionLoading}
-                                className="p-3 cursor-pointer text-gray-700 hover:text-blue-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
-                                title="Edit Folder"
+                                onClick={handleCopyLink}
+                                className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors mr-2"
+                                title="Share Folder"
                             >
-                                <Pencil className="w-5 h-5" />
+                                {isCopied ? <Check className="w-5 h-5 md:w-4 md:h-4 text-gray-500" /> : <Share2 className="w-5 h-5 md:w-4 md:h-4" />}
+                                <span className={`${isCopied ? "font-medium" : ""} hidden md:inline`}>
+                                    {isCopied ? "Copied Link" : "Share"}
+                                </span>
                             </button>
-                            <button
-                                onClick={() => setIsDeleteModalOpen(true)}
-                                disabled={isActionLoading}
-                                className="p-3 cursor-pointer text-gray-700 hover:text-red-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
-                                title="Delete Folder"
-                            >
-                                <Trash className="w-5 h-5" />
-                            </button>
-                            <button
-                                onClick={() => setIsAddModalOpen(true)}
-                                disabled={isActionLoading}
-                                className="h-11 px-5 bg-gray-900 text-white font-medium rounded-xl flex items-center gap-2 hover:bg-black transition-all shadow-lg hover:-translate-y-0.5"
-                            >
-                                <Plus className="w-4 h-4" />
-                                <span>Add Notes</span>
-                            </button>
+
+                            {isCreator && (
+                                <>
+                                    <button
+                                        onClick={() => setIsEditModalOpen(true)}
+                                        disabled={isActionLoading}
+                                        className="p-3 cursor-pointer text-gray-700 hover:text-blue-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                                        title="Edit Folder"
+                                    >
+                                        <Pencil className="w-5 h-5" />
+                                    </button>
+                                    <button
+                                        onClick={() => setIsDeleteModalOpen(true)}
+                                        disabled={isActionLoading}
+                                        className="p-3 cursor-pointer text-gray-700 hover:text-red-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                                        title="Delete Folder"
+                                    >
+                                        <Trash className="w-5 h-5" />
+                                    </button>
+                                    <button
+                                        onClick={() => setIsAddModalOpen(true)}
+                                        disabled={isActionLoading}
+                                        className="h-11 px-5 bg-gray-900 text-white font-medium rounded-xl flex items-center gap-2 hover:bg-black transition-all shadow-lg hover:-translate-y-0.5"
+                                    >
+                                        <Plus className="w-4 h-4" />
+                                        <span>Add Notes</span>
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -194,13 +219,15 @@ export default function FolderDetailsPage() {
                                 <NoteCard
                                     note={note}
                                     action={
-                                        <button
-                                            onClick={(e) => handleRemoveNoteClick(note.id, e)}
-                                            className="p-2 cursor-pointer text-gray-700 hover:text-red-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
-                                            title="Remove from folder"
-                                        >
-                                            <Trash className="w-5 h-5" />
-                                        </button>
+                                        isCreator ? (
+                                            <button
+                                                onClick={(e) => handleRemoveNoteClick(note.id, e)}
+                                                className="p-2 cursor-pointer text-gray-700 hover:text-red-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                                                title="Remove from folder"
+                                            >
+                                                <Trash className="w-5 h-5" />
+                                            </button>
+                                        ) : undefined
                                     }
                                 />
                             </div>
@@ -212,15 +239,14 @@ export default function FolderDetailsPage() {
                             <Plus className="w-6 h-6 text-gray-300" />
                         </div>
                         <h3 className="text-lg font-semibold text-gray-900 mb-1">This folder is empty</h3>
-                        <p className="text-gray-500 max-w-sm mx-auto mb-6">
-                            Start organizing by adding some notes to this folder.
-                        </p>
-                        <button
-                            onClick={() => setIsAddModalOpen(true)}
-                            className="text-primary font-medium hover:underline"
-                        >
-                            Add your first note
-                        </button>
+                        {isCreator && (
+                            <button
+                                onClick={() => setIsAddModalOpen(true)}
+                                className="text-primary font-medium hover:underline"
+                            >
+                                Add your first note
+                            </button>
+                        )}
                     </div>
                 )}
             </main>

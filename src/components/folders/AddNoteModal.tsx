@@ -76,7 +76,7 @@ export function AddNoteModal({ isOpen, onClose, onSubmit, isLoading, existingNot
                     <div className="flex-1 flex justify-start">
                         <button
                             onClick={() => router.push('/home')}
-                            className="px-4 py-3 text-purple-600 font-medium hover:bg-purple-50 rounded-xl transition-colors flex items-center gap-2"
+                            className="px-4 py-3 text-violet-600 font-medium hover:bg-violet-50 rounded-xl transition-colors flex items-center gap-2"
                         >
                             <Sparkles className="w-4 h-4" />
                             Generate New Note

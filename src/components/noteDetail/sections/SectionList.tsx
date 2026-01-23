@@ -7,7 +7,7 @@ interface ListSectionProps {
 export function SectionList({ content }: ListSectionProps) {
     if (content.style === "mantra") {
         return (
-            <div className="pl-6 border-l-4 border-indigo-400 py-1">
+            <div className="pl-6 border-l-4 border-violet-400 py-1">
                 <ul className="space-y-4">
                     {content.items.map((item, idx) => (
                         <li key={idx} className="text-gray-800 font-medium text-lg italic leading-relaxed">

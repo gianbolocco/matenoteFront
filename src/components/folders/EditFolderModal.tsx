@@ -19,7 +19,7 @@ const COLORS = [
     { id: "green", bg: "bg-green-100", border: "border-green-200" },
     { id: "yellow", bg: "bg-yellow-100", border: "border-yellow-200" },
     { id: "red", bg: "bg-red-100", border: "border-red-200" },
-    { id: "purple", bg: "bg-purple-100", border: "border-purple-200" },
+    { id: "violet", bg: "bg-violet-100", border: "border-violet-200" },
 ];
 
 export function EditFolderModal({ isOpen, onClose, onSubmit, isLoading, folder }: EditFolderModalProps) {

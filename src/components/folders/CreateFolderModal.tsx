@@ -21,7 +21,7 @@ const COLORS = [
     { id: "green", bg: "bg-green-100", border: "border-green-200" },
     { id: "yellow", bg: "bg-yellow-100", border: "border-yellow-200" },
     { id: "red", bg: "bg-red-100", border: "border-red-200" },
-    { id: "purple", bg: "bg-purple-100", border: "border-purple-200" },
+    { id: "violet", bg: "bg-violet-100", border: "border-violet-200" },
 ];
 
 export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: CreateFolderModalProps) {
@@ -141,7 +141,7 @@ export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: Crea
                                         placeholder="Search notes..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full h-10 pl-9 pr-4 text-sm bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gray-300 transition-colors"
+                                        className="w-full h-10 pl-9 pr-4 text-sm bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gray-200 transition-colors"
                                     />
                                 </div>
                             </div>
@@ -159,7 +159,7 @@ export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: Crea
                                                 : 'hover:bg-gray-100 border border-transparent'
                                                 }`}
                                         >
-                                            <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${selectedNotes.includes(note.id) ? 'bg-gray-900 border-gray-900' : 'border-gray-300 bg-white'
+                                            <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${selectedNotes.includes(note.id) ? 'bg-gray-900 border-gray-900' : 'border-gray-200 bg-white'
                                                 }`}>
                                                 {selectedNotes.includes(note.id) && <Check className="w-3.5 h-3.5 text-white" />}
                                             </div>

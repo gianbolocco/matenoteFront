@@ -13,11 +13,11 @@ export function AudioVisualizer({ visualizerRef, isRecording, isPaused }: AudioV
             {/* Aura Visualizer */}
             <div
                 ref={visualizerRef as RefObject<HTMLDivElement>}
-                className="absolute inset-0 rounded-full bg-purple-400 opacity-30 blur-md transition-transform duration-75"
+                className="absolute inset-0 rounded-full bg-violet-400 opacity-30 blur-md transition-transform duration-75"
             />
 
-            <div className={`relative w-20 h-20 rounded-full flex items-center justify-center z-10 transition-colors ${isRecording && !isPaused ? "bg-purple-100 text-purple-600" :
-                isPaused ? "bg-purple-50 text-purple-600" :
+            <div className={`relative w-20 h-20 rounded-full flex items-center justify-center z-10 transition-colors ${isRecording && !isPaused ? "bg-violet-100 text-violet-600" :
+                isPaused ? "bg-violet-50 text-violet-600" :
                     "bg-gray-100 text-gray-500"
                 }`}>
                 <Mic className="w-10 h-10" />

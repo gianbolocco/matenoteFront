@@ -105,7 +105,7 @@ export function NotesList({
                     <button
                         onClick={onLoadMore}
                         disabled={isLoadingMore}
-                        className="px-6 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-full shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
+                        className="px-6 cursor-pointer py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-full shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
                     >
                         {isLoadingMore ? (
                             <>

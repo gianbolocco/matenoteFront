@@ -22,7 +22,7 @@ export function RecordingControls({
             <button
                 type="button"
                 onClick={onStart}
-                className="px-6 py-2 bg-purple-600 text-white rounded-full font-medium hover:bg-purple-700 transition-colors flex items-center gap-2 shadow-lg shadow-purple-200"
+                className="px-6 py-2 bg-violet-600 text-white rounded-full font-medium hover:bg-violet-700 transition-colors flex items-center gap-2 shadow-lg shadow-violet-200"
             >
                 <Mic className="w-4 h-4" /> Start Recording
             </button>
@@ -35,7 +35,7 @@ export function RecordingControls({
                 <button
                     type="button"
                     onClick={onResume}
-                    className="px-6 py-2 bg-purple-600 text-white rounded-full font-medium hover:bg-purple-700 transition-colors flex items-center gap-2"
+                    className="px-6 py-2 bg-violet-600 text-white rounded-full font-medium hover:bg-violet-700 transition-colors flex items-center gap-2"
                 >
                     <Play className="w-4 h-4 fill-current" /> Resume
                 </button>
@@ -43,7 +43,7 @@ export function RecordingControls({
                 <button
                     type="button"
                     onClick={onPause}
-                    className="px-6 py-2 bg-purple-100 text-purple-700 rounded-full font-medium hover:bg-purple-200 transition-colors flex items-center gap-2"
+                    className="px-6 py-2 bg-violet-100 text-violet-700 rounded-full font-medium hover:bg-violet-200 transition-colors flex items-center gap-2"
                 >
                     <Pause className="w-4 h-4 fill-current" /> Pause
                 </button>
