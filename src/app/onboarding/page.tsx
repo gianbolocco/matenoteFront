@@ -75,14 +75,14 @@ export default function OnboardingPage() {
                 <div className="text-center mb-10">
                     <img src="/logo.png" alt="Matenote" className="w-16 h-16 mx-auto mb-4 object-contain" />
                     <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-                        {step === 1 && "What brings you to Matenote?"}
-                        {step === 2 && "Tell us about yourself"}
-                        {step === 3 && "What are your interests?"}
+                        {step === 1 && "¿Qué te trae a Matenote?"}
+                        {step === 2 && "Cuéntanos sobre vos"}
+                        {step === 3 && "¿Cuáles son tus intereses?"}
                     </h1>
-                    <p className="text-gray-500 mt-2">
-                        {step === 1 && "We'll tailor the experience to your needs."}
-                        {step === 2 && "Help us personalize your content."}
-                        {step === 3 && "Pick up to 3 topics (optional, but recommended)."}
+                    <p className="text-gray-500 mt-2 font-medium">
+                        {step === 1 && "Personalizaremos tu experiencia según tus necesidades."}
+                        {step === 2 && "Ayúdanos a adaptar el contenido para vos."}
+                        {step === 3 && "Elige hasta 3 temas (opcional, pero recomendado)."}
                     </p>
                 </div>
 
@@ -138,7 +138,7 @@ export default function OnboardingPage() {
                         {step > 1 ? (
                             <Button variant="ghost" onClick={handleBack} disabled={isSubmitting}>
                                 <ArrowLeft className="w-4 h-4 mr-2" />
-                                Back
+                                Atrás
                             </Button>
                         ) : (
                             <div /> // Spacer
@@ -148,8 +148,9 @@ export default function OnboardingPage() {
                             <Button
                                 onClick={handleNext}
                                 disabled={(step === 1 && !isStep1Valid) || (step === 2 && !isStep2Valid)}
+                                className="bg-violet-600 hover:bg-violet-700 text-white shadow-lg shadow-violet-200"
                             >
-                                Continue
+                                Continuar
                                 <ChevronRight className="w-4 h-4 ml-2" />
                             </Button>
                         ) : (
@@ -157,9 +158,9 @@ export default function OnboardingPage() {
                                 onClick={handleSubmit}
                                 isLoading={isSubmitting}
                                 disabled={!isStep3Valid}
-                                className="bg-black hover:bg-gray-800 text-white px-8"
+                                className="bg-violet-600 hover:bg-violet-700 text-white px-8 shadow-lg shadow-violet-200"
                             >
-                                Get Started
+                                Comenzar
                             </Button>
                         )}
                     </div>
