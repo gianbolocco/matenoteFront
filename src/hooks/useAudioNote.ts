@@ -10,14 +10,14 @@ export function useAudioNote({ userId, onSuccess }: UseAudioNoteParams) {
     const [isCreatingAudio, setIsCreatingAudio] = useState(false);
     const [creationError, setCreationError] = useState("");
 
-    const createAudioNote = async (file: File, folderId?: string) => {
+    const createAudioNote = async (file: File, folderId?: string, interest?: string) => {
         if (!userId) return;
 
         setIsCreatingAudio(true);
         setCreationError("");
 
         try {
-            await createNoteFromAudio(userId, file, folderId);
+            await createNoteFromAudio(userId, file, folderId, interest);
 
             if (onSuccess) {
                 await onSuccess();

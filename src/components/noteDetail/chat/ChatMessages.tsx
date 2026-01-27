@@ -30,15 +30,15 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
                         }`}
                 >
                     <div
-                        className={`w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden border border-gray-100 ${message.role === "user"
+                        className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden border border-gray-100 ${message.role === "user"
                             ? "bg-gray-900 text-white"
-                            : "bg-white p-1"
+                            : "bg-white"
                             }`}
                     >
                         {message.role === "user" ? (
                             <User className="w-5 h-5" />
                         ) : (
-                            <img src="/matibot.svg" alt="MatiBot" className="w-full h-full object-contain" />
+                            <img src="/matiHeadB.png" alt="MatiBot" className="w-16 h-12" />
                         )}
                     </div>
 

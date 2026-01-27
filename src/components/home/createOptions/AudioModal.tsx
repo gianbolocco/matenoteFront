@@ -15,7 +15,7 @@ import { UploadTab } from "./audio/UploadTab";
 interface AudioModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (file: File, folderId?: string) => void;
+    onSubmit: (file: File, folderId?: string, interest?: string) => void;
 }
 
 type Tab = "record" | "upload";
@@ -48,6 +48,7 @@ export function AudioModal({ isOpen, onClose, onSubmit }: AudioModalProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState("");
     const [selectedFolderId, setSelectedFolderId] = useState<string>("");
+    const [selectedInterest, setSelectedInterest] = useState<string>("");
 
     const { folders, isLoading: isLoadingFolders } = useFolders({
         userId: user?.id,
@@ -55,6 +56,7 @@ export function AudioModal({ isOpen, onClose, onSubmit }: AudioModalProps) {
     });
 
     const folderOptions = folders.map(f => ({ value: f.id || f._id || "", label: f.title }));
+    const interestOptions = user?.interests?.map(i => ({ value: i, label: i })) || [];
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -78,12 +80,13 @@ export function AudioModal({ isOpen, onClose, onSubmit }: AudioModalProps) {
 
         setIsSubmitting(true);
         try {
-            await onSubmit(fileToUpload, selectedFolderId || undefined);
+            await onSubmit(fileToUpload, selectedFolderId || undefined, selectedInterest || undefined);
 
             // Resets
             setAudioFile(null);
             resetRecording();
             setSelectedFolderId("");
+            setSelectedInterest("");
             setSubmitError("");
             setUploadError("");
             onClose();
@@ -145,17 +148,30 @@ export function AudioModal({ isOpen, onClose, onSubmit }: AudioModalProps) {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Folder Selection */}
-                {folders.length > 0 && (
-                    <Select
-                        label="Save to Folder (Optional)"
-                        value={selectedFolderId}
-                        onChange={(e) => setSelectedFolderId(e.target.value)}
-                        options={folderOptions}
-                        placeholder="Library only"
-                        disabled={isLoadingFolders}
-                    />
-                )}
+                <div className="grid grid-cols-1 gap-4">
+                    {/* Folder Selection */}
+                    {folders.length > 0 && (
+                        <Select
+                            label="Save to Folder (Optional)"
+                            value={selectedFolderId}
+                            onChange={(e) => setSelectedFolderId(e.target.value)}
+                            options={folderOptions}
+                            placeholder="Library only"
+                            disabled={isLoadingFolders}
+                        />
+                    )}
+
+                    {/* Interest Selection */}
+                    {interestOptions.length > 0 && (
+                        <Select
+                            label="Interest (Optional)"
+                            value={selectedInterest}
+                            onChange={(e) => setSelectedInterest(e.target.value)}
+                            options={interestOptions}
+                            placeholder="None"
+                        />
+                    )}
+                </div>
 
                 {/* Content Area */}
                 <div>
