@@ -61,20 +61,20 @@ export default function Home() {
     refreshNotes();
   };
 
-  const handleCreateYoutubeNote = (url: string, folderId?: string) => {
+  const handleCreateYoutubeNote = (url: string, folderId?: string, interest?: string) => {
     // If not page 1, reset page immediately to show loading skeleton on top area roughly
     if (page !== 1) setPage(1);
-    createYoutubeNote(url, folderId);
+    createYoutubeNote(url, folderId, interest);
   };
 
-  const handleCreatePdfNote = (file: File, folderId?: string) => {
+  const handleCreatePdfNote = (file: File, folderId?: string, interest?: string) => {
     if (page !== 1) setPage(1);
-    createPdfNote(file, folderId);
+    createPdfNote(file, folderId, interest);
   };
 
-  const handleCreateAudioNote = (file: File, folderId?: string) => {
+  const handleCreateAudioNote = (file: File, folderId?: string, interest?: string) => {
     if (page !== 1) setPage(1);
-    createAudioNote(file, folderId);
+    createAudioNote(file, folderId, interest);
   };
 
   const creationError = youtubeError || pdfError || audioError;

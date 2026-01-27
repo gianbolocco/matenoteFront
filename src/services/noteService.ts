@@ -50,11 +50,12 @@ export const fetchNotes = async ({ userId, page = 1, limit = 10, keyword = "", s
 
 import { addNotesToFolder } from "./folderService";
 
-export const createNoteFromYoutube = async (userId: string, link: string, folderId?: string): Promise<Note> => {
+export const createNoteFromYoutube = async (userId: string, link: string, folderId?: string, interest?: string): Promise<Note> => {
     try {
         const response = await api.post<{ status: string; data: { note: Note } }>("/notes/youtube", {
             userId,
-            link
+            link,
+            interest
         });
         const note = response.data.data.note;
 
@@ -74,11 +75,14 @@ export const createNoteFromYoutube = async (userId: string, link: string, folder
     }
 };
 
-export const createNoteFromPdf = async (userId: string, file: File, folderId?: string): Promise<Note> => {
+export const createNoteFromPdf = async (userId: string, file: File, folderId?: string, interest?: string): Promise<Note> => {
     try {
         const formData = new FormData();
         formData.append("userId", userId);
         formData.append("pdf", file);
+        if (interest) {
+            formData.append("interest", interest);
+        }
 
         const response = await api.post<{ status: string; data: { note: Note } }>("/notes/pdf", formData, {
             headers: {
@@ -103,11 +107,14 @@ export const createNoteFromPdf = async (userId: string, file: File, folderId?: s
     }
 };
 
-export const createNoteFromAudio = async (userId: string, file: File, folderId?: string): Promise<Note> => {
+export const createNoteFromAudio = async (userId: string, file: File, folderId?: string, interest?: string): Promise<Note> => {
     try {
         const formData = new FormData();
         formData.append("userId", userId);
         formData.append("file", file);
+        if (interest) {
+            formData.append("interest", interest);
+        }
 
         const response = await api.post<{ status: string; data: { note: Note } }>("/notes/audio", formData, {
             headers: {

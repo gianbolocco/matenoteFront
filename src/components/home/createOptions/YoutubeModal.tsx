@@ -11,7 +11,7 @@ import { validateYoutubeUrl } from "@/utils/validation";
 interface YoutubeModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (url: string, folderId?: string) => void;
+    onSubmit: (url: string, folderId?: string, interest?: string) => void;
 }
 
 export function YoutubeModal({ isOpen, onClose, onSubmit }: YoutubeModalProps) {
@@ -20,6 +20,7 @@ export function YoutubeModal({ isOpen, onClose, onSubmit }: YoutubeModalProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState("");
     const [selectedFolderId, setSelectedFolderId] = useState<string>("");
+    const [selectedInterest, setSelectedInterest] = useState<string>("");
 
     const { folders, isLoading: isLoadingFolders } = useFolders({
         userId: user?.id,
@@ -37,9 +38,10 @@ export function YoutubeModal({ isOpen, onClose, onSubmit }: YoutubeModalProps) {
 
         setIsSubmitting(true);
         try {
-            await onSubmit(youtubeUrl, selectedFolderId || undefined);
+            await onSubmit(youtubeUrl, selectedFolderId || undefined, selectedInterest || undefined);
             setYoutubeUrl("");
             setSelectedFolderId("");
+            setSelectedInterest("");
             setError("");
             onClose();
         } catch (err) {
@@ -50,6 +52,7 @@ export function YoutubeModal({ isOpen, onClose, onSubmit }: YoutubeModalProps) {
     };
 
     const folderOptions = folders.map(f => ({ value: f.id || f._id || "", label: f.title }));
+    const interestOptions = user?.interests?.map(i => ({ value: i, label: i })) || [];
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} className="max-w-md p-6 relative">
@@ -68,17 +71,30 @@ export function YoutubeModal({ isOpen, onClose, onSubmit }: YoutubeModalProps) {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Folder Selection */}
-                {folders.length > 0 && (
-                    <Select
-                        label="Save to Folder (Optional)"
-                        value={selectedFolderId}
-                        onChange={(e) => setSelectedFolderId(e.target.value)}
-                        options={folderOptions}
-                        placeholder="Library only"
-                        disabled={isLoadingFolders}
-                    />
-                )}
+                <div className="grid grid-cols-1 gap-4">
+                    {/* Folder Selection */}
+                    {folders.length > 0 && (
+                        <Select
+                            label="Save to Folder (Optional)"
+                            value={selectedFolderId}
+                            onChange={(e) => setSelectedFolderId(e.target.value)}
+                            options={folderOptions}
+                            placeholder="Library only"
+                            disabled={isLoadingFolders}
+                        />
+                    )}
+
+                    {/* Interest Selection */}
+                    {interestOptions.length > 0 && (
+                        <Select
+                            label="Interest (Optional)"
+                            value={selectedInterest}
+                            onChange={(e) => setSelectedInterest(e.target.value)}
+                            options={interestOptions}
+                            placeholder="None"
+                        />
+                    )}
+                </div>
 
                 {/* URL Input */}
                 <Input

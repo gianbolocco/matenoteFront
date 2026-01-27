@@ -7,9 +7,9 @@ import { AudioModal } from "./createOptions/AudioModal";
 
 interface CreateNoteOptionsProps {
     onNoteCreated?: () => void;
-    onYoutubeCreate?: (url: string, folderId?: string) => void;
-    onPdfCreate?: (file: File, folderId?: string) => void;
-    onAudioCreate?: (file: File, folderId?: string) => void;
+    onYoutubeCreate?: (url: string, folderId?: string, interest?: string) => void;
+    onPdfCreate?: (file: File, folderId?: string, interest?: string) => void;
+    onAudioCreate?: (file: File, folderId?: string, interest?: string) => void;
 }
 
 export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate, onAudioCreate }: CreateNoteOptionsProps) {
@@ -17,25 +17,25 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
     const [showPdfModal, setShowPdfModal] = useState(false);
     const [showAudioModal, setShowAudioModal] = useState(false);
 
-    const handleYoutubeSubmit = (url: string, folderId?: string) => {
+    const handleYoutubeSubmit = (url: string, folderId?: string, interest?: string) => {
         if (onYoutubeCreate) {
-            onYoutubeCreate(url, folderId);
+            onYoutubeCreate(url, folderId, interest);
         } else {
             console.warn("onYoutubeCreate prop missing");
         }
     };
 
-    const handlePdfSubmit = (file: File, folderId?: string) => {
+    const handlePdfSubmit = (file: File, folderId?: string, interest?: string) => {
         if (onPdfCreate) {
-            onPdfCreate(file, folderId);
+            onPdfCreate(file, folderId, interest);
         } else {
             console.warn("onPdfCreate prop missing");
         }
     };
 
-    const handleAudioSubmit = (file: File, folderId?: string) => {
+    const handleAudioSubmit = (file: File, folderId?: string, interest?: string) => {
         if (onAudioCreate) {
-            onAudioCreate(file, folderId);
+            onAudioCreate(file, folderId, interest);
         } else {
             console.warn("onAudioCreate prop missing");
         }

@@ -10,7 +10,7 @@ import { validatePdfFile } from "@/utils/validation";
 interface PdfModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (file: File, folderId?: string) => void;
+    onSubmit: (file: File, folderId?: string, interest?: string) => void;
 }
 
 export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
@@ -21,6 +21,7 @@ export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
     const [error, setError] = useState("");
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedFolderId, setSelectedFolderId] = useState<string>("");
+    const [selectedInterest, setSelectedInterest] = useState<string>("");
 
     const { folders, isLoading: isLoadingFolders } = useFolders({
         userId: user?.id,
@@ -67,9 +68,10 @@ export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
 
         setIsSubmitting(true);
         try {
-            await onSubmit(pdfFile, selectedFolderId || undefined);
+            await onSubmit(pdfFile, selectedFolderId || undefined, selectedInterest || undefined);
             setPdfFile(null);
             setSelectedFolderId("");
+            setSelectedInterest("");
             setError("");
             onClose();
         } catch (err) {
@@ -87,6 +89,7 @@ export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
     };
 
     const folderOptions = folders.map(f => ({ value: f.id || f._id || "", label: f.title }));
+    const interestOptions = user?.interests?.map(i => ({ value: i, label: i })) || [];
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} className="max-w-md p-6 relative">
@@ -98,24 +101,37 @@ export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
             </button>
 
             <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-red-100 text-red-600 rounded-lg">
+                <div className="p-2 bg-violet-100 text-violet-600 rounded-lg">
                     <FileText className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900">Import from PDF</h3>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Folder Selection */}
-                {folders.length > 0 && (
-                    <Select
-                        label="Save to Folder (Optional)"
-                        value={selectedFolderId}
-                        onChange={(e) => setSelectedFolderId(e.target.value)}
-                        options={folderOptions}
-                        placeholder="Library only"
-                        disabled={isLoadingFolders}
-                    />
-                )}
+                <div className="grid grid-cols-1 gap-4">
+                    {/* Folder Selection */}
+                    {folders.length > 0 && (
+                        <Select
+                            label="Save to Folder (Optional)"
+                            value={selectedFolderId}
+                            onChange={(e) => setSelectedFolderId(e.target.value)}
+                            options={folderOptions}
+                            placeholder="Library only"
+                            disabled={isLoadingFolders}
+                        />
+                    )}
+
+                    {/* Interest Selection */}
+                    {interestOptions.length > 0 && (
+                        <Select
+                            label="Interest (Optional)"
+                            value={selectedInterest}
+                            onChange={(e) => setSelectedInterest(e.target.value)}
+                            options={interestOptions}
+                            placeholder="None"
+                        />
+                    )}
+                </div>
 
                 {/* PDF Upload */}
                 <div>
@@ -130,13 +146,13 @@ export function PdfModal({ isOpen, onClose, onSubmit }: PdfModalProps) {
                             onDrop={handleDrop}
                             onClick={() => fileInputRef.current?.click()}
                             className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${isDragging
-                                ? "border-red-500 bg-red-50"
-                                : "border-gray-200 hover:border-red-300 hover:bg-gray-50"
+                                ? "border-violet-500 bg-violet-50"
+                                : "border-gray-200 hover:border-violet-300 hover:bg-gray-50"
                                 }`}
                         >
-                            <UploadCloud className={`w-10 h-10 mb-3 ${isDragging ? "text-red-500" : "text-gray-400"}`} />
+                            <UploadCloud className={`w-10 h-10 mb-3 ${isDragging ? "text-violet-500" : "text-gray-400"}`} />
                             <p className="text-sm font-medium text-gray-700 text-center">
-                                <span className="text-red-600">Click to upload</span> or drag and drop
+                                <span className="text-violet-600">Click to upload</span> or drag and drop
                             </p>
                             <p className="text-xs text-gray-500 mt-1">
                                 PDF up to 10MB
