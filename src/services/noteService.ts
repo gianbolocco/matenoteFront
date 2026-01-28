@@ -158,6 +158,18 @@ export const deleteNote = async (noteId: string): Promise<void> => {
     }
 };
 
+export const updateNoteTitle = async (noteId: string, title: string): Promise<Note> => {
+    try {
+        const response = await api.patch<{ status: string; data: { note: Note } }>(`/notes/${noteId}`, {
+            title
+        });
+        return response.data.data.note;
+    } catch (error) {
+        console.error("Failed to update note title:", error);
+        throw error;
+    }
+};
+
 export const generateMindMap = async (noteId: string) => {
     try {
         const response = await api.post(`/notes/${noteId}/mindmap`);

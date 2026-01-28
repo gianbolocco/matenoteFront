@@ -1,6 +1,6 @@
-import { ArrowLeft, Clock, FileText, Mic, Youtube, File, Trash, Share2, Check, User as UserIcon, FolderPlus } from "lucide-react";
+import { ArrowLeft, Clock, FileText, Mic, Youtube, File, Trash, Share2, Check, User as UserIcon, FolderPlus, Pencil, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { deleteNote } from "@/services/noteService";
+import { deleteNote, updateNoteTitle } from "@/services/noteService";
 import Link from "next/link";
 import { Note, User } from "@/types";
 import { useState } from "react";
@@ -15,6 +15,8 @@ interface NoteHeaderProps {
     creator?: User | null;
 }
 
+const MAX_TITLE_LENGTH = 100;
+
 export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
     const router = useRouter();
     const { user } = useUser();
@@ -22,6 +24,9 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
     const [isFolderModalOpen, setIsFolderModalOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTitle, setEditedTitle] = useState(note.title);
+    const [isSaving, setIsSaving] = useState(false);
 
     const isOwner = user?.id === note.userId;
 
@@ -49,6 +54,31 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
         navigator.clipboard.writeText(window.location.href);
         setIsCopied(true);
         setTimeout(() => setIsCopied(false), 2000);
+    };
+
+    const handleSaveTitle = async () => {
+        if (!editedTitle.trim() || editedTitle === note.title) {
+            setIsEditing(false);
+            setEditedTitle(note.title);
+            return;
+        }
+
+        setIsSaving(true);
+        try {
+            await updateNoteTitle(note.id, editedTitle);
+            note.title = editedTitle; // Optimistic update
+            setIsEditing(false);
+        } catch (error) {
+            console.error("Failed to update title:", error);
+            // Revert on error could be handled here or just show error
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        setEditedTitle(note.title);
     };
 
 
@@ -170,9 +200,64 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                     )}
                 </div>
 
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                    {note.title}
-                </h1>
+                <div className="w-full">
+                    {isEditing ? (
+                        <div className="flex flex-col gap-2 w-full animate-in fade-in zoom-in-95 duration-200">
+                            <div className="relative w-full">
+                                <input
+                                    type="text"
+                                    value={editedTitle}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (value.length <= MAX_TITLE_LENGTH) {
+                                            setEditedTitle(value);
+                                        }
+                                    }}
+                                    className="w-full text-3xl md:text-4xl font-bold text-gray-900 leading-tight bg-gray-50 border-2 border-violet-200 rounded-lg px-3 py-2 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 focus:outline-none transition-all"
+                                    autoFocus
+                                    placeholder="Untitled Note"
+                                />
+                                <div className="absolute right-3 bottom-3 text-xs font-medium text-gray-400 pointer-events-none">
+                                    {editedTitle.length}/{MAX_TITLE_LENGTH}
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-end gap-2">
+                                <button
+                                    onClick={handleCancelEdit}
+                                    disabled={isSaving}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                                >
+                                    <X className="w-4 h-4" />
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleSaveTitle}
+                                    disabled={isSaving || !editedTitle.trim()}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg shadow-sm transition-all active:scale-95"
+                                >
+                                    <Check className="w-4 h-4" />
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex items-start gap-3 group/title w-full">
+                            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight break-words flex-1">
+                                {editedTitle}
+                            </h1>
+                            {isOwner && (
+                                <button
+                                    onClick={() => setIsEditing(true)}
+                                    className="mt-1.5 opacity-100 sm:opacity-0 sm:group-hover/title:opacity-100 transition-all p-2 hover:bg-violet-50 text-gray-400 hover:text-violet-600 rounded-lg shrink-0"
+                                    title="Edit Title"
+                                >
+                                    <Pencil className="w-5 h-5" />
+                                </button>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
