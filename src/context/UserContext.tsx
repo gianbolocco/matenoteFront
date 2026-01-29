@@ -13,6 +13,7 @@ interface UserContextType {
     login: (token?: string) => Promise<void>;
     logout: () => Promise<void>;
     updateUser: (updates: Partial<User>) => Promise<void>;
+    refreshUser: () => Promise<User | null>;
 }
 
 // Create the Context with undefined default
@@ -41,7 +42,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         fetchUser();
     }, []);
 
-    const fetchUser = async () => {
+    const fetchUser = async (): Promise<User | null> => {
         // Only set loading if we don't have a user (optimistic)
         // If we have a stored user, we leave isLoading false mostly or handle it? 
         // Actually, existing code sets isLoading(true). 
@@ -75,6 +76,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
             });
             setUser(response.data.user);
             localStorage.setItem('matenote_user', JSON.stringify(response.data.user));
+            return response.data.user;
         } catch (error: any) {
             // If 401/403, it just means not logged in.
             if (error.response && (error.response.status === 401 || error.response.status === 403)) {
@@ -99,6 +101,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         } finally {
             setIsLoading(false);
         }
+        return null;
     };
 
     const login = async (token?: string) => {
@@ -156,8 +159,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
     };
 
+    const refreshUser = async () => {
+        return await fetchUser();
+    };
+
     return (
-        <UserContext.Provider value={{ user, isLoading, login, logout, updateUser }}>
+        <UserContext.Provider value={{ user, isLoading, login, logout, updateUser, refreshUser }}>
             {children}
         </UserContext.Provider>
     );

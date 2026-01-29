@@ -1,6 +1,9 @@
 "use client";
 
 import { useUser } from "@/context/UserContext";
+import { useNotification } from "@/context/NotificationContext";
+import * as userService from "@/services/userService";
+import { StreakCard } from "@/components/home/StreakCard";
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { CreateNoteOptions } from "@/components/home/CreateNoteOptions";
 import { NotesToolbar, FilterType } from "@/components/common/NotesToolbar";
@@ -12,7 +15,7 @@ import { usePdfNote } from "@/hooks/usePdfNote";
 import { useAudioNote } from "@/hooks/useAudioNote";
 
 export default function Home() {
-  const { user, login } = useUser();
+  const { user, login, refreshUser } = useUser();
   const LIMIT = 8;
 
   const {
@@ -57,8 +60,27 @@ export default function Home() {
     }
   });
 
-  const handleNoteCreated = () => {
+  /* Notification Logic: Only show if streak actually increased or refreshed for the day */
+  const { showStreakNotification } = useNotification();
+
+  const handleNoteCreated = async () => {
     refreshNotes();
+    if (user?.id) {
+      const oldStreak = user.streak?.current || 0;
+      await userService.updateStreak(user.id);
+      const newUser = await refreshUser();
+
+      // If streak increased (ideal case) or if we want to be generous on the first update of the day
+      if (newUser && newUser.streak && newUser.streak.current > oldStreak) {
+        showStreakNotification("¡Nota creada! Tu racha sigue activa.");
+      } else if (newUser && newUser.streak?.current === oldStreak && oldStreak > 0) {
+        // Optional: If you want to notify anyway for engagement, uncomment below.
+        // But user requested "no notification if activity happened recently".
+        // We can assume if streak didn't increase, it wasn't triggered or already done today.
+        // Let's stick to only showing when it matters or verifies a change.
+        // Actually, API might not increment if already done today.
+      }
+    }
   };
 
   const handleCreateYoutubeNote = (url: string, folderId?: string, interest?: string) => {
@@ -85,6 +107,15 @@ export default function Home() {
       <div className="absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-gray-50/50 to-transparent -z-10 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <HomeHeader user={user} onLogin={login} />
+
+        {user?.streak && (
+          <div className="mt-8 mb-2">
+            <StreakCard
+              currentStreak={user.streak.current}
+              longestStreak={user.streak.longest}
+            />
+          </div>
+        )}
 
         {/* Create Options - Inserted here so it scrolls with header */}
         <CreateNoteOptions
