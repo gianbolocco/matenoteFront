@@ -1,6 +1,6 @@
 export function NoteCardSkeleton() {
     return (
-        <div className="flex flex-col h-[280px] bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm animate-pulse">
+        <div className="flex flex-col h-full min-h-[280px] bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm animate-pulse">
             <div className="p-5 flex-1 space-y-4">
                 <div className="flex items-start justify-between gap-4">
                     <div className="h-6 bg-gray-200 rounded-md w-3/4"></div>

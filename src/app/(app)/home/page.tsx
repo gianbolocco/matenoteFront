@@ -45,7 +45,7 @@ export default function Home() {
 
       // Check if the streak was actually updated by this action
       console.log("Streak update result:", result);
-      if (result && result.alreadyCompletedToday) {
+      if (result && result.alreadyCompletedToday === false) {
         showStreakNotification("¡Nota creada! Tu racha sigue activa.");
       }
     }
