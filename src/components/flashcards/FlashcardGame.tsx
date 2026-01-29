@@ -10,6 +10,9 @@ import { FlashcardControls } from './FlashcardControls';
 import { ProgressBar } from '../ui/ProgressBar';
 import { GameTimer } from '../ui/GameTimer';
 import { useGameTimer } from '@/hooks/useGameTimer';
+import { useUser } from '@/context/UserContext';
+import { useNotification } from "@/context/NotificationContext";
+import { updateStreak } from '@/services/userService';
 
 interface FlashcardGameProps {
     flashcardSet: FlashcardSet;
@@ -17,6 +20,8 @@ interface FlashcardGameProps {
 
 export default function FlashcardGame({ flashcardSet }: FlashcardGameProps) {
     const router = useRouter();
+    const { user, refreshUser } = useUser();
+    const { showStreakNotification } = useNotification();
     const [deck, setDeck] = useState<FlashcardType[]>(flashcardSet.flashcards);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
@@ -78,6 +83,19 @@ export default function FlashcardGame({ flashcardSet }: FlashcardGameProps) {
                 setCurrentIndex(prev => prev + 1);
             } else {
                 setCompleted(true);
+                // Update user streak on completion
+                if (user?.id) {
+                    const triggerStreakUpdate = async () => {
+                        const oldStreak = user.streak?.current || 0;
+                        await updateStreak(user.id);
+                        const newUser = await refreshUser();
+
+                        if (newUser && newUser.streak && newUser.streak.current > oldStreak) {
+                            showStreakNotification("¡Flashcards dominadas! Racha en fuego.");
+                        }
+                    };
+                    triggerStreakUpdate();
+                }
             }
         }, 50); // Almost immediate
     };

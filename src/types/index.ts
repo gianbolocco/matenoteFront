@@ -11,6 +11,11 @@ export interface User {
     occupation: string;
     usagePurpose: string;
     age: number;
+    streak?: {
+        current: number;
+        longest: number;
+        lastActivityDate?: string;
+    };
 }
 
 export type SectionType = "TEXT" | "LIST" | "TABLE" | "CODE";

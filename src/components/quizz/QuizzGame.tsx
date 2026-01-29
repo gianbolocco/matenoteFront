@@ -7,12 +7,17 @@ import { ProgressBar } from "../ui/ProgressBar";
 import { GameTimer } from "../ui/GameTimer";
 import { useGameTimer } from "@/hooks/useGameTimer";
 import { motion, AnimatePresence } from "framer-motion";
+import { useUser } from "@/context/UserContext";
+import { useNotification } from "@/context/NotificationContext";
+import { updateStreak } from "@/services/userService";
 
 interface QuizzGameProps {
     quizz: Quizz;
 }
 
 export function QuizzGame({ quizz }: QuizzGameProps) {
+    const { user, refreshUser } = useUser();
+    const { showStreakNotification } = useNotification();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [score, setScore] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
@@ -35,13 +40,23 @@ export function QuizzGame({ quizz }: QuizzGameProps) {
         }
 
         if (currentIndex < quizz.questions.length - 1) {
-            // Wait for 1.5s is already handled inside child by "setTimeout(() => onAnswer(), 1500)"?
-            // Yes, QuizzQuestion calls onAnswer after delay. 
-            // So we can immediately switch here.
             setCurrentIndex(prev => prev + 1);
             setShowHint(false);
         } else {
             setIsFinished(true);
+            // Update user streak on completion
+            if (user?.id) {
+                const triggerStreakUpdate = async () => {
+                    const oldStreak = user.streak?.current || 0;
+                    await updateStreak(user.id);
+                    const newUser = await refreshUser();
+
+                    if (newUser && newUser.streak && newUser.streak.current > oldStreak) {
+                        showStreakNotification("¡Quiz completado! +1 a tu racha.");
+                    }
+                };
+                triggerStreakUpdate();
+            }
         }
     };
 
