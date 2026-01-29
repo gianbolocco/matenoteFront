@@ -41,16 +41,12 @@ export function StreakCard({ currentStreak, longestStreak }: StreakCardProps) {
     const StatusIcon = status.Icon;
 
     return (
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 rounded-2xl bg-gray-50 border border-gray-100">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 rounded-2xl bg-gray-50 border border-gray-200">
             {/* Left Content */}
             <div className="flex-1 space-y-3">
                 {/* Badge + Status */}
                 <div className="flex items-center gap-3">
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-100 text-violet-600 text-xs font-bold uppercase tracking-wide">
-                        <Flame className="w-3 h-3" />
-                        Tu Consistencia
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 font-medium">
                         <StatusIcon className="w-4 h-4" />
                         {status.label}
                     </span>
@@ -70,7 +66,7 @@ export function StreakCard({ currentStreak, longestStreak }: StreakCardProps) {
             {/* Right Content: Counter with Mate Icon */}
             <div className="flex flex-col items-center gap-2">
                 <div className="flex flex-col items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-violet-100 border border-violet-200">
-                    <span className="text-2xl md:text-3xl font-bold text-violet-600">{currentStreak}</span>
+                    <span className="text-2xl md:text-3xl flex items-center justify-center gap-1 font-bold text-violet-600"><Flame/>{currentStreak}</span>
                     <p className="text-lg text-violet-500 font-medium">días</p>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs text-gray-400">
