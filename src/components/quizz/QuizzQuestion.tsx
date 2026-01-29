@@ -13,6 +13,16 @@ interface QuizzQuestionProps {
 }
 
 export function QuizzQuestion({ question, onAnswer, currentQuestionIndex, totalQuestions, showHint, onToggleHint }: QuizzQuestionProps) {
+    const [shuffledOptions] = useState(() => {
+        const options = [...question.options];
+        // Fisher-Yates shuffle
+        for (let i = options.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+        return options;
+    });
+
     const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
     const [isAnswered, setIsAnswered] = useState(false);
 
@@ -40,7 +50,7 @@ export function QuizzQuestion({ question, onAnswer, currentQuestionIndex, totalQ
 
             {/* Options */}
             <div className="grid gap-3">
-                {question.options.map((option) => {
+                {shuffledOptions.map((option) => {
                     const isSelected = selectedOptionId === option._id;
                     const isCorrect = option.correct;
 
