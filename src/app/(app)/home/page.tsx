@@ -104,18 +104,20 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <div className="absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-gray-50/50 to-transparent -z-10 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-6 md:px-8">
+        
         <HomeHeader user={user} onLogin={login} />
 
-        {user?.streak && (
-          <div className="mt-8 mb-2">
-            <StreakCard
-              currentStreak={user.streak.current}
-              longestStreak={user.streak.longest}
-            />
-          </div>
-        )}
+        <div className="flex flex-col md:flex-row justify-center md:justify-end">
+          {user?.streak && (
+            <div className="my-8">
+              <StreakCard
+                currentStreak={user.streak.current}
+                longestStreak={user.streak.longest}
+              />
+            </div>
+          )}
+        </div>
 
         {/* Create Options - Inserted here so it scrolls with header */}
         <CreateNoteOptions
