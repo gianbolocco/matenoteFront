@@ -21,11 +21,18 @@ export const updateUser = async (userId: string, data: Partial<User>): Promise<U
     }
 };
 
-export const updateStreak = async (userId: string): Promise<void> => {
+export interface StreakUpdateResponse {
+    streakUpdated: boolean;
+    alreadyCompletedToday: boolean;
+    nextAvailableAt: string;
+}
+
+export const updateStreak = async (userId: string): Promise<StreakUpdateResponse | null> => {
     try {
-        await api.post(`/users/${userId}/streak`);
+        const response = await api.post<{ status: string; data: StreakUpdateResponse }>(`/users/${userId}/streak`);
+        return response.data.data;
     } catch (error) {
         console.error("Failed to update streak:", error);
-        // Don't throw - streak update failure shouldn't break the app flow
+        return null;
     }
 };

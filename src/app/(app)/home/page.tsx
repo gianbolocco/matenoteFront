@@ -35,11 +35,28 @@ export default function Home() {
     page
   } = useNotes({ userId: user?.id, limit: LIMIT });
 
+  /* Notification Logic: Only show if streak actually increased or refreshed for the day */
+  const { showStreakNotification } = useNotification();
+
+  const handleStreakUpdate = async () => {
+    if (user?.id) {
+      const result = await userService.updateStreak(user.id);
+      await refreshUser();
+
+      // Check if the streak was actually updated by this action
+      console.log("Streak update result:", result);
+      if (result && result.alreadyCompletedToday) {
+        showStreakNotification("¡Nota creada! Tu racha sigue activa.");
+      }
+    }
+  };
+
   const { isCreatingYoutube, creationError: youtubeError, createYoutubeNote } = useYoutubeNote({
     userId: user?.id,
     onSuccess: async () => {
       // Logic to silently update list
       await refreshSilent();
+      await handleStreakUpdate();
       if (page !== 1) setPage(1);
     }
   });
@@ -48,6 +65,7 @@ export default function Home() {
     userId: user?.id,
     onSuccess: async () => {
       await refreshSilent();
+      await handleStreakUpdate();
       if (page !== 1) setPage(1);
     }
   });
@@ -56,32 +74,12 @@ export default function Home() {
     userId: user?.id,
     onSuccess: async () => {
       await refreshSilent();
+      await handleStreakUpdate();
       if (page !== 1) setPage(1);
     }
   });
 
-  /* Notification Logic: Only show if streak actually increased or refreshed for the day */
-  const { showStreakNotification } = useNotification();
 
-  const handleNoteCreated = async () => {
-    refreshNotes();
-    if (user?.id) {
-      const oldStreak = user.streak?.current || 0;
-      await userService.updateStreak(user.id);
-      const newUser = await refreshUser();
-
-      // If streak increased (ideal case) or if we want to be generous on the first update of the day
-      if (newUser && newUser.streak && newUser.streak.current > oldStreak) {
-        showStreakNotification("¡Nota creada! Tu racha sigue activa.");
-      } else if (newUser && newUser.streak?.current === oldStreak && oldStreak > 0) {
-        // Optional: If you want to notify anyway for engagement, uncomment below.
-        // But user requested "no notification if activity happened recently".
-        // We can assume if streak didn't increase, it wasn't triggered or already done today.
-        // Let's stick to only showing when it matters or verifies a change.
-        // Actually, API might not increment if already done today.
-      }
-    }
-  };
 
   const handleCreateYoutubeNote = (url: string, folderId?: string, interest?: string) => {
     // If not page 1, reset page immediately to show loading skeleton on top area roughly
@@ -105,7 +103,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
-        
+
         <HomeHeader user={user} onLogin={login} />
 
         <div className="flex flex-col md:flex-row justify-center md:justify-end">
@@ -121,7 +119,6 @@ export default function Home() {
 
         {/* Create Options - Inserted here so it scrolls with header */}
         <CreateNoteOptions
-          onNoteCreated={handleNoteCreated}
           onYoutubeCreate={handleCreateYoutubeNote}
           onPdfCreate={handleCreatePdfNote}
           onAudioCreate={handleCreateAudioNote}
