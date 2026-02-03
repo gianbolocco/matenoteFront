@@ -1,7 +1,7 @@
 "use client";
 
 import { Note } from "@/types";
-import { FileText, Mic, Youtube, File, Clock } from "lucide-react";
+import { FileText, Mic, Youtube, File, Clock, AlignLeft } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -22,6 +22,8 @@ export function NoteCard({ note, action }: NoteCardProps) {
                 return <Mic className="w-5 h-5 text-blue-500" />;
             case "youtube":
                 return <Youtube className="w-5 h-5 text-red-500" />;
+            case "text":
+                return <AlignLeft className="w-5 h-5 text-green-600" />;
             default:
                 return <File className="w-5 h-5 text-gray-400" />;
         }

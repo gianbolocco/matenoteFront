@@ -4,18 +4,21 @@ import { OptionCard } from "./createOptions/OptionCard";
 import { YoutubeModal } from "./createOptions/YoutubeModal";
 import { PdfModal } from "./createOptions/PdfModal";
 import { AudioModal } from "./createOptions/AudioModal";
+import { TextModal } from "./createOptions/TextModal";
 
 interface CreateNoteOptionsProps {
     onNoteCreated?: () => void;
     onYoutubeCreate?: (url: string, folderId?: string, interest?: string) => void;
     onPdfCreate?: (file: File, folderId?: string, interest?: string) => void;
     onAudioCreate?: (file: File, folderId?: string, interest?: string) => void;
+    onTextCreate?: (text: string, folderId?: string, interest?: string) => void;
 }
 
-export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate, onAudioCreate }: CreateNoteOptionsProps) {
+export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate, onAudioCreate, onTextCreate }: CreateNoteOptionsProps) {
     const [showYoutubeModal, setShowYoutubeModal] = useState(false);
     const [showPdfModal, setShowPdfModal] = useState(false);
     const [showAudioModal, setShowAudioModal] = useState(false);
+    const [showTextModal, setShowTextModal] = useState(false);
 
     const handleYoutubeSubmit = (url: string, folderId?: string, interest?: string) => {
         if (onYoutubeCreate) {
@@ -38,6 +41,14 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
             onAudioCreate(file, folderId, interest);
         } else {
             console.warn("onAudioCreate prop missing");
+        }
+    };
+
+    const handleTextSubmit = (text: string, folderId?: string, interest?: string) => {
+        if (onTextCreate) {
+            onTextCreate(text, folderId, interest);
+        } else {
+            console.warn("onTextCreate prop missing");
         }
     };
 
@@ -83,8 +94,10 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
                     icon={AlignLeft}
                     title="Raw Text"
                     description="Paste text directly to generate notes and summaries."
-                    disabled={true}
-                    badgeText="Coming Soon"
+                    bgColorClass="bg-green-50"
+                    iconColorClass="text-green-600"
+                    hoverBgClass="group-hover:bg-green-600"
+                    onClick={() => setShowTextModal(true)}
                 />
             </div>
 
@@ -104,6 +117,12 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
                 isOpen={showAudioModal}
                 onClose={() => setShowAudioModal(false)}
                 onSubmit={handleAudioSubmit}
+            />
+
+            <TextModal
+                isOpen={showTextModal}
+                onClose={() => setShowTextModal(false)}
+                onSubmit={handleTextSubmit}
             />
         </section>
     );
