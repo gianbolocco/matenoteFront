@@ -19,11 +19,11 @@ export function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobile
     const toggleSidebar = () => setIsCollapsed(!isCollapsed);
 
     const navItems = [
-        { name: "Home", href: "/home", icon: Home },
-        { name: "Folders", href: "/folders", icon: Folder },
-        { name: "Search", href: "/search", icon: Search },
-        { name: "My Profile", href: "/profile", icon: User },
-        { name: "Focus Timer", href: "/pomodoro", icon: Timer },
+        { name: "Inicio", href: "/home", icon: Home },
+        { name: "Carpetas", href: "/folders", icon: Folder },
+        { name: "Buscar", href: "/search", icon: Search },
+        { name: "Mi Perfil", href: "/profile", icon: User },
+        { name: "Pomodoro", href: "/pomodoro", icon: Timer },
     ];
 
     return (
@@ -106,7 +106,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobile
                         <button
                             onClick={logout}
                             className={`text-muted-foreground hover:text-red-600 transition-colors ml-1 cursor-pointer ${isCollapsed ? "md:hidden" : "block"}`}
-                            title="Logout"
+                            title="Cerrar Sesión"
                         >
                             <LogOut className="w-4 h-4" />
                         </button>
@@ -115,10 +115,10 @@ export function Sidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobile
                     <div className={`flex items-center justify-center ${isCollapsed ? "" : "px-2 py-1"}`}>
                         {(!isCollapsed || isMobileOpen) ? (
                             <Link href="/login" className={`text-sm font-medium text-primary hover:underline ${isCollapsed ? "md:hidden" : "block"}`}>
-                                Log In
+                                Iniciar Sesión
                             </Link>
                         ) : (
-                            <Link href="/login" title="Log In" className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 hidden md:flex">
+                            <Link href="/login" title="Iniciar Sesión" className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 hidden md:flex">
                                 <LogIn className="w-4 h-4 rotate-180" />
                             </Link>
                         )}

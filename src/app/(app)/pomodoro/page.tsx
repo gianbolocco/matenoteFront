@@ -80,103 +80,103 @@ export default function PomodoroPage() {
     return (
         <div className="flex flex-col items-center justify-center min-h-full w-full max-w-2xl mx-auto p-6">
 
-                {/* Mode Switcher */}
-                <div className="flex justify-center gap-2 mb-12">
-                    {[
-                        { id: "work", label: "Work" },
-                        { id: "shortBreak", label: "Short Break" },
-                        { id: "longBreak", label: "Long Break" },
-                    ].map((m) => (
-                        <button
-                            key={m.id}
-                            onClick={() => {
-                                setMode(m.id as Mode);
-                                setIsActive(false);
-                            }}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${mode === m.id
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
-                                }`}
-                        >
-                            {m.label}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Timer Display */}
-                <div className="text-center mb-12">
-                    <div className="text-8xl md:text-9xl font-bold tracking-tight text-foreground font-mono">
-                        {formatTime(timeLeft)}
-                    </div>
-                    <p className="mt-4 text-muted-foreground font-medium uppercase tracking-widest text-sm">
-                        {isActive ? "Running" : "Paused"}
-                    </p>
-                </div>
-
-                {/* Controls */}
-                <div className="flex items-center justify-center gap-6">
+            {/* Mode Switcher */}
+            <div className="flex justify-center gap-2 mb-12">
+                {[
+                    { id: "work", label: "Enfoque" },
+                    { id: "shortBreak", label: "Descanso Corto" },
+                    { id: "longBreak", label: "Descanso Largo" },
+                ].map((m) => (
                     <button
-                        onClick={toggleTimer}
-                        className="h-16 w-16 flex items-center justify-center rounded-full bg-primary text-primary-foreground hover:scale-105 transition-transform shadow-lg hover:shadow-xl"
+                        key={m.id}
+                        onClick={() => {
+                            setMode(m.id as Mode);
+                            setIsActive(false);
+                        }}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${mode === m.id
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
+                            }`}
                     >
-                        {isActive ? (
-                            <Pause className="w-8 h-8 fill-current" />
-                        ) : (
-                            <Play className="w-8 h-8 fill-current ml-1" />
-                        )}
+                        {m.label}
                     </button>
+                ))}
+            </div>
 
-                    <button
-                        onClick={resetTimer}
-                        className="h-12 w-12 flex items-center justify-center rounded-full bg-gray-100 text-foreground hover:bg-gray-200 transition-colors"
-                        title="Reset Timer"
-                    >
-                        <RotateCcw className="w-5 h-5" />
-                    </button>
-                    <button
-                        onClick={() => setShowSettings(!showSettings)}
-                        className="h-12 w-12 flex items-center justify-center rounded-full bg-gray-100 text-foreground hover:bg-gray-200 transition-colors"
-                        title="Settings"
-                    >
-                        <SettingsIcon className="w-5 h-5" />
-                    </button>
+            {/* Timer Display */}
+            <div className="text-center mb-12">
+                <div className="text-8xl md:text-9xl font-bold tracking-tight text-foreground font-mono">
+                    {formatTime(timeLeft)}
                 </div>
+                <p className="mt-4 text-muted-foreground font-medium uppercase tracking-widest text-sm">
+                    {isActive ? "Corriendo" : "Pausado"}
+                </p>
+            </div>
 
-                {/* Settings Panel (Conditional) */}
-                {showSettings && (
-                    <div className="mt-12 pt-8 border-t border-border animate-in fade-in slide-in-from-top-4 duration-300">
-                        <h3 className="text-lg font-semibold mb-4 text-center">Timer Settings (minutes)</h3>
-                        <div className="grid grid-cols-3 gap-4">
-                            <div className="flex flex-col gap-1">
-                                <label className="text-xs font-medium text-muted-foreground text-center">Work</label>
-                                <input
-                                    type="number"
-                                    value={workTime}
-                                    onChange={(e) => setWorkTime(Number(e.target.value))}
-                                    className="w-full text-center border border-border rounded-md py-1"
-                                />
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <label className="text-xs font-medium text-muted-foreground text-center">Short Break</label>
-                                <input
-                                    type="number"
-                                    value={shortBreakTime}
-                                    onChange={(e) => setShortBreakTime(Number(e.target.value))}
-                                    className="w-full text-center border border-border rounded-md py-1"
-                                />
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <label className="text-xs font-medium text-muted-foreground text-center">Long Break</label>
-                                <input
-                                    type="number"
-                                    value={longBreakTime}
-                                    onChange={(e) => setLongBreakTime(Number(e.target.value))}
-                                    className="w-full text-center border border-border rounded-md py-1"
-                                />
-                            </div>
+            {/* Controls */}
+            <div className="flex items-center justify-center gap-6">
+                <button
+                    onClick={toggleTimer}
+                    className="h-16 w-16 flex items-center justify-center rounded-full bg-primary text-primary-foreground hover:scale-105 transition-transform shadow-lg hover:shadow-xl"
+                >
+                    {isActive ? (
+                        <Pause className="w-8 h-8 fill-current" />
+                    ) : (
+                        <Play className="w-8 h-8 fill-current ml-1" />
+                    )}
+                </button>
+
+                <button
+                    onClick={resetTimer}
+                    className="h-12 w-12 flex items-center justify-center rounded-full bg-gray-100 text-foreground hover:bg-gray-200 transition-colors"
+                    title="Reiniciar"
+                >
+                    <RotateCcw className="w-5 h-5" />
+                </button>
+                <button
+                    onClick={() => setShowSettings(!showSettings)}
+                    className="h-12 w-12 flex items-center justify-center rounded-full bg-gray-100 text-foreground hover:bg-gray-200 transition-colors"
+                    title="Configuración"
+                >
+                    <SettingsIcon className="w-5 h-5" />
+                </button>
+            </div>
+
+            {/* Settings Panel (Conditional) */}
+            {showSettings && (
+                <div className="mt-12 pt-8 border-t border-border animate-in fade-in slide-in-from-top-4 duration-300">
+                    <h3 className="text-lg font-semibold mb-4 text-center">Configuración (minutos)</h3>
+                    <div className="grid grid-cols-3 gap-4">
+                        <div className="flex flex-col gap-1">
+                            <label className="text-xs font-medium text-muted-foreground text-center">Enfoque</label>
+                            <input
+                                type="number"
+                                value={workTime}
+                                onChange={(e) => setWorkTime(Number(e.target.value))}
+                                className="w-full text-center border border-border rounded-md py-1"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label className="text-xs font-medium text-muted-foreground text-center">Descanso Corto</label>
+                            <input
+                                type="number"
+                                value={shortBreakTime}
+                                onChange={(e) => setShortBreakTime(Number(e.target.value))}
+                                className="w-full text-center border border-border rounded-md py-1"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label className="text-xs font-medium text-muted-foreground text-center">Descanso Largo</label>
+                            <input
+                                type="number"
+                                value={longBreakTime}
+                                onChange={(e) => setLongBreakTime(Number(e.target.value))}
+                                className="w-full text-center border border-border rounded-md py-1"
+                            />
                         </div>
                     </div>
-                )}
+                </div>
+            )}
 
         </div>
     );

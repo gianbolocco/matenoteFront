@@ -104,60 +104,60 @@ export function NoteActivities({ note: initialNote }: NoteActivitiesProps) {
     return (
         <section className="mb-12">
             <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                Study Activities
+                Actividades de Estudio
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <ActivityCard
-                    title={note.mindmap ? 'Mind Map' : 'Generate Mind Map'}
+                    title={note.mindmap ? 'Mapa Mental' : 'Generar Mapa Mental'}
                     description={note.mindmap
-                        ? 'Visualize concepts with an interactive map.'
-                        : 'Create an AI-powered mind map.'}
+                        ? 'Visualizá conceptos.'
+                        : 'Creá un mapa mental con IA.'}
                     icon={isGenerating ? Loader2 : Brain}
                     iconClass={isGenerating ? 'animate-spin' : ''}
                     color="bg-violet-50 text-violet-600"
                     onClick={handleMindMapClick}
                     disabled={isGenerating}
-                    badge={isGenerating ? 'Generating...' : null}
+                    badge={isGenerating ? 'Generando...' : null}
                     isLoading={isGenerating}
                 />
 
                 <ActivityCard
-                    title={note.quizzId ? "Practice Quiz" : "Generate Quiz"}
+                    title={note.quizzId ? "Quiz de Práctica" : "Generar Quiz"}
                     description={note.quizzId
-                        ? "Test your knowledge."
-                        : "Create an AI-generated quiz."}
+                        ? "Ponéte a prueba."
+                        : "Creá un quiz generado por IA."}
                     icon={isGeneratingQuizz ? Loader2 : FileQuestion}
                     iconClass={isGeneratingQuizz ? 'animate-spin' : ''}
                     color="bg-blue-50 text-blue-600"
                     onClick={handleQuizzClick}
                     disabled={isGeneratingQuizz}
-                    badge={isGeneratingQuizz ? "Generating..." : null}
+                    badge={isGeneratingQuizz ? "Generando..." : null}
                     isLoading={isGeneratingQuizz}
                 />
 
                 <ActivityCard
-                    title={note.flashcardsId ? "Flashcards" : "Generate Flashcards"}
+                    title={note.flashcardsId ? "Flashcards" : "Generar Flashcards"}
                     description={note.flashcardsId
-                        ? "Review your flashcards deck."
-                        : "Memorize key terms and definitions."}
+                        ? "Repasá tu mazo de flashcards."
+                        : "Memorizá términos y definiciones clave."}
                     icon={isGeneratingFlashcards ? Loader2 : Layers}
                     iconClass={isGeneratingFlashcards ? 'animate-spin' : ''}
                     color="bg-amber-50 text-amber-600"
                     onClick={handleFlashcardsClick}
                     disabled={isGeneratingFlashcards}
-                    badge={isGeneratingFlashcards ? "Generating..." : null}
+                    badge={isGeneratingFlashcards ? "Generando..." : null}
                     isLoading={isGeneratingFlashcards}
                 />
 
                 <ActivityCard
-                    title="True or False"
-                    description="Quick check of your understanding."
+                    title="Verdadero o Falso"
+                    description="Verificación rápida de comprensión."
                     icon={CheckSquare}
                     color="bg-green-50 text-green-600"
                     onClick={() => { }}
                     disabled={true}
-                    badge="Coming Soon"
+                    badge="Próximamente"
                 />
             </div>
 

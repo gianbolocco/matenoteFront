@@ -46,13 +46,13 @@ export default function FlashcardsPage({ params }: { params: Promise<{ id: strin
         return (
             <div className="flex flex-col h-screen w-full items-center justify-center bg-gray-50 p-4">
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">Error</h2>
-                <p className="text-gray-500 mb-6">{error || "Flashcard set not found (invalid ID or empty response)"}</p>
+                <p className="text-gray-500 mb-6">{error || "Set de flashcards no encontrado"}</p>
                 <div className="text-xs text-gray-400 mb-4">ID: {id}</div>
                 <button
                     onClick={() => router.back()}
                     className="text-violet-600 hover:text-violet-700 font-medium"
                 >
-                    Back
+                    Volver
                 </button>
             </div>
         );
@@ -61,7 +61,7 @@ export default function FlashcardsPage({ params }: { params: Promise<{ id: strin
     return (
         <GameActivityLayout
             title="Flashcards"
-            description="Master your knowledge with spaced repetition."
+            description="Dominá tu conocimiento con repetición espaciada."
             noteId={flashcardSet.noteId}
         >
             <FlashcardGame flashcardSet={flashcardSet} />

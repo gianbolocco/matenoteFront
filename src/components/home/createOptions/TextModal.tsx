@@ -29,8 +29,8 @@ export function TextModal({ isOpen, onClose, onSubmit }: TextModalProps) {
         e.preventDefault();
         if (!user || !text.trim()) return;
 
-        if (text.trim().length < 10) {
-            setError("Please enter at least 10 characters.");
+        if (text.trim().length < 100) {
+            setError("Please enter at least 100 characters.");
             return;
         }
 

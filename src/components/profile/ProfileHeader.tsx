@@ -36,7 +36,7 @@ export function ProfileHeader({ user, isEditing, onEditToggle }: ProfileHeaderPr
                 <p className="text-gray-500 font-medium">{user.email}</p>
                 <div className="flex items-center justify-center md:justify-start gap-2 pt-1">
                     <span className="px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider border border-blue-100">
-                        {user.plan || "Free"} Plan
+                        Plan {user.plan || "Gratuito"}
                     </span>
                 </div>
             </div>
@@ -55,12 +55,12 @@ export function ProfileHeader({ user, isEditing, onEditToggle }: ProfileHeaderPr
                 {isEditing ? (
                     <>
                         <X className="w-4 h-4" />
-                        <span>Cancel Editing</span>
+                        <span>Cancelar Edición</span>
                     </>
                 ) : (
                     <>
                         <Pencil className="w-4 h-4" />
-                        <span>Edit Profile</span>
+                        <span>Editar Perfil</span>
                     </>
                 )}
             </button>

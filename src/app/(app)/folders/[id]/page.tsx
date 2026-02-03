@@ -151,7 +151,7 @@ export default function FolderDetailsPage() {
                 <div className="max-w-7xl mx-auto">
                     <Link href="/folders" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 mb-6 transition-colors">
                         <ArrowLeft className="w-4 h-4" />
-                        Back to Folders
+                        Volver a Carpetas
                     </Link>
 
                     <div className="flex items-start justify-between">
@@ -161,7 +161,7 @@ export default function FolderDetailsPage() {
                             </div>
                             <div>
                                 <h1 className="text-3xl font-bold tracking-tight mb-2 text-gray-900">{folder.title}</h1>
-                                <p className="text-gray-500 font-medium">{folder.notes.length} notes</p>
+                                <p className="text-gray-500 font-medium">{folder.notes.length} notas</p>
                             </div>
                         </div>
 
@@ -169,11 +169,11 @@ export default function FolderDetailsPage() {
                             <button
                                 onClick={handleCopyLink}
                                 className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors mr-2"
-                                title="Share Folder"
+                                title="Compartir Carpeta"
                             >
                                 {isCopied ? <Check className="w-5 h-5 md:w-4 md:h-4 text-gray-500" /> : <Share2 className="w-5 h-5 md:w-4 md:h-4" />}
                                 <span className={`${isCopied ? "font-medium" : ""} hidden md:inline`}>
-                                    {isCopied ? "Copied Link" : "Share"}
+                                    {isCopied ? "Enlace Copiado" : "Compartir"}
                                 </span>
                             </button>
 
@@ -183,7 +183,7 @@ export default function FolderDetailsPage() {
                                         onClick={() => setIsEditModalOpen(true)}
                                         disabled={isActionLoading}
                                         className="p-3 cursor-pointer text-gray-700 hover:text-blue-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
-                                        title="Edit Folder"
+                                        title="Editar Carpeta"
                                     >
                                         <Pencil className="w-5 h-5" />
                                     </button>
@@ -191,7 +191,7 @@ export default function FolderDetailsPage() {
                                         onClick={() => setIsDeleteModalOpen(true)}
                                         disabled={isActionLoading}
                                         className="p-3 cursor-pointer text-gray-700 hover:text-red-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
-                                        title="Delete Folder"
+                                        title="Eliminar Carpeta"
                                     >
                                         <Trash className="w-5 h-5" />
                                     </button>
@@ -201,7 +201,7 @@ export default function FolderDetailsPage() {
                                         className="h-11 px-5 bg-gray-900 text-white font-medium rounded-xl flex items-center gap-2 hover:bg-black transition-all shadow-lg hover:-translate-y-0.5"
                                     >
                                         <Plus className="w-4 h-4" />
-                                        <span>Add Notes</span>
+                                        <span>Agregar Notas</span>
                                     </button>
                                 </>
                             )}
@@ -223,7 +223,7 @@ export default function FolderDetailsPage() {
                                             <button
                                                 onClick={(e) => handleRemoveNoteClick(note.id, e)}
                                                 className="p-2 cursor-pointer text-gray-700 hover:text-red-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
-                                                title="Remove from folder"
+                                                title="Eliminar de la carpeta"
                                             >
                                                 <Trash className="w-5 h-5" />
                                             </button>
@@ -238,13 +238,13 @@ export default function FolderDetailsPage() {
                         <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
                             <Plus className="w-6 h-6 text-gray-300" />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-1">This folder is empty</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-1">Esta carpeta está vacía</h3>
                         {isCreator && (
                             <button
                                 onClick={() => setIsAddModalOpen(true)}
                                 className="text-primary font-medium hover:underline"
                             >
-                                Add your first note
+                                Agregá tu primera nota
                             </button>
                         )}
                     </div>
@@ -271,9 +271,9 @@ export default function FolderDetailsPage() {
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onConfirm={handleDeleteFolder}
-                title="Delete Folder"
-                message="Are you sure you want to delete this folder? All notes within it will remain in your library."
-                confirmText="Delete Folder"
+                title="Eliminar Carpeta"
+                message="¿Estás seguro que querés eliminar esta carpeta? Todas las notas permanecerán en tu biblioteca."
+                confirmText="Eliminar Carpeta"
                 isLoading={isActionLoading}
             />
 
@@ -281,9 +281,9 @@ export default function FolderDetailsPage() {
                 isOpen={isRemoveNoteModalOpen}
                 onClose={() => setIsRemoveNoteModalOpen(false)}
                 onConfirm={confirmRemoveNote}
-                title="Remove Note"
-                message="Are you sure you want to remove this note from the folder? The note will remain in your library."
-                confirmText="Remove Note"
+                title="Eliminar Nota"
+                message="¿Estás seguro que querés eliminar esta nota de la carpeta? La nota permanecerá en tu biblioteca."
+                confirmText="Eliminar Nota"
                 isLoading={isActionLoading}
             />
         </div>
