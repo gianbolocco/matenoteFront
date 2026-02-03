@@ -61,8 +61,8 @@ export default function FoldersPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">My Folders</h1>
-                    <p className="text-gray-500 mt-1">Organize your notes into collections</p>
+                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Mis Carpetas</h1>
+                    <p className="text-gray-500 mt-1">Organizá tus notas en colecciones</p>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -71,7 +71,7 @@ export default function FoldersPage() {
                         className="h-11 px-5 bg-gray-900 text-white font-medium rounded-xl flex items-center gap-2 hover:bg-black transition-all shadow-lg shadow-gray-900/10 hover:-translate-y-0.5 whitespace-nowrap"
                     >
                         <FolderPlus className="w-5 h-5" />
-                        New Folder
+                        Nueva Carpeta
                     </button>
                 </div>
             </div>
@@ -94,13 +94,13 @@ export default function FoldersPage() {
                     <div className="w-16 h-16 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center mb-4">
                         <FolderOpen className="w-8 h-8 text-gray-400" />
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900">No folders yet</h3>
-                    <p className="text-gray-500 max-w-xs mx-auto mb-6">Create your first folder to start organizing your study materials.</p>
+                    <h3 className="text-lg font-semibold text-gray-900">No hay carpetas aún</h3>
+                    <p className="text-gray-500 max-w-xs mx-auto mb-6">Creá tu primera carpeta para empezar a organizar tu material de estudio.</p>
                     <button
                         onClick={() => setIsCreateModalOpen(true)}
                         className="text-gray-900 font-semibold hover:underline"
                     >
-                        Create a folder now
+                        Crear una carpeta ahora
                     </button>
                 </div>
             )}

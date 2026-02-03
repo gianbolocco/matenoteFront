@@ -102,7 +102,7 @@ export function QuizzQuestion({ question, onAnswer, currentQuestionIndex, totalQ
                     disabled={isAnswered}
                 >
                     <HelpCircle className="w-4 h-4" />
-                    {showHint ? "Hide Hint" : "Show Hint"}
+                    {showHint ? "Ocultar Pista" : "Ver Pista"}
                 </button>
 
                 {isAnswered && (
@@ -112,7 +112,7 @@ export function QuizzQuestion({ question, onAnswer, currentQuestionIndex, totalQ
                         onClick={handleContinue}
                         className="cursor-pointer flex items-center px-6 py-2 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition-colors font-medium shadow-lg shadow-violet-200"
                     >
-                        Continue
+                        Continuar
                         <ArrowRight className="w-4 h-4 ml-2" />
                     </motion.button>
                 )}

@@ -134,7 +134,7 @@ export function QuizzGame({ quizz }: QuizzGameProps) {
                                     <Lightbulb className="w-4 h-4 text-violet-500" />
                                 </div>
                                 <div>
-                                    <span className="font-bold text-violet-600 block mb-0.5 uppercase tracking-wide text-xs">Hint</span>
+                                    <span className="font-bold text-violet-600 block mb-0.5 uppercase tracking-wide text-xs">Pista</span>
                                     <p className="text-gray-600 leading-relaxed font-medium">
                                         {currentQuestion.hint}
                                     </p>

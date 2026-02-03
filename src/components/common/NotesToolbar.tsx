@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 
-export type FilterType = "all" | "pdf" | "audio" | "youtube";
+export type FilterType = "all" | "pdf" | "audio" | "youtube" | "text";
 
 interface NotesToolbarProps {
     searchQuery: string;
@@ -20,7 +20,7 @@ export function NotesToolbar({ searchQuery, onSearchChange, activeFilter, onFilt
                 <input
                     type="text"
                     className="block w-full pl-11 pr-4 py-2.5 bg-gray-50 border-none rounded-xl leading-5 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-900/5 transition-all duration-200 ease-out font-medium text-sm"
-                    placeholder="Search library..."
+                    placeholder="Buscar en tu biblioteca..."
                     value={searchQuery}
                     onChange={(e) => onSearchChange(e.target.value)}
                 />
@@ -28,9 +28,14 @@ export function NotesToolbar({ searchQuery, onSearchChange, activeFilter, onFilt
 
             {/* Filters */}
             <div className="flex items-center gap-1 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-                {(["all", "pdf", "video", "audio"] as const).map((type) => {
+                {(["all", "pdf", "video", "audio", "text"] as const).map((type) => {
                     const value = type === "video" ? "youtube" : type;
-                    const label = type === "all" ? "All Notes" : type.charAt(0).toUpperCase() + type.slice(1);
+                    let label = "";
+                    if (type === "all") label = "Todas";
+                    else if (type === "video") label = "Video";
+                    else if (type === "audio") label = "Audio";
+                    else if (type === "text") label = "Texto";
+                    else label = type.toUpperCase();
 
                     return (
                         <button

@@ -45,7 +45,7 @@ export function FolderCard({ folder }: FolderCardProps) {
                 </h3>
 
                 <p className={`text-sm font-medium ${theme.text} mb-4`}>
-                    {folder.notes.length} {folder.notes.length === 1 ? 'note' : 'notes'}
+                    {folder.notes.length} {folder.notes.length === 1 ? 'nota' : 'notas'}
                 </p>
 
                 <div className={`mt-auto pt-4 border-t ${theme.border} border-opacity-50 flex items-center gap-1.5 text-xs ${theme.text} opacity-80`}>

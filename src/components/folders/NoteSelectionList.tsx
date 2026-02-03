@@ -30,7 +30,7 @@ export function NoteSelectionList({ notes, selectedNotes, onSelectionChange, isL
         <div className="space-y-3">
             <div className="flex items-center justify-between">
                 <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                    Select Notes ({selectedNotes.length})
+                    Seleccionar Notas ({selectedNotes.length})
                 </label>
             </div>
 
@@ -40,7 +40,7 @@ export function NoteSelectionList({ notes, selectedNotes, onSelectionChange, isL
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <input
                             type="text"
-                            placeholder="Search notes..."
+                            placeholder="Buscar notas..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full h-10 pl-9 pr-4 text-sm bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gray-200 transition-colors"

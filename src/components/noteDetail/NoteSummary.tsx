@@ -11,7 +11,7 @@ export function NoteSummary({ summary }: NoteSummaryProps) {
                 <Quote className="absolute top-6 left-6 text-gray-300 w-12 h-12 -z-0 opacity-50" />
 
                 <h2 className="text-lg font-bold text-gray-500 mb-4 relative z-10">
-                    Summary
+                    Resumen
                 </h2>
                 <div className="text-gray-900/80 leading-relaxed relative z-10 text-lg">
                     {summary}

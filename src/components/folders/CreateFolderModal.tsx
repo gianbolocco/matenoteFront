@@ -87,7 +87,7 @@ export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: Crea
             <div className="flex flex-col h-full bg-white">
                 {/* Header */}
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-                    <h2 className="text-xl font-bold text-gray-900">Create New Folder</h2>
+                    <h2 className="text-xl font-bold text-gray-900">Crear Nueva Carpeta</h2>
                     <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500">
                         <X className="w-5 h-5" />
                     </button>
@@ -96,12 +96,12 @@ export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: Crea
                 <div className="p-8 overflow-y-auto flex-1 space-y-8 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
                     {/* Title Input */}
                     <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Folder Name</label>
+                        <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Nombre de la Carpeta</label>
                         <input
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder="e.g., Mathematics 101"
+                            placeholder="ej., Matemáticas 101"
                             className="w-full h-14 px-4 rounded-xl border border-gray-200 focus:border-gray-900 focus:ring-0 text-lg transition-all placeholder:text-gray-400"
                             autoFocus
                         />
@@ -109,7 +109,7 @@ export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: Crea
 
                     {/* Color Selection */}
                     <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Color Theme</label>
+                        <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Color del Tema</label>
                         <div className="flex gap-3 flex-wrap">
                             {COLORS.map((color) => (
                                 <button
@@ -128,7 +128,7 @@ export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: Crea
                     {/* Note Selection */}
                     <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                            <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Add Notes ({selectedNotes.length})</label>
+                            <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Agregar Notas ({selectedNotes.length})</label>
 
                         </div>
 
@@ -138,7 +138,7 @@ export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: Crea
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                                     <input
                                         type="text"
-                                        placeholder="Search notes..."
+                                        placeholder="Buscar notas..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         className="w-full h-10 pl-9 pr-4 text-sm bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gray-200 transition-colors"
@@ -148,7 +148,7 @@ export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: Crea
 
                             <div className="max-h-[250px] overflow-y-auto p-2 space-y-1">
                                 {isFetchingNotes ? (
-                                    <div className="p-8 text-center text-gray-400 text-sm">Loading notes...</div>
+                                    <div className="p-8 text-center text-gray-400 text-sm">Cargando notas...</div>
                                 ) : filteredNotes.length > 0 ? (
                                     filteredNotes.map(note => (
                                         <div
@@ -171,7 +171,7 @@ export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: Crea
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="p-8 text-center text-gray-400 text-sm">No notes found</div>
+                                    <div className="p-8 text-center text-gray-400 text-sm">No se encontraron notas</div>
                                 )}
                             </div>
                         </div>
@@ -184,14 +184,14 @@ export function CreateFolderModal({ isOpen, onClose, onSubmit, isLoading }: Crea
                         onClick={onClose}
                         className="px-6 py-3 text-gray-700 font-medium hover:bg-gray-100 rounded-xl transition-colors"
                     >
-                        Cancel
+                        Cancelar
                     </button>
                     <button
                         onClick={handleSubmit}
                         disabled={isLoading || !title.trim()}
                         className="px-8 py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-black transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-gray-900/10 hover:-translate-y-0.5"
                     >
-                        {isLoading ? "Creating..." : "Create Folder"}
+                        {isLoading ? "Creando..." : "Crear Carpeta"}
                     </button>
                 </div>
             </div>

@@ -45,12 +45,12 @@ export default function QuizzPage({ params }: { params: Promise<{ id: string }> 
         return (
             <div className="flex flex-col h-screen w-full items-center justify-center bg-gray-50 p-4">
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">Error</h2>
-                <p className="text-gray-500 mb-6">{error || "Quiz not found (invalid ID or empty response)"}</p>
+                <p className="text-gray-500 mb-6">{error || "Quiz no encontrado"}</p>
                 <button
                     onClick={() => router.back()}
                     className="text-violet-600 hover:text-violet-700 font-medium"
                 >
-                    Back
+                    Volver
                 </button>
             </div>
         );
@@ -58,8 +58,8 @@ export default function QuizzPage({ params }: { params: Promise<{ id: string }> 
 
     return (
         <GameActivityLayout
-            title="Practice Quiz"
-            description="Test your understanding of the material."
+            title="Quiz de Práctica"
+            description="Poné a prueba tu comprensión del material."
             noteId={quizz.noteId}
         >
             <QuizzGame quizz={quizz} />

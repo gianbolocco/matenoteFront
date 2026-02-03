@@ -55,12 +55,12 @@ export function NotesList({
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase tracking-wider">
                         <Grid className="w-4 h-4" />
-                        <span>Notes</span>
+                        <span>Notas</span>
                     </div>
 
                     <div className="flex items-center gap-2 text-gray-400">
                         <BookOpen className="w-4 h-4" />
-                        <span className="text-sm font-medium">{notes.length} Notes</span>
+                        <span className="text-sm font-medium">{notes.length} Notas</span>
                     </div>
                 </div>
             </div>

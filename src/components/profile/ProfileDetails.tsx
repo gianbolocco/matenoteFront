@@ -59,15 +59,15 @@ export function ProfileDetails({ user }: ProfileDetailsProps) {
     };
 
     const details = [
-        { icon: MapPin, label: "Country", value: user.country || "Not specified" },
-        { icon: Briefcase, label: "Occupation", value: user.occupation || "Not specified" },
-        { icon: FileText, label: "Notes Created", value: "12" },
+        { icon: MapPin, label: "País", value: user.country || "No especificado" },
+        { icon: Briefcase, label: "Ocupación", value: user.occupation || "No especificada" },
+        { icon: FileText, label: "Notas Creadas", value: "12" },
         {
             icon: Calendar,
-            label: "Joined",
+            label: "Se unió",
             value: user.createDate
-                ? new Date(user.createDate).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })
-                : "Not specified"
+                ? new Date(user.createDate).toLocaleDateString("es-ES", { year: 'numeric', month: 'long', day: 'numeric' })
+                : "No especificado"
         }
     ];
 
@@ -93,7 +93,7 @@ export function ProfileDetails({ user }: ProfileDetailsProps) {
                 <div className="flex items-center gap-4 mb-4">
                     <div className="flex items-center gap-2 text-gray-900 font-bold text-lg">
                         <Heart className="w-5 h-5 text-red-500" />
-                        <h2>Interests</h2>
+                        <h2>Intereses</h2>
                     </div>
                     {!isEditingInterests && (
                         <button
@@ -101,7 +101,7 @@ export function ProfileDetails({ user }: ProfileDetailsProps) {
                             className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 text-gray-700 rounded-lg transition-all font-bold text-sm border border-gray-200"
                         >
                             <Plus className="w-4 h-4" />
-                            <span>Manage Interests</span>
+                            <span>Gestionar Intereses</span>
                         </button>
                     )}
                 </div>
@@ -116,7 +116,7 @@ export function ProfileDetails({ user }: ProfileDetailsProps) {
                                     value={interestInput}
                                     onChange={(e) => setInterestInput(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleAddInterest()}
-                                    placeholder="Add a new interest..."
+                                    placeholder="Agregar un interés..."
                                     maxLength={32}
                                     className="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-gray-400 transition-all"
                                     autoFocus
@@ -126,7 +126,7 @@ export function ProfileDetails({ user }: ProfileDetailsProps) {
                                     disabled={!interestInput.trim()}
                                     className="px-6 py-2.5 bg-gray-50 border border-gray-200 font-bold text-gray-700 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    Add
+                                    Agregar
                                 </button>
                             </div>
                         </div>
@@ -145,7 +145,7 @@ export function ProfileDetails({ user }: ProfileDetailsProps) {
                                         <button
                                             onClick={() => handleRemoveInterest(interest)}
                                             className="p-1 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
-                                            aria-label={`Remove ${interest}`}
+                                            aria-label={`Eliminar ${interest}`}
                                         >
                                             <X className="w-3.5 h-3.5" />
                                         </button>
@@ -156,8 +156,8 @@ export function ProfileDetails({ user }: ProfileDetailsProps) {
                             !isEditingInterests && (
                                 <div className="p-8 border-2 border-dashed border-gray-100 rounded-2xl flex flex-col items-center justify-center text-center max-w-lg mx-auto md:mx-0">
                                     <Heart className="w-8 h-8 text-gray-200 mb-2" />
-                                    <p className="text-gray-400 font-medium">No interests added yet</p>
-                                    <p className="text-sm text-gray-400">Add topics you enjoy learning about.</p>
+                                    <p className="text-gray-400 font-medium">No hay intereses agregados aún</p>
+                                    <p className="text-sm text-gray-400">Agregá temas que te guste aprender.</p>
                                 </div>
                             )
                         )}
@@ -170,14 +170,14 @@ export function ProfileDetails({ user }: ProfileDetailsProps) {
                                 onClick={cancelEditing}
                                 className="px-6 py-2.5 font-semibold text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                             >
-                                Cancel
+                                Cancelar
                             </button>
                             <button
                                 onClick={saveInterests}
                                 disabled={isLoading}
                                 className="flex items-center gap-2 px-8 py-2.5 bg-gray-900 text-white font-bold rounded-lg hover:bg-gray-800 transition-all disabled:opacity-70"
                             >
-                                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Changes"}
+                                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Guardar Cambios"}
                             </button>
                         </div>
                     )}

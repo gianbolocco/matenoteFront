@@ -164,7 +164,7 @@ export default function FlashcardGame({ flashcardSet }: FlashcardGameProps) {
             />
 
             <p className="mt-8 text-sm text-gray-400">
-                Tap card to flip
+                Tocá la tarjeta para girar
             </p>
 
         </div >

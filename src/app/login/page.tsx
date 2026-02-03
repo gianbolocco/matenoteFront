@@ -1,11 +1,39 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import GoogleButton from "@/components/ui/GoogleButton";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 
+const features = [
+    {
+        title: "Resúmenes instantáneos",
+        description: "Transforma horas de lectura en minutos con nuestra IA."
+    },
+    {
+        title: "Videos a apuntes",
+        description: "Convertí cualquier video de YouTube en una nota estructurada."
+    },
+    {
+        title: "Poné a prueba tu conocimiento",
+        description: "Generá quizzes automáticos para reforzar lo aprendido."
+    },
+    {
+        title: "Flashcards inteligentes",
+        description: "Memorizá conceptos clave con repetición espaciada."
+    }
+];
+
 export default function LoginPage() {
+    const [currentFeature, setCurrentFeature] = useState(0);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentFeature((prev) => (prev + 1) % features.length);
+        }, 5000);
+        return () => clearInterval(timer);
+    }, []);
 
     return (
         <div className="min-h-screen w-full flex">
@@ -24,28 +52,18 @@ export default function LoginPage() {
                         <div className="flex justify-center mb-6">
                             <img src="/logo.png" alt="Matenote Logo" className="w-20 h-20 object-cover" />
                         </div>
-                        <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
+                        <h1 className="text-3xl font-bold tracking-tight">Bienvenido</h1>
                         <p className="text-muted-foreground">
-                            Sign in to continue your AI-powered learning journey.
+                            Bienvenido a Matenote, tu compañero de estudio ideal.
                         </p>
                     </div>
 
-                    {/* Auth Actions */}
-                    <div className="space-y-4 pt-4">
-                        <GoogleButton text="Continue with Google" />
-
-                        <p className="text-xs text-center text-muted-foreground pt-4">
-                            By continuing, you agree to our{" "}
-                            <Link href="#" className="underline hover:text-primary">Terms of Service</Link>
-                            {" "}and{" "}
-                            <Link href="#" className="underline hover:text-primary">Privacy Policy</Link>.
-                        </p>
-                    </div>
+                    <GoogleButton text="Continue with Google" />
                 </div>
 
                 {/* Footer */}
                 <div className="absolute bottom-8 text-center w-full text-sm text-muted-foreground opacity-60">
-                    © {new Date().getFullYear()} NoteAI. All rights reserved.
+                    © {new Date().getFullYear()} Matenote. Todos los derechos reservados.
                 </div>
             </div>
 
@@ -84,14 +102,27 @@ export default function LoginPage() {
                     />
                 </div>
 
-                {/* Content Overlay */}
-                <div className="relative z-10 max-w-lg text-center space-y-8">
-                    <h2 className="text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">
-                        Capture ideas.<br />Unlock potential.
-                    </h2>
-                    <p className="text-lg text-white/50 font-light">
-                        Your ultimate AI second brain for effortless learning.
-                    </p>
+                {/* Content Overlay with Carousel */}
+                <div className=" text-center flex flex-col justify-center">
+                    <div className="h-[120px]">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={currentFeature}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.5 }}
+                                className="absolute inset-0 flex flex-col items-center justify-center"
+                            >
+                                <h2 className="text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60 mb-4">
+                                    {features[currentFeature].title}
+                                </h2>
+                                <p className="text-lg text-white/50 font-light">
+                                    {features[currentFeature].description}
+                                </p>
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
                 </div>
             </div>
         </div>

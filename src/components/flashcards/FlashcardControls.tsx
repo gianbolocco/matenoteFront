@@ -30,7 +30,7 @@ export function FlashcardControls({ onNext, onPrevious, canGoBack }: FlashcardCo
                 className="flex-1 flex flex-col items-center justify-center p-4 rounded-xl border border-red-100 bg-red-50 text-red-600 hover:bg-red-100 hover:border-red-200 transition-all group"
             >
                 <X className="w-6 h-6 mb-2 group-hover:scale-110 transition-transform" />
-                <span className="font-semibold text-sm">Review later</span>
+                <span className="font-semibold text-sm">Repasar luego</span>
             </button>
 
             <button
@@ -38,7 +38,7 @@ export function FlashcardControls({ onNext, onPrevious, canGoBack }: FlashcardCo
                 className="flex-1 flex flex-col items-center justify-center p-4 rounded-xl border border-green-100 bg-green-50 text-green-600 hover:bg-green-100 hover:border-green-200 transition-all group"
             >
                 <Check className="w-6 h-6 mb-2 group-hover:scale-110 transition-transform" />
-                <span className="font-semibold text-sm">Got it</span>
+                <span className="font-semibold text-sm">Lo sé</span>
             </button>
         </div>
     );

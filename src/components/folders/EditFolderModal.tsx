@@ -50,7 +50,7 @@ export function EditFolderModal({ isOpen, onClose, onSubmit, isLoading, folder }
             <div className="flex flex-col h-full">
                 {/* Header */}
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-                    <h2 className="text-xl font-bold text-gray-900">Edit Folder</h2>
+                    <h2 className="text-xl font-bold text-gray-900">Editar Carpeta</h2>
                     <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500">
                         <X className="w-5 h-5" />
                     </button>
@@ -59,12 +59,12 @@ export function EditFolderModal({ isOpen, onClose, onSubmit, isLoading, folder }
                 <div className="p-8 space-y-8">
                     {/* Title Input */}
                     <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Folder Name</label>
+                        <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Nombre de la Carpeta</label>
                         <input
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder="e.g., Mathematics 101"
+                            placeholder="ej: Matemáticas 101"
                             className="w-full h-14 px-4 rounded-xl border border-gray-200 focus:border-gray-900 focus:ring-0 text-lg transition-all placeholder:text-gray-400"
                             autoFocus
                         />
@@ -72,7 +72,7 @@ export function EditFolderModal({ isOpen, onClose, onSubmit, isLoading, folder }
 
                     {/* Color Selection */}
                     <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Color Theme</label>
+                        <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Color del Tema</label>
                         <div className="flex gap-3 flex-wrap">
                             {COLORS.map((color) => (
                                 <button
@@ -95,14 +95,14 @@ export function EditFolderModal({ isOpen, onClose, onSubmit, isLoading, folder }
                         onClick={onClose}
                         className="px-6 py-3 text-gray-700 font-medium hover:bg-gray-100 rounded-xl transition-colors"
                     >
-                        Cancel
+                        Cancelar
                     </button>
                     <button
                         onClick={handleSubmit}
                         disabled={isLoading || !title.trim()}
                         className="px-8 py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-black transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-gray-900/10 hover:-translate-y-0.5"
                     >
-                        {isLoading ? "Saving..." : "Save Changes"}
+                        {isLoading ? "Guardando..." : "Guardar Cambios"}
                     </button>
                 </div>
             </div>

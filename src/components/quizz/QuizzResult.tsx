@@ -26,7 +26,7 @@ export function QuizzResult({ score, totalQuestions, quizz, onRetry, timeTaken }
 
             <div className="space-y-2">
                 <p className="text-gray-500">
-                    You answered {score} out of {totalQuestions} questions correctly in <span className="font-semibold text-gray-900">{timeTaken}</span>.
+                    Respondiste {score} de {totalQuestions} preguntas correctamente en <span className="font-semibold text-gray-900">{timeTaken}</span>.
                 </p>
             </div>
 
@@ -36,7 +36,7 @@ export function QuizzResult({ score, totalQuestions, quizz, onRetry, timeTaken }
                     className="flex items-center px-6 py-3 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-200 transition-all font-medium"
                 >
                     <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back to Note
+                    Volver a la Nota
                 </Link>
 
                 <button
@@ -44,7 +44,7 @@ export function QuizzResult({ score, totalQuestions, quizz, onRetry, timeTaken }
                     className="flex items-center px-6 py-3 rounded-xl bg-violet-600 text-white hover:bg-violet-700 shadow-lg shadow-violet-200 transition-all font-medium"
                 >
                     <RotateCcw className="w-4 h-4 mr-2" />
-                    Try Again
+                    Intentar de Nuevo
                 </button>
             </div>
         </div>

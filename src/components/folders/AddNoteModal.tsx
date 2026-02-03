@@ -57,7 +57,7 @@ export function AddNoteModal({ isOpen, onClose, onSubmit, isLoading, existingNot
         <Modal isOpen={isOpen} onClose={onClose} className="max-w-2xl max-h-[90vh] flex flex-col">
             <div className="flex flex-col h-full bg-white">
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-                    <h2 className="text-xl font-bold text-gray-900">Add Notes to Folder</h2>
+                    <h2 className="text-xl font-bold text-gray-900">Agregar Notas a Carpeta</h2>
                     <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500">
                         <X className="w-5 h-5" />
                     </button>
@@ -79,21 +79,21 @@ export function AddNoteModal({ isOpen, onClose, onSubmit, isLoading, existingNot
                             className="px-4 py-3 text-violet-600 font-medium hover:bg-violet-50 rounded-xl transition-colors flex items-center gap-2"
                         >
                             <Sparkles className="w-4 h-4" />
-                            Generate New Note
+                            Generar Nueva Nota
                         </button>
                     </div>
                     <button
                         onClick={onClose}
                         className="px-6 py-3 text-gray-700 font-medium hover:bg-gray-100 rounded-xl transition-colors"
                     >
-                        Cancel
+                        Cancelar
                     </button>
                     <button
                         onClick={handleSubmit}
                         disabled={isLoading || selectedNotes.length === 0}
                         className="px-8 py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-black transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-gray-900/10 hover:-translate-y-0.5"
                     >
-                        {isLoading ? "Adding..." : "Add Notes"}
+                        {isLoading ? "Agregando..." : "Agregar Notas"}
                     </button>
                 </div>
             </div>

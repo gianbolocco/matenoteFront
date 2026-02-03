@@ -40,7 +40,7 @@ export function MindMapModal({ isOpen, onClose, note }: MindMapModalProps) {
             <div className="bg-white w-full h-full rounded-2xl shadow-2xl flex flex-col overflow-hidden relative border border-gray-200">
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-white">
-                    <span className="text-lg font-semibold text-gray-800">Mind Map</span>
+                    <span className="text-lg font-semibold text-gray-800">Mapa Mental</span>
                     <div className="flex items-center gap-2">
                         <button
                             onClick={onClose}

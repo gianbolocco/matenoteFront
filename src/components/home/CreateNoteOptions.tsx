@@ -56,14 +56,14 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
         <section>
             <div className="flex items-center gap-2 mb-4 text-sm font-semibold text-gray-900 uppercase tracking-wider">
                 <Plus className="w-4 h-4" />
-                <span>Create New</span>
+                <span>Crear Nota</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <OptionCard
                     icon={FileText}
-                    title="PDF Document"
-                    description="Upload a PDF to extract summaries and flashcards."
+                    title="Documento PDF"
+                    description="Subí un PDF para extraer resúmenes y flashcards."
                     bgColorClass="bg-violet-50"
                     iconColorClass="text-violet-500"
                     hoverBgClass="group-hover:bg-violet-500"
@@ -72,8 +72,8 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
 
                 <OptionCard
                     icon={Youtube}
-                    title="YouTube Video"
-                    description="Paste a URL to generate notes from a video transcript."
+                    title="Video de YouTube"
+                    description="Pegá una URL para generar apuntes de la transcripción."
                     bgColorClass="bg-red-50"
                     iconColorClass="text-red-600"
                     hoverBgClass="group-hover:bg-red-600"
@@ -82,8 +82,8 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
 
                 <OptionCard
                     icon={Mic}
-                    title="Audio Recording"
-                    description="Record lectures directly or upload audio files to convert speech to text."
+                    title="Grabación de Audio"
+                    description="Grabá clases o subí audios para convertir voz a texto."
                     bgColorClass="bg-blue-50"
                     iconColorClass="text-blue-500"
                     hoverBgClass="group-hover:bg-blue-500"
@@ -92,8 +92,8 @@ export function CreateNoteOptions({ onNoteCreated, onYoutubeCreate, onPdfCreate,
 
                 <OptionCard
                     icon={AlignLeft}
-                    title="Raw Text"
-                    description="Paste text directly to generate notes and summaries."
+                    title="Texto Libre"
+                    description="Pegá texto directamente para generar apuntes y resúmenes."
                     bgColorClass="bg-green-50"
                     iconColorClass="text-green-600"
                     hoverBgClass="group-hover:bg-green-600"

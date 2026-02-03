@@ -1,4 +1,4 @@
-import { ArrowLeft, Clock, FileText, Mic, Youtube, File, Trash, Share2, Check, User as UserIcon, FolderPlus, Pencil, X } from "lucide-react";
+import { ArrowLeft, Clock, FileText, Mic, Youtube, File, Trash, Share2, Check, User as UserIcon, FolderPlus, Pencil, X, AlignLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { deleteNote, updateNoteTitle } from "@/services/noteService";
 import Link from "next/link";
@@ -90,6 +90,8 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                 return <Mic className="w-5 h-5 text-blue-500" />;
             case "youtube":
                 return <Youtube className="w-5 h-5 text-red-600" />;
+            case "text":
+                return <AlignLeft className="w-5 h-5 text-green-600" />;
             default:
                 return <File className="w-5 h-5 text-gray-500" />;
         }
@@ -112,27 +114,27 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                     className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors group"
                 >
                     <ArrowLeft className="w-5 h-5 md:w-4 md:h-4 group-hover:-translate-x-1 transition-transform" />
-                    <span className="hidden md:inline">Back to Library</span>
+                    <span className="hidden md:inline">Volver</span>
                 </Link>
 
                 <div className="flex items-center gap-4">
                     <button
                         onClick={handleFolderClick}
                         className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
-                        title="Add to Folder"
+                        title="Añadir a Carpeta"
                     >
                         <FolderPlus className="w-5 h-5 md:w-4 md:h-4" />
-                        <span className="hidden md:inline">Add to Folder</span>
+                        <span className="hidden md:inline">Añadir a Carpeta</span>
                     </button>
 
                     <button
                         onClick={handleCopyLink}
                         className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
-                        title="Share"
+                        title="Compartir"
                     >
                         {isCopied ? <Check className="w-5 h-5 md:w-4 md:h-4 text-gray-500" /> : <Share2 className="w-5 h-5 md:w-4 md:h-4" />}
                         <span className={`${isCopied ? "font-medium" : ""} hidden md:inline`}>
-                            {isCopied ? "Copied Link" : "Share"}
+                            {isCopied ? "Enlace Copiado" : "Compartir"}
                         </span>
                     </button>
 
@@ -140,10 +142,10 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                         <button
                             onClick={handleDeleteClick}
                             className="inline-flex cursor-pointer items-center gap-2 text-sm text-red-500 hover:text-red-700 transition-colors group"
-                            title="Delete Note"
+                            title="Eliminar Nota"
                         >
                             <Trash className="w-5 h-5 md:w-4 md:h-4" />
-                            <span className="hidden md:inline">Delete Note</span>
+                            <span className="hidden md:inline">Eliminar Nota</span>
                         </button>
                     )}
                 </div>
@@ -160,9 +162,9 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                     isOpen={isDeleteModalOpen}
                     onClose={() => setIsDeleteModalOpen(false)}
                     onConfirm={handleConfirmDelete}
-                    title="Delete Note"
-                    message="Are you sure you want to delete this note? This action cannot be undone."
-                    confirmText="Delete"
+                    title="Eliminar Nota"
+                    message="¿Estás seguro de que querés eliminar esta nota? Esta acción no se puede deshacer."
+                    confirmText="Eliminar"
                     isLoading={isDeleting}
                 />
             )}
@@ -173,7 +175,7 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                         {getIcon()}
                     </div>
                     <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-                        {note.sourceType} Note
+                        Nota {note.sourceType === "text" ? "de Texto" : note.sourceType}
                     </span>
                     <div className="w-1 h-1 bg-gray-300 rounded-full" />
                     <div className="flex items-center gap-1.5 text-sm text-gray-500">
@@ -194,7 +196,7 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                                         </div>
                                     )}
                                 </div>
-                                <span className="font-medium text-gray-700">By {creator.name}</span>
+                                <span className="font-medium text-gray-700">Por {creator.name}</span>
                             </div>
                         </>
                     )}
@@ -215,7 +217,7 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                                     }}
                                     className="w-full text-3xl md:text-4xl font-bold text-gray-900 leading-tight bg-gray-50 border-2 border-violet-200 rounded-lg px-3 py-2 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 focus:outline-none transition-all"
                                     autoFocus
-                                    placeholder="Untitled Note"
+                                    placeholder="Nota sin título"
                                 />
                                 <div className="absolute right-3 bottom-3 text-xs font-medium text-gray-400 pointer-events-none">
                                     {editedTitle.length}/{MAX_TITLE_LENGTH}
@@ -229,7 +231,7 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                                     className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                                 >
                                     <X className="w-4 h-4" />
-                                    Cancel
+                                    Cancelar
                                 </button>
                                 <button
                                     onClick={handleSaveTitle}
@@ -237,7 +239,7 @@ export function NoteHeader({ note, previousRoute, creator }: NoteHeaderProps) {
                                     className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg shadow-sm transition-all active:scale-95"
                                 >
                                     <Check className="w-4 h-4" />
-                                    Save
+                                    Guardar
                                 </button>
                             </div>
                         </div>

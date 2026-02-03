@@ -55,7 +55,7 @@ export function AddToFolderModal({ isOpen, onClose, noteId }: AddToFolderModalPr
                 <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
                     <FolderPlus className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900">Add to Folder</h3>
+                <h3 className="text-xl font-bold text-gray-900">Agregar a carpeta</h3>
             </div>
 
             <div className="space-y-6">
@@ -111,7 +111,7 @@ export function AddToFolderModal({ isOpen, onClose, noteId }: AddToFolderModalPr
                         onClick={onClose}
                         className="flex-1 cursor-pointer"
                     >
-                        Cancel
+                        Cancelar
                     </Button>
                     <Button
                         onClick={handleSave}
@@ -127,7 +127,7 @@ export function AddToFolderModal({ isOpen, onClose, noteId }: AddToFolderModalPr
                         ) : (
                             <span className="flex items-center gap-2 cursor-pointer">
                                 <Plus className="w-4 h-4" />
-                                Add to Folder
+                                Agregar
                             </span>
                         )}
                     </Button>
