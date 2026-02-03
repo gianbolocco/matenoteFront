@@ -14,6 +14,8 @@ import { useYoutubeNote } from "@/hooks/useYoutubeNote";
 import { usePdfNote } from "@/hooks/usePdfNote";
 import { useAudioNote } from "@/hooks/useAudioNote";
 
+import { useTextNote } from "@/hooks/useTextNote";
+
 export default function Home() {
   const { user, login, refreshUser } = useUser();
   const LIMIT = 8;
@@ -79,7 +81,14 @@ export default function Home() {
     }
   });
 
-
+  const { isCreatingText, creationError: textError, createTextNote } = useTextNote({
+    userId: user?.id,
+    onSuccess: async () => {
+      await refreshSilent();
+      await handleStreakUpdate();
+      if (page !== 1) setPage(1);
+    }
+  });
 
   const handleCreateYoutubeNote = (url: string, folderId?: string, interest?: string) => {
     // If not page 1, reset page immediately to show loading skeleton on top area roughly
@@ -97,8 +106,13 @@ export default function Home() {
     createAudioNote(file, folderId, interest);
   };
 
-  const creationError = youtubeError || pdfError || audioError;
-  const isCreating = isCreatingYoutube || isCreatingPdf || isCreatingAudio;
+  const handleCreateTextNote = (text: string, folderId?: string, interest?: string) => {
+    if (page !== 1) setPage(1);
+    createTextNote(text, folderId, interest);
+  };
+
+  const creationError = youtubeError || pdfError || audioError || textError;
+  const isCreating = isCreatingYoutube || isCreatingPdf || isCreatingAudio || isCreatingText;
 
   return (
     <div className="min-h-screen">
@@ -122,6 +136,7 @@ export default function Home() {
           onYoutubeCreate={handleCreateYoutubeNote}
           onPdfCreate={handleCreatePdfNote}
           onAudioCreate={handleCreateAudioNote}
+          onTextCreate={handleCreateTextNote}
         />
       </div>
       {/* Error Toast / Banner */}
